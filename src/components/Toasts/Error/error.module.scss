@@ -1,0 +1,13 @@
+.toastError{
+  position: fixed !important;
+  bottom: 0px;
+  left: 50%;
+  transform: translate(-50%,-20%);
+  z-index: 20000000;
+}
+.message{
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--white-color);
+  margin-bottom: 0;
+}
