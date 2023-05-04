@@ -27,4 +27,16 @@ export const getUser = createAsyncThunk("auth/get-user", async (_, {rejectWithVa
   } catch (error:any) {
     return rejectWithValue(error.response.data);
   }
-})
+});
+
+export const loginByGoogle = createAsyncThunk(
+  "auth/google", 
+  async(payload:{access_token:string}, {rejectWithValue}) => {
+    try {
+      const {data} = await axiosConfig.post("/auth/google", payload);
+      return data.data
+    } catch (error:any) {
+      return rejectWithValue(error.response.data);
+    }
+  } 
+)

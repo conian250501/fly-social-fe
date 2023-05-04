@@ -1,75 +1,79 @@
 "use client";
-import { Col, Form, Modal, Row } from 'react-bootstrap';
-import styles from "./auth.module.scss";
+import Loading from '@/components/Loading/Loading';
+import ToastError from '@/components/Toasts/Error/Error';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+import { Form, Modal } from 'react-bootstrap';
+import { login, loginByGoogle, register } from '../features/auth/authAction';
+import { clearError, setError } from '../features/auth/authSlice';
+import { IUser } from '../features/auth/interface';
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
 import { RootState } from '../redux/store';
-import { login, register } from '../features/auth/authAction';
-import ToastError from '@/components/Toasts/Error/Error';
-import { clearError, setError } from '../features/auth/authSlice';
-import { useRouter } from 'next/navigation';
-import { IUser } from '../features/auth/interface';
-import Loading from '@/components/Loading/Loading';
+import styles from "./auth.module.scss";
+import { GoogleLogin, useGoogleLogin } from '@react-oauth/google';
+import axiosConfig from '@/config/axiosConfig';
+import axios from 'axios';
 
 type Props = {}
 
 const page = (props: Props) => {
 
-  if(typeof window === "undefined"){
-    return 
+  if (typeof window === "undefined") {
+    return
   }
 
   const isAuthenticated = localStorage.getItem("token");
   const router = useRouter();
 
-  if(isAuthenticated){
+  if (isAuthenticated) {
     router.replace("/");
   }
 
   const dispatch = useAppDispatch();
-  const {error, user} = useAppSelector((state:RootState) => state.auth);
+  const { error, user } = useAppSelector((state: RootState) => state.auth);
 
   const [showLogin, setShowLogin] = useState(false);
   const [showRegister, setShowRegister] = useState(false);
-  const [loadingRegister,setLoadingRegister] = useState(false);
-  const [loadingLogin,setLoadingLogin] = useState(false);
+  const [loadingRegister, setLoadingRegister] = useState(false);
+  const [loadingLogin, setLoadingLogin] = useState(false);
+  const [loadingLoginLibrary, setLoadingLoginLibrary] = useState(false);
 
   const [payloadRegister, setPayloadRegister] = useState({
     name: "",
-    email:"",
+    email: "",
     password: "",
     passwordConfirm: ""
   });
 
   const [payloadLogin, setPayloadLogin] = useState({
-    email:"",
+    email: "",
     password: ""
   });
 
-  const handleChangePayloadRegister = (e:React.ChangeEvent<HTMLInputElement>) => {
+  const handleChangePayloadRegister = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPayloadRegister({
       ...payloadRegister,
       [e.target.name]: e.target.value
     })
   }
 
-  const handleChangePayloadLogin = (e:React.ChangeEvent<HTMLInputElement>) => {
+  const handleChangePayloadLogin = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPayloadLogin({
       ...payloadLogin,
       [e.target.name]: e.target.value
     })
   }
-  const handleRegister = async (e:React.SyntheticEvent) => {
+  const handleRegister = async (e: React.SyntheticEvent) => {
     const regex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/
     try {
       e.preventDefault();
       setLoadingRegister(true);
 
-      if(!regex.test(payloadRegister.password)) {
+      if (!regex.test(payloadRegister.password)) {
         throw new Error("Password must have 8 character, include number and Uppercase character");
       }
 
-      if(payloadRegister.password !== payloadRegister.passwordConfirm){
+      if (payloadRegister.password !== payloadRegister.passwordConfirm) {
         throw new Error("Password dont match")
       }
 
@@ -86,12 +90,12 @@ const page = (props: Props) => {
     }
   }
 
-  const handleLogin =async (e:React.SyntheticEvent) => {
-    try {    
+  const handleLogin = async (e: React.SyntheticEvent) => {
+    try {
       e.preventDefault();
       setLoadingLogin(true);
-      
-      const user:IUser =  await dispatch(login(payloadLogin)).unwrap();
+
+      const user: IUser = await dispatch(login(payloadLogin)).unwrap();
 
       localStorage.setItem("token", user.token);
       router.replace("/");
@@ -103,22 +107,59 @@ const page = (props: Props) => {
     }
   }
 
+  const handleLoginGoogle = useGoogleLogin({
+    onSuccess: async (tokenResponse) => {
+      try {
+        const accessToken = {
+          access_token: tokenResponse.access_token
+        };
+
+        setLoadingLoginLibrary(true);
+        const user: any = await dispatch(loginByGoogle(accessToken)).unwrap();
+
+        localStorage.setItem("token", user.token);
+        router.replace("/");
+        
+        setTimeout(() => {
+          setLoadingLoginLibrary(false);
+        },1000)
+        
+      } catch (error) {
+        setLoadingLoginLibrary(false);
+        dispatch(setError(error));
+      }
+    },
+    onError: errorResponse => console.log(errorResponse),
+  });
+
   return (
     <>
       <div className={styles.authPage}>
-        <div className={`${styles.container}`}>
+        {loadingLoginLibrary ?  
+          <div className={styles.loadingContainer}>
+            <Loading />
+          </div>
+          :
+          <div className={`${styles.container}`}>
             <div className={styles.banner}>
               <img src="/images/banner_login.png" alt="" />
             </div>
             <div className={styles.body}>
               <h1 className={styles.heading}>Happening now</h1>
               <p className={styles.description}>Join FLY now today.</p>
-      
+
               <div className={styles.btnLoginList}>
+
+                <button
+                  className={`${styles.btnAccount} ${styles.google}`}
+                  onClick={() => handleLoginGoogle()}
+                >
+                  Sign in by google
+                </button>
                 <button className={`${styles.btnAccount} ${styles.github}`}>
                   Sign in by github
                 </button>
-                <button 
+                <button
                   className={`${styles.btnAccount} ${styles.login}`}
                   onClick={() => setShowLogin(true)}
                 >
@@ -129,7 +170,7 @@ const page = (props: Props) => {
                   <p className={styles.text}>Or</p>
                   <span></span>
                 </div>
-                <button 
+                <button
                   className={`${styles.btnAccount} ${styles.normal}`}
                   onClick={() => setShowRegister(true)}
                 >
@@ -137,32 +178,33 @@ const page = (props: Props) => {
                 </button>
               </div>
               <p className={styles.policyText}>
-                By signing up, you agree to the <span>Terms of Service</span> 
+                By signing up, you agree to the <span>Terms of Service</span>
                 and <span>Privacy Policy</span>, including <span>Cookie Use</span>
               </p>
             </div>
-        </div>
-  
+          </div>
+        }
+
         {/* MODAL SIGN UP ACCOUNT EMAIL */}
-        <Modal 
-          show={showRegister} 
+        <Modal
+          show={showRegister}
           onHide={() => setShowRegister(false)}
           centered
           contentClassName={styles.modalContent}
         >
-          {loadingRegister ? 
+          {loadingRegister ?
             <div className={styles.loadingRegister}>
               <Loading />
             </div>
-            : 
+            :
             <Form className={styles.formLogin} onSubmit={handleRegister}>
               <div className={styles.heading}>Create Account</div>
               <Form.Group className={styles.formGroup}>
                 <Form.Label className={styles.formLabel} >Name</Form.Label>
-                <Form.Control 
-                  type="text" 
-                  className={styles.formInput} 
-                  placeholder="enter your name" 
+                <Form.Control
+                  type="text"
+                  className={styles.formInput}
+                  placeholder="enter your name"
                   value={payloadRegister.name}
                   name="name"
                   onChange={e => handleChangePayloadRegister(e as React.ChangeEvent<HTMLInputElement>)}
@@ -171,10 +213,10 @@ const page = (props: Props) => {
               </Form.Group>
               <Form.Group className={styles.formGroup}>
                 <Form.Label className={styles.formLabel} >Email</Form.Label>
-                <Form.Control 
-                  type="email" 
-                  className={styles.formInput} 
-                  placeholder="enter your email" 
+                <Form.Control
+                  type="email"
+                  className={styles.formInput}
+                  placeholder="enter your email"
                   value={payloadRegister.email}
                   required
                   name="email"
@@ -183,10 +225,10 @@ const page = (props: Props) => {
               </Form.Group>
               <Form.Group className={styles.formGroup}>
                 <Form.Label className={styles.formLabel} >Password</Form.Label>
-                <Form.Control 
-                  type="password" 
-                  className={styles.formInput} 
-                  placeholder="********" 
+                <Form.Control
+                  type="password"
+                  className={styles.formInput}
+                  placeholder="********"
                   value={payloadRegister.password}
                   required
                   name="password"
@@ -198,10 +240,10 @@ const page = (props: Props) => {
               </Form.Group>
               <Form.Group className={styles.formGroup}>
                 <Form.Label className={styles.formLabel} >Password Confirm</Form.Label>
-                <Form.Control 
-                  type="password" 
-                  className={styles.formInput} 
-                  placeholder="********" 
+                <Form.Control
+                  type="password"
+                  className={styles.formInput}
+                  placeholder="********"
                   value={payloadRegister.passwordConfirm}
                   required
                   name="passwordConfirm"
@@ -212,49 +254,49 @@ const page = (props: Props) => {
             </Form>
           }
         </Modal>
-  
+
         {/* MODAL SIGN IN ACCOUNT EMAIL */}
-        <Modal 
-          show={showLogin} 
+        <Modal
+          show={showLogin}
           onHide={() => setShowLogin(false)}
           centered
           contentClassName={styles.modalContent}
         >
-          {loadingLogin ? 
-              <div className={styles.loadingLogin}>
-                <Loading />
-              </div>
-              : 
-              <Form className={styles.formLogin} onSubmit={handleLogin}>
-                <div className={styles.heading}>Create Account</div>
-                <Form.Group className={styles.formGroup}>
-                  <Form.Label className={styles.formLabel} >Email</Form.Label>
-                  <Form.Control 
-                    type="text" 
-                    className={styles.formInput} placeholder="enter your email" 
-                    value={payloadLogin.email}
-                    required
-                    name="email"
-                    onChange={e => handleChangePayloadLogin(e as React.ChangeEvent<HTMLInputElement>)}
-                  />
-                </Form.Group>
-                <Form.Group className={styles.formGroup}>
-                  <Form.Label className={styles.formLabel} >Password</Form.Label>
-                  <Form.Control 
-                    type="text" 
-                    className={styles.formInput} placeholder="********" 
-                    value={payloadLogin.password}
-                    required
-                    name="password"
-                    onChange={e => handleChangePayloadLogin(e as React.ChangeEvent<HTMLInputElement>)}
-                  />
-                  <Form.Text className={styles.descriptionInput}>Password must have 8 character</Form.Text>
-                </Form.Group>
-                <button type="submit" className={styles.btnSignIn}>Sign in</button>
-              </Form>
+          {loadingLogin ?
+            <div className={styles.loadingLogin}>
+              <Loading />
+            </div>
+            :
+            <Form className={styles.formLogin} onSubmit={handleLogin}>
+              <div className={styles.heading}>Create Account</div>
+              <Form.Group className={styles.formGroup}>
+                <Form.Label className={styles.formLabel} >Email</Form.Label>
+                <Form.Control
+                  type="text"
+                  className={styles.formInput} placeholder="enter your email"
+                  value={payloadLogin.email}
+                  required
+                  name="email"
+                  onChange={e => handleChangePayloadLogin(e as React.ChangeEvent<HTMLInputElement>)}
+                />
+              </Form.Group>
+              <Form.Group className={styles.formGroup}>
+                <Form.Label className={styles.formLabel} >Password</Form.Label>
+                <Form.Control
+                  type="text"
+                  className={styles.formInput} placeholder="********"
+                  value={payloadLogin.password}
+                  required
+                  name="password"
+                  onChange={e => handleChangePayloadLogin(e as React.ChangeEvent<HTMLInputElement>)}
+                />
+                <Form.Text className={styles.descriptionInput}>Password must have 8 character</Form.Text>
+              </Form.Group>
+              <button type="submit" className={styles.btnSignIn}>Sign in</button>
+            </Form>
           }
         </Modal>
-  
+
       </div>
       {/* ERROR */}
       {error && <ToastError error={error} onClose={() => dispatch(clearError())} />}

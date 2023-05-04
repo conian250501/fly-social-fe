@@ -4,6 +4,7 @@ import { Provider } from "react-redux"
 import { store } from "./redux/store"
 import "../styles/global.scss";
 import "bootstrap/dist/css/bootstrap.min.css";
+import { GoogleOAuthProvider } from "@react-oauth/google";
 
 const monsterat = Montserrat({ 
   weight: ["300", "400", "500", "600" ,"700", "800"],
@@ -22,12 +23,14 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <Provider store={store}>
-      <html lang="en">
-        <body className={monsterat.className} suppressHydrationWarning={true} >
-          {children}
-        </body>
-      </html>
-    </Provider>
+    <GoogleOAuthProvider clientId={`${process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID}`}>
+      <Provider store={store}>
+        <html lang="en">
+          <body className={monsterat.className} suppressHydrationWarning={true} >
+            {children}
+          </body>
+        </html>
+      </Provider>
+    </GoogleOAuthProvider>
   )
 }

@@ -64,6 +64,10 @@
       color: var(--primary-color);
       border: 2px solid var(--primary-color);
     }
+    &.google{
+      color:  var(--white-color);
+      background-color: red;
+    }
   }
   .lineDivide{
     margin: 12px 0;
@@ -95,6 +99,13 @@
       color:blue;
     }
   }
+}
+.loadingContainer{
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .loadingLogin{

@@ -24,7 +24,7 @@ axiosConfig.interceptors.response.use(
   (error) => {
     if(error && error.response && error.response.status === 401) {
       localStorage.removeItem("token")
-      window.location = "/auth/login" as any 
+      window.location = "/auth" as any 
     }
     return Promise.reject(error)
   }
