@@ -1,0 +1,23 @@
+.buttonFacebook {
+  width: 100%;
+  padding: 12px 56px;
+  padding-left: 12px;
+  border-radius: 100rem;
+  border: none;
+  font-size: 16px;
+  font-weight: 600;
+  background-color: #4862a3;
+  color: var(--white-color);
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 12px;
+  .icon {
+    width: 30px;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 100rem;
+  }
+}
