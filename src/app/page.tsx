@@ -1,24 +1,15 @@
 "use client";
-import react, { useEffect } from "react";
-import styles from "./main.module.scss";
+import MainLayout from "@/Layouts/MainLayout/MainLayout";
 import { useRouter } from "next/navigation";
-import { useAppDispatch } from "./redux/hooks";
+import { useEffect } from "react";
 import { getUser } from "./features/auth/authAction";
+import styles from "./main.module.scss";
+import { useAppDispatch } from "./redux/hooks";
 
- const Home = () => {
-
-  if (typeof window === "undefined") {
-    return
-  }
-  const isAuthenticated = localStorage.getItem("token");
+const Home = () => {
   const router = useRouter();
 
   const dispatch = useAppDispatch();
-
-  if(!isAuthenticated){
-    router.replace("/auth");
-    return
-  }
 
   useEffect(() => {
     const fetchData = async () => {
@@ -27,15 +18,17 @@ import { getUser } from "./features/auth/authAction";
       } catch (error) {
         return error;
       }
-    }
-    fetchData()
-  },[]);
+    };
+    fetchData();
+  }, []);
 
   return (
-    <main className={styles.mainPage}>
-      <h1>HOME PAGE</h1>
-    </main>
-  )
-}
+    <MainLayout>
+      <main className={styles.mainPage}>
+        <div className="homepage">Home page</div>
+      </main>
+    </MainLayout>
+  );
+};
 
 export default Home;

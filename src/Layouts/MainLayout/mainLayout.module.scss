@@ -1,0 +1,29 @@
+@import "../../styles/responsive";
+
+.mainLayout {
+  height: 100vh;
+}
+.container {
+  padding: 0 5%;
+}
+
+@include tablet {
+  .colHeader {
+    width: auto !important;
+  }
+  .container {
+    padding: 0;
+  }
+  .userListWrapper {
+    display: none;
+  }
+}
+
+@include mobile {
+  .container {
+    padding: 0;
+  }
+  .userListWrapper {
+    display: none;
+  }
+}

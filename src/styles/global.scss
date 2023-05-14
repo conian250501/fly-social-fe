@@ -1,9 +1,13 @@
-:root{
+:root {
   --white-color: #fff;
   --black-color: #000;
   --bg-color: #333;
-  --primary-color: #3F9CF0;
+  --primary-color: #3f9cf0;
   --text-color-light: rgb(83, 100, 113);
+  --grey-color-light: #ddd;
+  --dark-color-900: #1b2022;
+  --dark-color-800: #323232;
+  --dark-color-700: #6b7280;
 }
 
 *,
@@ -15,6 +19,14 @@
   margin: 0;
   padding: 0;
   font: inherit;
+}
+html {
+  font-size: 62.5%;
+  transition: all 0.25s linear;
+}
+body {
+  min-height: 100vh;
+  font-size: 1.6rem !important;
 }
 img,
 picture,
@@ -34,10 +46,4 @@ button {
   background-color: transparent;
   outline: none;
   border: 0;
-}
-body {
-  min-height: 100vh;
-  font-weight: 400;
-  font-size: 16px;
-  line-height: 1;
 }

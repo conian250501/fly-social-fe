@@ -1,0 +1,22 @@
+// RESPONSIVE
+$tablet: 768px;
+$large: 1024px;
+$desktop: 1440px;
+
+@mixin mobile {
+  @media only screen and (max-width: ($tablet - 1px)) {
+    @content;
+  }
+}
+
+@mixin tablet {
+  @media only screen and (min-width: $tablet) and (max-width: ($large - 1px)) {
+    @content;
+  }
+}
+
+@mixin desktop {
+  @media only screen and (min-width: $large) and (max-width: ($desktop - 1px)) {
+    @content;
+  }
+}

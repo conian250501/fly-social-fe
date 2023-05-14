@@ -1,0 +1,29 @@
+.buttonGithub {
+  width: 100%;
+  padding: 12px 56px;
+  padding-left: 12px;
+  border-radius: 100rem;
+  border: none;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--white-color);
+  background-color: #24292d;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 12px;
+  .icon {
+    width: 30px;
+    height: 30px;
+    background-color: var(--white-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 100rem;
+    img {
+      width: 80%;
+      height: 80%;
+      object-fit: cover;
+    }
+  }
+}
