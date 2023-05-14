@@ -1,17 +1,19 @@
-import React, { useCallback, useState } from "react";
+import { loginByFacebook } from "@/app/features/auth/authAction";
+import { setError } from "@/app/features/auth/authSlice";
+import { useAppDispatch } from "@/app/redux/hooks";
 import FacebookLogin, {
   SuccessResponse,
 } from "@greatsumini/react-facebook-login";
-import styles from "./facebook.module.scss";
-import { useAppDispatch } from "@/app/redux/hooks";
-import { loginByFacebook } from "@/app/features/auth/authAction";
 import { useRouter } from "next/navigation";
-import { setError } from "@/app/features/auth/authSlice";
+import React from "react";
+import styles from "./facebook.module.scss";
 
 type Props = {
   setLoadingLoginLibrary: React.Dispatch<React.SetStateAction<boolean>>;
 };
-const Facebook = ({ setLoadingLoginLibrary }: Props) => {
+const Facebook = React.memo(function FacebookComponent({
+  setLoadingLoginLibrary,
+}: Props) {
   const dispatch = useAppDispatch();
   const router = useRouter();
 
@@ -57,6 +59,6 @@ const Facebook = ({ setLoadingLoginLibrary }: Props) => {
       )}
     />
   );
-};
+});
 
 export default Facebook;

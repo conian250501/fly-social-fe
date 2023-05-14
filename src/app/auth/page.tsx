@@ -98,16 +98,9 @@ const Page = (props: Props) => {
     }
   };
 
-  console.log(error);
-
   return (
     <>
       <div className={styles.authPage}>
-        {/* {loadingLoginLibrary ? (
-          <div className={styles.loadingContainer}>
-            <Loading />
-          </div>
-        ) : ( */}
         <div className={`${styles.container}`}>
           <div className={styles.banner}>
             <img src="/images/banner_login.png" alt="" />
