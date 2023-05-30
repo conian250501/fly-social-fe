@@ -49,6 +49,10 @@
   }
 }
 
+@mixin transition($timeout, $animation) {
+  transition: all $timeout $animation;
+}
+
 @keyframes Rotate {
   to {
     transform: rotate(1turn);

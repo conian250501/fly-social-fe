@@ -6,13 +6,15 @@ import ToastError from "@/components/Toasts/Error/Error";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Form, Modal } from "react-bootstrap";
-import { login, register } from "../features/auth/authAction";
+import { getUser, login, register } from "../features/auth/authAction";
 import { clearError, setError } from "../features/auth/authSlice";
 import { IUser } from "../features/auth/interface";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import { RootState } from "../redux/store";
 import styles from "./auth.module.scss";
 import Github from "@/components/AuthButtons/Github/Github";
+import { PATHS } from "@/contanst/paths";
+import Link from "next/link";
 
 type Props = {};
 
@@ -90,7 +92,7 @@ const Page = (props: Props) => {
       const user: IUser = await dispatch(login(payloadLogin)).unwrap();
 
       localStorage.setItem("token", user.token);
-      router.replace("/");
+      router.push("/");
     } catch (error) {
       setLoadingLogin(false);
       dispatch(setError(error));
@@ -99,7 +101,7 @@ const Page = (props: Props) => {
   };
 
   return (
-    <>
+    <div>
       <div className={styles.authPage}>
         <div className={`${styles.container}`}>
           <div className={styles.banner}>
@@ -283,6 +285,12 @@ const Page = (props: Props) => {
               <button type="submit" className={styles.btnSignIn}>
                 Sign in
               </button>
+              <Link
+                href={PATHS.ForgotPassword}
+                className={styles.forgotPassLink}
+              >
+                Forgot password
+              </Link>
             </Form>
           )}
         </Modal>
@@ -292,7 +300,7 @@ const Page = (props: Props) => {
       {error && (
         <ToastError error={error} onClose={() => dispatch(clearError())} />
       )}
-    </>
+    </div>
   );
 };
 

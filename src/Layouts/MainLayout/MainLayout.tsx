@@ -25,7 +25,7 @@ const MainLayout = ({ children }: Props) => {
     };
   }, [isAuthenticated]);
   return (
-    <>
+    <div>
       {loading ? (
         <div className="d-flex align-items-center justify-content-center w-100 vh-100">
           <Loading />
@@ -47,7 +47,7 @@ const MainLayout = ({ children }: Props) => {
           </div>
         </div>
       )}
-    </>
+    </div>
   );
 };
 
