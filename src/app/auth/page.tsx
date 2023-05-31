@@ -77,6 +77,13 @@ const Page = (props: Props) => {
 
       setShowRegister(false);
       setShowLogin(true);
+      setLoadingRegister(false);
+      setPayloadRegister({
+        email: "",
+        name: "",
+        password: "",
+        passwordConfirm: "",
+      });
     } catch (error) {
       setLoadingRegister(false);
       dispatch(setError(error));
