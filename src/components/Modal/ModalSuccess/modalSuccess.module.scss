@@ -1,0 +1,60 @@
+@import "../../../styles/mixins";
+
+.modalContent {
+  border-radius: 30px !important;
+}
+.container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  gap: 10px;
+}
+.iconSuccess {
+  font-size: 40px;
+  color: var(--success-color);
+}
+
+.dialogContainer {
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+  height: calc(100vh - 100px);
+}
+.content {
+  flex: 1;
+  .title {
+    font-weight: 400;
+    font-size: 14px;
+    color: var(--dark-color-700);
+    margin-bottom: 4px;
+  }
+  .description {
+    font-weight: 700;
+    font-size: 18px;
+    color: var(--success-color);
+    margin-bottom: 0;
+  }
+}
+.iconClose {
+  cursor: pointer;
+  width: 30px;
+  height: 30px;
+  border-radius: 100rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 2px solid var(--dark-color-900);
+  .icon {
+    font-size: 20px;
+  }
+}
+
+@keyframes ErrorColor {
+  from {
+    color: var(--error-color);
+  }
+  to {
+    color: var(--dark-color-900);
+  }
+}

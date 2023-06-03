@@ -9,6 +9,37 @@
   --dark-color-800: #323232;
   --dark-color-700: #6b7280;
   --error-color: red;
+  --shadow-phone: 0px 10px 20px rgba(0, 0, 0, 0.4);
+  --shadow-button: 0px 4px 20px rgba(136, 18, 255, 0.4);
+  --shadow-light: 0px 2px 20px rgba(0, 0, 0, 0.04);
+  --shadow-notification: 0px 2px 15px rgba(255, 102, 51, 0.25);
+  --error-color: #f93232;
+  --gradient-primary: linear-gradient(
+    147.69deg,
+    #83feef -4.41%,
+    rgba(130, 5, 255, 0.95) 67.99%,
+    #a7fea5 121.19%
+  );
+  --gradient-secondary: linear-gradient(
+    181.62deg,
+    rgba(131, 254, 239, 0.6) 1.37%,
+    rgba(130, 5, 255, 0.57) 150.23%,
+    rgba(167, 254, 165, 0.6) 150.25%
+  );
+  --gradient-third: linear-gradient(
+      0deg,
+      rgba(255, 255, 255, 0.5),
+      rgba(255, 255, 255, 0.5)
+    ),
+    linear-gradient(
+      180deg,
+      rgba(196, 225, 252, 0.8) 0%,
+      rgba(142, 254, 196, 0.8) 100%
+    );
+  --border-color-light: rgba(0, 0, 0, 0.06);
+  --shadow-container: 0px 4px 20px rgba(0, 0, 0, 0.04);
+  --border-grey: rgba(0, 0, 0, 0.06);
+  --success-color: #4a934a;
 }
 
 *,

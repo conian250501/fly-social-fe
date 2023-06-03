@@ -1,7 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { IPayloadLogin, IPayloadRegister } from "./interface";
+import { IPayloadLogin, IPayloadRegister } from "../interface";
 import axiosConfig from "@/config/axiosConfig";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 
 export const register = createAsyncThunk(
   "auth/sign-up",
@@ -85,6 +85,51 @@ export const loginByGithub = createAsyncThunk(
       return data.data;
     } catch (error: any) {
       return rejectWithValue(error.response.data);
+    }
+  }
+);
+
+export const forgotPassword = createAsyncThunk(
+  "auth/forgot-password",
+  async (email: string, { rejectWithValue }) => {
+    try {
+      const { data } = await axiosConfig.post(`/auth/forgot-password`, {
+        email,
+      });
+      return data.data.message;
+    } catch (error) {
+      const err = error as AxiosError;
+      return rejectWithValue(err.response?.data);
+    }
+  }
+);
+
+export const resetPassword = createAsyncThunk(
+  "auth/reset-password",
+  async (payload: any, { rejectWithValue }) => {
+    try {
+      const { data } = await axiosConfig.post(`/auth/reset-password`, payload, {
+        headers: {
+          Authorization: "Bearer " + payload.token,
+        },
+      });
+      return data;
+    } catch (error) {
+      const err = error as AxiosError;
+      return rejectWithValue(err.response?.data);
+    }
+  }
+);
+
+export const verifyToken = createAsyncThunk(
+  "auth/verify-token",
+  async (token: string, { rejectWithValue }) => {
+    try {
+      const { data } = await axiosConfig.post("/auth/verify-token", { token });
+      return data.data.user;
+    } catch (error) {
+      const err = error as AxiosError;
+      return rejectWithValue(err.response?.data);
     }
   }
 );

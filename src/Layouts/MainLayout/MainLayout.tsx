@@ -37,11 +37,8 @@ const MainLayout = ({ children }: Props) => {
               <Col xs={0} sm={0} md={2} lg={3} className={styles.colHeader}>
                 <Header />
               </Col>
-              <Col xs={12} sm={12} md={10} lg={6}>
+              <Col xs={12} sm={12} md={10} lg={9}>
                 {children}
-              </Col>
-              <Col xs={0} sm={0} md={9} lg={3}>
-                <div className={styles.userListWrapper}>user list</div>
               </Col>
             </Row>
           </div>

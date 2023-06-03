@@ -1,7 +1,7 @@
 @import "../../../styles/mixins";
 @import "../../../styles/responsive";
 
-.forgotPassword {
+.resetPassContainer {
   background-color: rgba($color: #000000, $alpha: 0.2);
   width: 100vw;
   height: 100vh;
@@ -12,7 +12,8 @@
     padding: 0 5%;
   }
 }
-.formForgotPassword {
+
+.formResetPass {
   position: relative;
   width: 40%;
   height: fit-content;
@@ -28,38 +29,18 @@
   @include mobile {
     width: 100%;
   }
-  .iconClose {
-    position: absolute;
-    left: 30px;
-    top: 30px;
-    color: var(--dark-color-900);
-    cursor: pointer;
-    .icon {
-      font-size: 24px;
-    }
-  }
-  .logo {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    img {
-      width: 10%;
-      height: 10%;
-      object-fit: cover;
-    }
-  }
+
   .heading {
     font-size: 32px;
     font-weight: 700;
     color: var(--dark-color-900);
-    margin-top: 32px;
     margin-bottom: 10px;
     @include mobile {
       font-size: 20px;
     }
   }
   .description {
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 500;
     color: var(--dark-color-700);
     width: 70%;
@@ -68,17 +49,47 @@
       width: 100%;
     }
   }
+  .formGroup {
+    &:not(:first-child) {
+      margin-top: 14px;
+    }
+  }
+  .inputGroup {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 10px;
+    border: 2px solid var(--border-color-light);
+    padding: 0 16px;
+  }
   .formInput {
-    padding: 16px;
     font-size: 16px;
     font-weight: 500;
     color: var(--dark-color-900);
     border-radius: 10px;
+    border: none;
+    padding: 16px 0;
+    &:focus {
+      box-shadow: none;
+    }
     @include mobile {
       font-size: 14px;
       font-weight: 400;
     }
   }
+  .iconEye {
+    .icon {
+      font-size: 20px;
+      cursor: pointer;
+    }
+  }
+  .formTextHelp {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-color-light);
+    width: 90%;
+  }
+
   .btnSubmit {
     border-radius: 100rem;
     background-color: var(--primary-color);
@@ -93,17 +104,40 @@
     justify-content: center;
     align-items: center;
   }
-  .btnResendMail {
-    @extend .btnSubmit;
-  }
 }
-.textError {
+
+.textErrorValidate {
   font-size: 14px;
   font-weight: 500;
   margin-top: 10px;
   color: var(--error-color);
+  display: block;
 }
-.iconLoading {
-  font-size: 24px;
-  animation: Rotate 0.5s linear infinite;
+
+.errorToken {
+  background-color: #000;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  @include mobile {
+    padding: 0 5%;
+  }
+
+  .errorText {
+    font-size: 100px;
+    font-weight: 600;
+    color: var(--white-color);
+    animation: ColorFlicker 1s ease-out infinite;
+  }
+}
+
+@keyframes ColorFlicker {
+  from {
+    color: var(--error-color);
+  }
+  to {
+    color: var(--white-color);
+  }
 }

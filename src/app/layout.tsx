@@ -19,8 +19,10 @@ const montserrat = Montserrat({
 
 export default function RootLayout({
   children,
+  authModal,
 }: {
   children: React.ReactNode;
+  authModal: React.ReactNode;
 }) {
   return (
     <GoogleOAuthProvider
@@ -33,6 +35,7 @@ export default function RootLayout({
             suppressHydrationWarning={true}
           >
             {children}
+            {authModal}
           </body>
         </html>
       </Provider>
