@@ -5,7 +5,7 @@ type Props = {
 };
 
 const WithoutHeader = ({ children }: Props) => {
-  return <div>children</div>;
+  return <div>{children}</div>;
 };
 
 export default WithoutHeader;

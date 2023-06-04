@@ -1,40 +1,35 @@
-import IError from '@/app/features/interface/IError';
-import React, { useEffect, useState } from 'react'
-import { Toast, ToastContainer } from 'react-bootstrap';
+import { IError } from "@/app/features/interface/IError";
+import React, { useEffect, useState } from "react";
+import { Toast, ToastContainer } from "react-bootstrap";
 import styles from "./error.module.scss";
-import { useAppDispatch } from '@/app/redux/hooks';
+import { useAppDispatch } from "@/app/redux/hooks";
 
 type Props = {
   error: IError;
   onClose: () => void;
-}
+};
 
-const ToastError = ({error, onClose}: Props) => {
-
+const ToastError = ({ error, onClose }: Props) => {
   const dispatch = useAppDispatch();
   const [isError, setIsError] = useState(false);
 
   useEffect(() => {
-    if(error){
-      setIsError(true)
+    if (error) {
+      setIsError(true);
     }
-  }, [error])
+  }, [error]);
   return (
     <ToastContainer className={styles.toastError}>
-      <Toast 
-        show={isError} 
-        onClose={onClose} 
+      <Toast
+        show={isError}
+        onClose={onClose}
         animation={true}
         bg={"danger"}
-        delay={5000} 
-        autohide  
+        delay={5000}
+        autohide
       >
         <Toast.Header>
-          <img
-            src="holder.js/20x20?text=%20"
-            className="rounded me-2"
-            alt=""
-          />
+          <img src="holder.js/20x20?text=%20" className="rounded me-2" alt="" />
           <strong className="me-auto">Oh no!!</strong>
           <small>11 mins ago</small>
         </Toast.Header>
@@ -43,7 +38,7 @@ const ToastError = ({error, onClose}: Props) => {
         </Toast.Body>
       </Toast>
     </ToastContainer>
-  )
-}
+  );
+};
 
-export default ToastError
+export default ToastError;

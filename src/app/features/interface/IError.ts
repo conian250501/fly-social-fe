@@ -1,5 +1,5 @@
-export default interface IError {
-  message:string;
-  stack:string;
+export interface IError {
+  message: string;
+  stack: string;
   status: string;
 }

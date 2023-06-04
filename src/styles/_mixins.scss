@@ -49,6 +49,16 @@
   }
 }
 
+@mixin resetList {
+  list-style: none;
+  padding-left: 0;
+  margin-bottom: 0;
+}
+
+@mixin transition($timeout, $animation) {
+  transition: all $timeout $animation;
+}
+
 @keyframes Rotate {
   to {
     transform: rotate(1turn);

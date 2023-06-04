@@ -1,0 +1,143 @@
+@import "../../../styles/mixins";
+@import "../../../styles/responsive";
+
+.resetPassContainer {
+  background-color: rgba($color: #000000, $alpha: 0.2);
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  @include mobile {
+    padding: 0 5%;
+  }
+}
+
+.formResetPass {
+  position: relative;
+  width: 40%;
+  height: fit-content;
+  background-color: var(--white-color);
+  border-radius: 30px;
+  padding: 30px;
+  @include desktop {
+    width: 60%;
+  }
+  @include tablet {
+    width: 60%;
+  }
+  @include mobile {
+    width: 100%;
+  }
+
+  .heading {
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--dark-color-900);
+    margin-bottom: 10px;
+    @include mobile {
+      font-size: 20px;
+    }
+  }
+  .description {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--dark-color-700);
+    width: 70%;
+    @include mobile {
+      font-size: 12px;
+      width: 100%;
+    }
+  }
+  .formGroup {
+    &:not(:first-child) {
+      margin-top: 14px;
+    }
+  }
+  .inputGroup {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 10px;
+    border: 2px solid var(--border-color-light);
+    padding: 0 16px;
+  }
+  .formInput {
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--dark-color-900);
+    border-radius: 10px;
+    border: none;
+    padding: 16px 0;
+    &:focus {
+      box-shadow: none;
+    }
+    @include mobile {
+      font-size: 14px;
+      font-weight: 400;
+    }
+  }
+  .iconEye {
+    .icon {
+      font-size: 20px;
+      cursor: pointer;
+    }
+  }
+  .formTextHelp {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-color-light);
+    width: 90%;
+  }
+
+  .btnSubmit {
+    border-radius: 100rem;
+    background-color: var(--primary-color);
+    color: var(--white-color);
+    font-weight: 700;
+    font-size: 16px;
+    width: 100%;
+    padding: 16px;
+    margin-top: 24px;
+    border: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}
+
+.textErrorValidate {
+  font-size: 14px;
+  font-weight: 500;
+  margin-top: 10px;
+  color: var(--error-color);
+  display: block;
+}
+
+.errorToken {
+  background-color: #000;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  @include mobile {
+    padding: 0 5%;
+  }
+
+  .errorText {
+    font-size: 100px;
+    font-weight: 600;
+    color: var(--white-color);
+    animation: ColorFlicker 1s ease-out infinite;
+  }
+}
+
+@keyframes ColorFlicker {
+  from {
+    color: var(--error-color);
+  }
+  to {
+    color: var(--white-color);
+  }
+}
