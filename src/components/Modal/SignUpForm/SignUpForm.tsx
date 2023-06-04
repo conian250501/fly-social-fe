@@ -7,6 +7,7 @@ import { register } from "@/app/features/auth/authAction";
 import { setError } from "@/app/features/auth/authSlice";
 import { regexPassword } from "@/contanst/regexs";
 import Loading from "@/components/Loading";
+import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 type Props = {
   show: boolean;
   close: () => void;
@@ -17,12 +18,15 @@ type Props = {
 const SignUpForm = ({ show, close, loading, setLoading }: Props) => {
   const router = useRouter();
   const dispatch = useAppDispatch();
+
   const [payloadRegister, setPayloadRegister] = useState({
     name: "",
     email: "",
     password: "",
     passwordConfirm: "",
   });
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const handleChangePayloadRegister = (
     e: React.ChangeEvent<HTMLInputElement>
@@ -112,19 +116,31 @@ const SignUpForm = ({ show, close, loading, setLoading }: Props) => {
           </Form.Group>
           <Form.Group className={styles.formGroup}>
             <Form.Label className={styles.formLabel}>Password</Form.Label>
-            <Form.Control
-              type="password"
-              className={styles.formInput}
-              placeholder="********"
-              value={payloadRegister.password}
-              required
-              name="password"
-              onChange={(e) =>
-                handleChangePayloadRegister(
-                  e as React.ChangeEvent<HTMLInputElement>
-                )
-              }
-            />
+            <div className={styles.inputGroupPassword}>
+              <Form.Control
+                type={showPassword ? "text" : "password"}
+                className={styles.formInput}
+                placeholder="********"
+                value={payloadRegister.password}
+                required
+                name="password"
+                onChange={(e) =>
+                  handleChangePayloadRegister(
+                    e as React.ChangeEvent<HTMLInputElement>
+                  )
+                }
+              />
+              <div
+                className={styles.iconEye}
+                onClick={() => setShowPassword(!showPassword)}
+              >
+                {showPassword ? (
+                  <AiOutlineEyeInvisible className={styles.icon} />
+                ) : (
+                  <AiOutlineEye className={styles.icon} />
+                )}
+              </div>
+            </div>
             <Form.Text className={styles.descriptionInput}>
               Password must have 8 character, include number and Uppercase
               character
@@ -134,19 +150,31 @@ const SignUpForm = ({ show, close, loading, setLoading }: Props) => {
             <Form.Label className={styles.formLabel}>
               Password Confirm
             </Form.Label>
-            <Form.Control
-              type="password"
-              className={styles.formInput}
-              placeholder="********"
-              value={payloadRegister.passwordConfirm}
-              required
-              name="passwordConfirm"
-              onChange={(e) =>
-                handleChangePayloadRegister(
-                  e as React.ChangeEvent<HTMLInputElement>
-                )
-              }
-            />
+            <div className={styles.inputGroupPassword}>
+              <Form.Control
+                type={showConfirmPassword ? "text" : "password"}
+                className={styles.formInput}
+                placeholder="********"
+                value={payloadRegister.passwordConfirm}
+                required
+                name="passwordConfirm"
+                onChange={(e) =>
+                  handleChangePayloadRegister(
+                    e as React.ChangeEvent<HTMLInputElement>
+                  )
+                }
+              />
+              <div
+                className={styles.iconEye}
+                onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+              >
+                {showConfirmPassword ? (
+                  <AiOutlineEyeInvisible className={styles.icon} />
+                ) : (
+                  <AiOutlineEye className={styles.icon} />
+                )}
+              </div>
+            </div>
           </Form.Group>
           <button type="submit" className={styles.btnSignIn}>
             Sign up

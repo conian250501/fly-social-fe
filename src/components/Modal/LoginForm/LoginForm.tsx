@@ -10,6 +10,7 @@ import { setError } from "@/app/features/auth/authSlice";
 import Link from "next/link";
 import { login } from "@/app/features/auth/authAction";
 import styles from "./loginForm.module.scss";
+import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 
 type Props = {
   show: boolean;
@@ -26,6 +27,7 @@ const LoginForm = React.memo(({ show, close, loading, setLoading }: Props) => {
     email: "",
     password: "",
   });
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleChangePayloadLogin = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPayloadLogin({
@@ -81,19 +83,32 @@ const LoginForm = React.memo(({ show, close, loading, setLoading }: Props) => {
           </Form.Group>
           <Form.Group className={styles.formGroup}>
             <Form.Label className={styles.formLabel}>Password</Form.Label>
-            <Form.Control
-              type="text"
-              className={styles.formInput}
-              placeholder="********"
-              value={payloadLogin.password}
-              required
-              name="password"
-              onChange={(e) =>
-                handleChangePayloadLogin(
-                  e as React.ChangeEvent<HTMLInputElement>
-                )
-              }
-            />
+            <div className={styles.inputGroupPassword}>
+              <Form.Control
+                type={showPassword ? "text" : "password"}
+                className={styles.formInput}
+                placeholder="********"
+                value={payloadLogin.password}
+                required
+                name="password"
+                onChange={(e) =>
+                  handleChangePayloadLogin(
+                    e as React.ChangeEvent<HTMLInputElement>
+                  )
+                }
+              />
+
+              <div
+                className={styles.iconEye}
+                onClick={() => setShowPassword(!showPassword)}
+              >
+                {showPassword ? (
+                  <AiOutlineEyeInvisible className={styles.icon} />
+                ) : (
+                  <AiOutlineEye className={styles.icon} />
+                )}
+              </div>
+            </div>
             <Form.Text className={styles.descriptionInput}>
               Password must have 8 character
             </Form.Text>

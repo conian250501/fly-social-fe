@@ -1,3 +1,4 @@
+/* eslint-disable react/display-name */
 import {
   getAccessTokenGithub,
   loginByGithub,
@@ -5,14 +6,15 @@ import {
 import { setError } from "@/app/features/auth/authSlice";
 import { useAppDispatch } from "@/app/redux/hooks";
 import { useRouter, useSearchParams } from "next/navigation";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./github.module.scss";
+import { PATHS } from "@/contanst/paths";
 
 type Props = {
   setLoadingLoginLibrary: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-const Github = ({ setLoadingLoginLibrary }: Props) => {
+const Github = React.memo(({ setLoadingLoginLibrary }: Props) => {
   const dispatch = useAppDispatch();
   const router = useRouter();
 
@@ -20,28 +22,29 @@ const Github = ({ setLoadingLoginLibrary }: Props) => {
   const code = url.get("code");
 
   useEffect(() => {
-    if (code) {
-      const getAccessToken = async () => {
-        try {
-          setLoadingLoginLibrary(true);
-          const token = await dispatch(getAccessTokenGithub(code)).unwrap();
-          const user = await dispatch(
-            loginByGithub({ access_token: token })
-          ).unwrap();
-          localStorage.setItem("token", user.token);
-          router.replace("/");
+    const getAccessToken = async () => {
+      try {
+        setLoadingLoginLibrary(true);
+        const token = await dispatch(
+          getAccessTokenGithub(code as string)
+        ).unwrap();
+        router.replace(PATHS.Auth);
+        const user = await dispatch(
+          loginByGithub({ access_token: token })
+        ).unwrap();
+        localStorage.setItem("token", user.token);
+        router.replace("/");
 
-          setTimeout(() => {
-            setLoadingLoginLibrary(false);
-          }, 1000);
-        } catch (error) {
-          setLoadingLoginLibrary(false);
-          setError(error);
-        }
-      };
+        setLoadingLoginLibrary(false);
+      } catch (error) {
+        setLoadingLoginLibrary(false);
+        setError(error);
+      }
+    };
+    if (code) {
       getAccessToken();
     }
-  }, []);
+  }, [code, dispatch]);
 
   const handleLoginGithub = async () => {
     window.location.assign(
@@ -60,6 +63,6 @@ const Github = ({ setLoadingLoginLibrary }: Props) => {
       Sign in by github
     </button>
   );
-};
+});
 
 export default Github;

@@ -4,8 +4,8 @@ import { RootState } from "@/app/redux/store";
 import { PATHS } from "@/contanst/paths";
 import { nanoid } from "@reduxjs/toolkit";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import React, { FC, useState } from "react";
+import { usePathname, useRouter } from "next/navigation";
+import React, { FC, useEffect, useState } from "react";
 import { BiBookmark, BiMessageSquare, BiNotification } from "react-icons/bi";
 import { BsThreeDots } from "react-icons/bs";
 import { FaRegUser } from "react-icons/fa";
@@ -15,24 +15,21 @@ import { RiHomeGearLine } from "react-icons/ri";
 import { SiHey } from "react-icons/si";
 import { IMenu } from "../interfaces/header.interface";
 import styles from "./header.module.scss";
+import { OverlayTrigger, Popover } from "react-bootstrap";
 
 type Props = {};
 
 const Header = React.memo(function Header(props: Props) {
+  const router = useRouter();
   const path = usePathname();
   const { user } = useAppSelector((state: RootState) => state.auth);
+  const [openMenuUserInfo, setOpenMenuUserInfo] = useState<boolean>(false);
 
   const [menuList, setMenuList] = useState<IMenu[]>([
     {
       id: nanoid(),
       title: "Home",
       icon: <RiHomeGearLine className={styles.icon} />,
-      link: PATHS.Home,
-    },
-    {
-      id: nanoid(),
-      title: "Explore",
-      icon: <FiMinimize className={styles.icon} />,
       link: PATHS.Home,
     },
     {
@@ -76,15 +73,15 @@ const Header = React.memo(function Header(props: Props) {
     },
     {
       id: nanoid(),
-      title: "Explore",
-      icon: <FiMinimize className={styles.icon} />,
-      link: PATHS.Home,
+      title: "Connect",
+      icon: <SiHey className={styles.icon} />,
+      link: PATHS.Connect,
     },
     {
       id: nanoid(),
-      title: "Connect",
-      icon: <SiHey className={styles.icon} />,
-      link: PATHS.Profile,
+      title: "Bookmarks",
+      icon: <BiBookmark className={styles.icon} />,
+      link: PATHS.Bookmarks,
     },
     {
       id: nanoid(),
@@ -93,6 +90,22 @@ const Header = React.memo(function Header(props: Props) {
       link: PATHS.Profile,
     },
   ]);
+
+  useEffect(() => {
+    function handleClose() {
+      setOpenMenuUserInfo(false);
+    }
+    window.addEventListener("click", handleClose);
+
+    return () => {
+      window.removeEventListener("click", handleClose);
+    };
+  }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    router.push(PATHS.Auth);
+  };
 
   const HeaderMobile: FC = () => {
     return (
@@ -129,13 +142,13 @@ const Header = React.memo(function Header(props: Props) {
             </div>
             <div className="d-flex align-items-center justify-content-end gap-3">
               <Link
-                href={PATHS.Auth}
+                href={PATHS.LoginPage}
                 className={`${styles.link} ${styles.login}`}
               >
                 Login
               </Link>
               <Link
-                href={PATHS.Auth}
+                href={PATHS.SignUpPage}
                 className={`${styles.link} ${styles.signUp}`}
               >
                 Sign up
@@ -174,7 +187,13 @@ const Header = React.memo(function Header(props: Props) {
     return (
       <React.Fragment>
         {user && (
-          <div className={styles.userInfo}>
+          <div
+            className={styles.userInfo}
+            onClick={(e) => {
+              e.stopPropagation();
+              setOpenMenuUserInfo(!openMenuUserInfo);
+            }}
+          >
             <div className={styles.info}>
               <div className={styles.avatar}>
                 <img
@@ -196,13 +215,30 @@ const Header = React.memo(function Header(props: Props) {
             <div className={styles.iconDot}>
               <BsThreeDots className={styles.icon} />
             </div>
+
+            <ul
+              className={`${styles.menuUserInfoList} ${
+                openMenuUserInfo ? styles.open : styles.hidden
+              }`}
+            >
+              <li
+                className={styles.menuUserInfoItem}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleLogout();
+                }}
+              >
+                <span className="text-danger">Logout</span> @{user.name}
+              </li>
+              <div className={styles.triangle}></div>
+            </ul>
           </div>
         )}
       </React.Fragment>
     );
   };
   return (
-    <>
+    <div>
       {/* ======= HEADER MOBILE ======= */}
       <HeaderMobile />
       {/* ====== HEADER DESKTOP ====== */}
@@ -245,7 +281,7 @@ const Header = React.memo(function Header(props: Props) {
 
         <UserInfo />
       </header>
-    </>
+    </div>
   );
 });
 

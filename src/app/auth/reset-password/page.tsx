@@ -151,7 +151,7 @@ const Page = (props: Props) => {
                   className={styles.iconEye}
                   onClick={() => setShowPassword(!showPassword)}
                 >
-                  {showConfirmPassword ? (
+                  {showPassword ? (
                     <AiOutlineEyeInvisible className={styles.icon} />
                   ) : (
                     <AiOutlineEye className={styles.icon} />

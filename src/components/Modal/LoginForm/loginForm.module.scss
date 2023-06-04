@@ -50,6 +50,36 @@
     }
   }
 
+  .inputGroupPassword {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 10px;
+    border: 2px solid var(--border-color-light);
+    padding: 0 16px;
+    .formInput {
+      font-size: 16px;
+      font-weight: 500;
+      color: var(--dark-color-900);
+      border-radius: 10px;
+      border: none;
+      padding: 16px 0;
+      &:focus {
+        box-shadow: none;
+      }
+      @include mobile {
+        font-size: 14px;
+        font-weight: 400;
+      }
+    }
+    .iconEye {
+      .icon {
+        font-size: 20px;
+        cursor: pointer;
+      }
+    }
+  }
+
   .btnSignIn {
     padding: 16px;
     background-color: var(--primary-color);

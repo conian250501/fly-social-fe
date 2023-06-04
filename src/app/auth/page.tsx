@@ -24,74 +24,95 @@ type Props = {};
 const Page = (props: Props) => {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const isOpenLogin = searchParams.get("login");
+  const isOpenSignUp = searchParams.get("sign-up");
 
   const dispatch = useAppDispatch();
   const { error, user } = useAppSelector((state: RootState) => state.auth);
 
-  const [showLogin, setShowLogin] = useState(false);
-  const [showRegister, setShowRegister] = useState(false);
   const [loadingRegister, setLoadingRegister] = useState(false);
   const [loadingLogin, setLoadingLogin] = useState(false);
   const [loadingLoginLibrary, setLoadingLoginLibrary] = useState(false);
 
-  return (
-    <div>
-      <div className={styles.authPage}>
-        <div className={`${styles.container}`}>
-          <div className={styles.banner}>
-            <img src="/images/banner_login.png" alt="" />
-          </div>
-          <div className={styles.body}>
-            <h1 className={styles.heading}>Happening now</h1>
-            <p className={styles.description}>Join FLY now today.</p>
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    const fetchData = async () => {
+      try {
+        await dispatch(getUser()).unwrap();
+        router.replace(PATHS.Home);
+      } catch (error) {
+        return error;
+      }
+    };
 
-            <div className={styles.btnLoginList}>
-              <Google setLoadingLoginLibrary={setLoadingLoginLibrary} />
-              <Facebook setLoadingLoginLibrary={setLoadingLoginLibrary} />
-              <Github setLoadingLoginLibrary={setLoadingLoginLibrary} />
+    if (token) {
+      fetchData();
+    }
+  }, []);
 
-              <button
-                className={`${styles.btnAccount} ${styles.login}`}
-                onClick={() => setShowLogin(true)}
-              >
-                Login
-              </button>
-              <div className={styles.lineDivide}>
-                <span></span>
-                <p className={styles.text}>Or</p>
-                <span></span>
-              </div>
-              <button
-                className={`${styles.btnAccount} ${styles.normal}`}
-                onClick={() => setShowRegister(true)}
-              >
-                Create Account
-              </button>
-            </div>
-            <p className={styles.policyText}>
-              By signing up, you agree to the <span>Terms of Service</span>
-              and <span>Privacy Policy</span>, including <span>Cookie Use</span>
-            </p>
-          </div>
-        </div>
-        {/* )} */}
-
-        {/* MODAL SIGN UP ACCOUNT EMAIL */}
-        <SignUpForm
-          show={showRegister}
-          close={() => setShowRegister(false)}
-          loading={loadingRegister}
-          setLoading={setLoadingRegister}
-        />
-
-        {/* MODAL SIGN IN ACCOUNT EMAIL */}
-        <LoginForm
-          show={showLogin}
-          close={() => setShowLogin(false)}
-          loading={loadingLogin}
-          setLoading={setLoadingLogin}
-        />
+  if (loadingLoginLibrary) {
+    return (
+      <div className="d-flex align-items-center justify-content-center vw-100 vh-100">
+        <Loading />
       </div>
+    );
+  }
+
+  return (
+    <div className={styles.authPage}>
+      <div className={`${styles.container}`}>
+        <div className={styles.banner}>
+          <img src="/images/banner_login.png" alt="" />
+        </div>
+        <div className={styles.body}>
+          <h1 className={styles.heading}>Happening now</h1>
+          <p className={styles.description}>Join FLY now today.</p>
+
+          <div className={styles.btnLoginList}>
+            <Google setLoadingLoginLibrary={setLoadingLoginLibrary} />
+            <Facebook setLoadingLoginLibrary={setLoadingLoginLibrary} />
+            <Github setLoadingLoginLibrary={setLoadingLoginLibrary} />
+
+            <button
+              className={`${styles.btnAccount} ${styles.login}`}
+              onClick={() => router.replace(PATHS.LoginPage)}
+            >
+              Login
+            </button>
+            <div className={styles.lineDivide}>
+              <span></span>
+              <p className={styles.text}>Or</p>
+              <span></span>
+            </div>
+            <button
+              className={`${styles.btnAccount} ${styles.normal}`}
+              onClick={() => router.replace(PATHS.SignUpPage)}
+            >
+              Create Account
+            </button>
+          </div>
+          <p className={styles.policyText}>
+            By signing up, you agree to the <span>Terms of Service</span>
+            and <span>Privacy Policy</span>, including <span>Cookie Use</span>
+          </p>
+        </div>
+      </div>
+
+      {/* MODAL SIGN UP ACCOUNT EMAIL */}
+      <SignUpForm
+        show={Boolean(isOpenSignUp)}
+        close={() => router.replace(PATHS.Auth)}
+        loading={loadingRegister}
+        setLoading={setLoadingRegister}
+      />
+
+      {/* MODAL SIGN IN ACCOUNT EMAIL */}
+      <LoginForm
+        show={Boolean(isOpenLogin)}
+        close={() => router.replace(PATHS.Auth)}
+        loading={loadingLogin}
+        setLoading={setLoadingLogin}
+      />
 
       {/* ERROR */}
       {error && (
