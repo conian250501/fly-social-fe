@@ -75,6 +75,23 @@
   }
 }
 
+.btnAddTweetMobile {
+  position: fixed;
+  bottom: 10%;
+  right: 6%;
+  width: 50px;
+  height: 50px;
+  border-radius: 100rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--primary-color);
+  .icon {
+    font-size: 24px;
+    color: var(--white-color);
+  }
+}
+
 .menuItem {
   &:not(:first-child) {
     margin-top: 12px;
@@ -205,6 +222,7 @@
     }
     &.hidden {
       opacity: 0;
+      display: none;
       @include transition(0.2s, linear);
     }
     @include tablet {

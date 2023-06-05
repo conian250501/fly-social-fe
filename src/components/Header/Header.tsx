@@ -16,6 +16,9 @@ import { SiHey } from "react-icons/si";
 import { IMenu } from "../interfaces/header.interface";
 import styles from "./header.module.scss";
 import { OverlayTrigger, Popover } from "react-bootstrap";
+import UserInfo from "./components/UserInfo/UserInfo";
+import ButtonNewTweet from "./components/ButtonNewTweet";
+import ButtonNewTweetMobile from "./components/ButtonNewTweetMobile/ButtonNewTweetMobile";
 
 type Props = {};
 
@@ -23,7 +26,6 @@ const Header = React.memo(function Header(props: Props) {
   const router = useRouter();
   const path = usePathname();
   const { user } = useAppSelector((state: RootState) => state.auth);
-  const [openMenuUserInfo, setOpenMenuUserInfo] = useState<boolean>(false);
 
   const [menuList, setMenuList] = useState<IMenu[]>([
     {
@@ -91,22 +93,6 @@ const Header = React.memo(function Header(props: Props) {
     },
   ]);
 
-  useEffect(() => {
-    function handleClose() {
-      setOpenMenuUserInfo(false);
-    }
-    window.addEventListener("click", handleClose);
-
-    return () => {
-      window.removeEventListener("click", handleClose);
-    };
-  }, []);
-
-  const handleLogout = () => {
-    localStorage.removeItem("token");
-    router.push(PATHS.Auth);
-  };
-
   const HeaderMobile: FC = () => {
     return (
       <React.Fragment>
@@ -131,6 +117,7 @@ const Header = React.memo(function Header(props: Props) {
                 </li>
               ))}
             </ul>
+            <ButtonNewTweetMobile />
           </header>
         ) : (
           <div className={styles.authLinkList}>
@@ -182,61 +169,6 @@ const Header = React.memo(function Header(props: Props) {
       </ul>
     );
   };
-
-  const UserInfo: FC = () => {
-    return (
-      <React.Fragment>
-        {user && (
-          <div
-            className={styles.userInfo}
-            onClick={(e) => {
-              e.stopPropagation();
-              setOpenMenuUserInfo(!openMenuUserInfo);
-            }}
-          >
-            <div className={styles.info}>
-              <div className={styles.avatar}>
-                <img
-                  src={
-                    user?.avatar
-                      ? user.avatar
-                      : "/images/avatar-placeholder-man.png"
-                  }
-                  alt=""
-                />
-              </div>
-              <div className={styles.content}>
-                <h1 className={styles.name}>{user.name}</h1>
-                <p className={styles.nickname}>
-                  {user.nickname ? user.nickname : "N/A"}
-                </p>
-              </div>
-            </div>
-            <div className={styles.iconDot}>
-              <BsThreeDots className={styles.icon} />
-            </div>
-
-            <ul
-              className={`${styles.menuUserInfoList} ${
-                openMenuUserInfo ? styles.open : styles.hidden
-              }`}
-            >
-              <li
-                className={styles.menuUserInfoItem}
-                onClick={(e) => {
-                  e.stopPropagation();
-                  handleLogout();
-                }}
-              >
-                <span className="text-danger">Logout</span> @{user.name}
-              </li>
-              <div className={styles.triangle}></div>
-            </ul>
-          </div>
-        )}
-      </React.Fragment>
-    );
-  };
   return (
     <div>
       {/* ======= HEADER MOBILE ======= */}
@@ -269,10 +201,7 @@ const Header = React.memo(function Header(props: Props) {
                   </Link>
                 </li>
               ))}
-              <button type="button" className={styles.btnAddTweet}>
-                <GiSpikyWing className={styles.icon} />
-                <span>Tweet</span>
-              </button>
+              <ButtonNewTweet />
             </ul>
           ) : (
             <MenuListLoginYet />
