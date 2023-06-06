@@ -1,33 +1,48 @@
 /* eslint-disable @next/next/no-img-element */
 /* eslint-disable react/display-name */
-import { IPayloadTweet } from "@/app/features/interface";
-import { useAppSelector } from "@/app/redux/hooks";
+import { IError, IPayloadTweet } from "@/app/features/interface";
+import { useAppDispatch, useAppSelector } from "@/app/redux/hooks";
 import { RootState } from "@/app/redux/store";
 import { useFormik } from "formik";
 import React, { useEffect, useState } from "react";
 import { Button, Form, Modal } from "react-bootstrap";
-import { AiOutlineGif, AiOutlineVideoCamera } from "react-icons/ai";
+import {
+  AiOutlineGif,
+  AiOutlineLoading,
+  AiOutlineVideoCamera,
+} from "react-icons/ai";
 import { BsFillImageFill } from "react-icons/bs";
 import { CgClose } from "react-icons/cg";
 import { FaAngleDown, FaUserSecret } from "react-icons/fa";
 import { GiWorld } from "react-icons/gi";
 import { RiEmotionHappyLine } from "react-icons/ri";
 import styles from "./createTweetForm.module.scss";
+import {
+  create as createTweet,
+  uploadFile,
+} from "@/app/features/tweet/tweetAction";
+import { setError } from "@/app/features/tweet/tweetSlice";
+import ModalSuccess from "../ModalSuccess/ModalSuccess";
 type Props = {
   show: boolean;
   handleClose: () => void;
 };
 
 const CreateTweetForm = React.memo(({ show, handleClose }: Props) => {
+  const dispatch = useAppDispatch();
+
   const { user } = useAppSelector((state: RootState) => state.auth);
 
   const [showAudienceList, setShowAudienceList] = useState<boolean>(false);
   const [filePreview, setFilePreview] = useState<string>("");
+  const [loadingCreateTweet, setLoadingCreateTweet] = useState<boolean>(false);
+  const [isFileChange, setIsFileChange] = useState<boolean>(false);
   const [payload, setPayload] = useState<IPayloadTweet>({
     content: "",
     file: null,
     isPrivate: false,
   });
+  const [isCreateSuccess, setIsCreateSuccess] = useState<boolean>(false);
 
   useEffect(() => {
     const handleCloseAudienceList = () => {
@@ -55,16 +70,35 @@ const CreateTweetForm = React.memo(({ show, handleClose }: Props) => {
   const form = useFormik({
     initialValues: payload,
     validate,
-    async onSubmit(values, formikHelpers) {
+    async onSubmit(values, { resetForm }) {
+      const formData = new FormData();
+      formData.append("file", values.file as string);
       try {
-        console.log({ values });
-      } catch (error) {}
+        setLoadingCreateTweet(true);
+        const newTweet = await dispatch(createTweet(values)).unwrap();
+        if (isFileChange) {
+          await dispatch(
+            uploadFile({ id: newTweet.id, file: formData })
+          ).unwrap();
+        }
+        setLoadingCreateTweet(false);
+        resetForm();
+        setIsFileChange(false);
+        setFilePreview("");
+        setIsCreateSuccess(true);
+        handleClose();
+      } catch (error) {
+        setLoadingCreateTweet(false);
+
+        dispatch(setError(error as IError));
+      }
     },
   });
 
   const handleChangeFile = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
     if (!files) return;
+    setIsFileChange(true);
     setFilePreview(URL.createObjectURL(files[0]));
     form.setFieldValue("file", files[0]);
   };
@@ -72,6 +106,16 @@ const CreateTweetForm = React.memo(({ show, handleClose }: Props) => {
     setFilePreview("");
     form.setFieldValue("file", null);
   };
+
+  if (isCreateSuccess) {
+    return (
+      <ModalSuccess
+        isOpen={isCreateSuccess}
+        handleClose={() => setIsCreateSuccess(false)}
+        message="Created new tweet successfully"
+      />
+    );
+  }
   return (
     <Modal
       show={show}
@@ -190,8 +234,16 @@ const CreateTweetForm = React.memo(({ show, handleClose }: Props) => {
               </Form.Label>
             </div>
           </div>
-          <Button type="submit" className={styles.btnSubmit}>
-            Tweet
+          <Button
+            type="submit"
+            className={styles.btnSubmit}
+            disabled={loadingCreateTweet}
+          >
+            {loadingCreateTweet ? (
+              <AiOutlineLoading className={styles.iconLoading} />
+            ) : (
+              "Tweet"
+            )}
           </Button>
         </div>
       </Form>

@@ -194,3 +194,8 @@
     }
   }
 }
+.iconLoading {
+  font-size: 24px;
+  color: var(--white-color);
+  animation: Rotate 0.5s linear infinite;
+}

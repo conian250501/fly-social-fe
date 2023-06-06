@@ -1,12 +1,13 @@
 "use client";
-import MainLayout from "@/Layouts/MainLayout/MainLayout";
+import GuestLayout from "@/Layouts/GuestLayout/GuestLayout";
+import Loading from "@/components/Loading/Loading";
+import TweetList from "@/components/TweetList";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { Col, Row } from "react-bootstrap";
 import { getUser } from "./features/auth/authAction";
 import styles from "./main.module.scss";
 import { useAppDispatch } from "./redux/hooks";
-import GuestLayout from "@/Layouts/GuestLayout/GuestLayout";
-import Loading from "@/components/Loading/Loading";
 
 const Home = () => {
   const router = useRouter();
@@ -45,7 +46,14 @@ const Home = () => {
   return (
     <GuestLayout>
       <main className={styles.mainPage}>
-        <div className="homepage">Home page</div>
+        <Row>
+          <Col xs={12} sm={12} md={7} lg={7}>
+            <TweetList />
+          </Col>
+          <Col xs={12} sm={12} md={5} lg={5}>
+            User list
+          </Col>
+        </Row>
       </main>
     </GuestLayout>
   );
