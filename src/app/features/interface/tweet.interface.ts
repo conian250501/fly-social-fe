@@ -1,11 +1,16 @@
+import { IBaseTypes } from "./IBaseTypes";
+import { IUser } from "./auth.interface";
+
 export interface IPayloadTweet {
   content: string;
   isPrivate: boolean;
   file: string | File | null;
 }
 
-export interface ITweet {
+export interface ITweet extends IBaseTypes {
   content: string;
   isPrivate: boolean;
-  file: string;
+  image: string;
+  video: string;
+  user: IUser;
 }

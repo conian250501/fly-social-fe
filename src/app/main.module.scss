@@ -1,0 +1,15 @@
+.mainPage {
+  --bs-gutter-x: 0 !important;
+}
+.heading {
+  font-size: 30px;
+  font-weight: 600;
+  color: var(--dark-color-900);
+  margin-top: 16px;
+  margin-bottom: 32px;
+  padding-left: 16px;
+}
+.homeWrapper {
+  border-right: 1px solid #ccc;
+  padding: 0 !important;
+}

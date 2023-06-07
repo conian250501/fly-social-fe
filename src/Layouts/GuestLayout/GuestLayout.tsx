@@ -9,7 +9,7 @@ type Props = {
 const GuestLayout = ({ children }: Props) => {
   return (
     <div className={styles.container}>
-      <Row className="w-100">
+      <Row className={styles.guestLayoutWrapper}>
         <Col xs={0} sm={0} md={2} lg={3} className={styles.colHeader}>
           <Header />
         </Col>

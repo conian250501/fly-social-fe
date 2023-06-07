@@ -1,3 +1,7 @@
 .container {
   padding: 0 5%;
+  .guestLayoutWrapper {
+    --bs-gutter-x: 0 !important;
+    width: 100%;
+  }
 }

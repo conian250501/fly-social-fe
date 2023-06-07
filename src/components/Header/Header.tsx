@@ -152,25 +152,25 @@ const Header = React.memo(function Header(props: Props) {
       <ul className={styles.menuList}>
         <li className={`${styles.menuItem} `}>
           <Link
-            href={menuList[1].link}
+            href={menuList[0].link}
             className={`${styles.menuItemLink} ${
-              path.startsWith(menuList[1].link) && styles.active
+              path.startsWith(menuList[0].link) && styles.active
             }`}
           >
             <div className={styles.menuIcon}>
-              {path.startsWith(menuList[1].link) ? (
+              {path.startsWith(menuList[0].link) ? (
                 <div className={styles.btnActive}></div>
               ) : null}
-              {menuList[1].icon}
+              {menuList[0].icon}
             </div>
-            <p className={styles.title}>{menuList[1].title}</p>
+            <p className={styles.title}>{menuList[0].title}</p>
           </Link>
         </li>
       </ul>
     );
   };
   return (
-    <div>
+    <div className="d-flex align-items-center justify-content-start w-100">
       {/* ======= HEADER MOBILE ======= */}
       <HeaderMobile />
       {/* ====== HEADER DESKTOP ====== */}
