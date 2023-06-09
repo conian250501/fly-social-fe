@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 /* eslint-disable react/display-name */
 import React, { useEffect, useState } from "react";
 import styles from "./userInfo.module.scss";
@@ -42,9 +43,7 @@ const UserInfo = React.memo((props: Props) => {
             <div className={styles.avatar}>
               <img
                 src={
-                  user?.avatar
-                    ? user.avatar
-                    : "/images/avatar-placeholder-man.png"
+                  user?.avatar ? user.avatar : "/images/avatar-placeholder.png"
                 }
                 alt=""
               />

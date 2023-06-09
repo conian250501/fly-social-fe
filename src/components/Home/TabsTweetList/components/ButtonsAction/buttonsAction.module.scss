@@ -1,0 +1,50 @@
+@import "../../../../../styles/mixins";
+@import "../../../../../styles/responsive";
+
+.btnList {
+}
+.btnItem {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 6px;
+  .iconItem {
+    width: 40px;
+    height: 40px;
+    border-radius: 100rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.25s linear;
+    &:hover {
+      background-color: rgba($color: #3f9cf0, $alpha: 0.5);
+      transition: all 0.25s linear;
+    }
+  }
+  .icon {
+    font-size: 20px;
+    flex: 1;
+    color: var(--dark-color-700);
+  }
+  span {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--dark-color-700);
+    margin-bottom: 0;
+  }
+  @include mobile {
+    gap: 2px;
+    .iconItem {
+      width: 20px;
+      height: 20px;
+      border-radius: 100rem;
+    }
+    .icon {
+      font-size: 16px;
+    }
+    span {
+      font-size: 12px;
+    }
+  }
+}

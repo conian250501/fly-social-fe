@@ -2,8 +2,12 @@
 @import "../../styles/mixins";
 
 .header {
-  position: sticky;
+  position: fixed;
+  left: 0;
+  bottom: 0;
   padding: 10px 12px;
+  width: 300px;
+  background-color: var(--white-color);
   height: 100vh;
   border-right: 1px solid #ccc;
   overflow-y: scroll;
@@ -13,6 +17,7 @@
   flex-direction: column;
   @include hidden-scrollbar;
   flex: 1;
+  z-index: 2;
 }
 
 .headerMobile {
@@ -261,7 +266,7 @@
   justify-content: space-between;
   align-items: center;
   background-color: var(--primary-color);
-  z-index: 2;
+  z-index: 100000;
   padding: 14px 16%;
   .title {
     font-size: 18px;
@@ -302,7 +307,6 @@
 
 @include tablet {
   .header {
-    overflow: visible;
     width: fit-content;
   }
   .menuList {

@@ -1,6 +1,6 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { IError, ITweet } from "../interface";
-import { create, getAll } from "./tweetAction";
+import { create, getAll, getById } from "./tweetAction";
 
 export interface IInitialState {
   tweets: ITweet[];
@@ -39,6 +39,14 @@ const tweetSlice = createSlice({
       getAll.fulfilled,
       (state, action: PayloadAction<ITweet[]>) => {
         state.tweets = action.payload;
+      }
+    );
+
+    // ====== GET DETAIL ======
+    builder.addCase(
+      getById.fulfilled,
+      (state, action: PayloadAction<ITweet>) => {
+        state.tweet = action.payload;
       }
     );
   },

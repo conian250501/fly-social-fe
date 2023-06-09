@@ -57,3 +57,16 @@ export const getAll = createAsyncThunk(
     }
   }
 );
+
+export const getById = createAsyncThunk(
+  "tweet/get-by-id",
+  async (id: number, { rejectWithValue }) => {
+    try {
+      const { data } = await axiosConfig.get(`/tweets/${id}`);
+      return data.data;
+    } catch (error) {
+      const err = error as AxiosError;
+      return rejectWithValue(err.response?.data);
+    }
+  }
+);

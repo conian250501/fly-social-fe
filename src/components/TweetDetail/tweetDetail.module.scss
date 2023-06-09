@@ -1,0 +1,92 @@
+@import "../../styles/mixins";
+@import "../../styles/responsive";
+
+.tweetDetailContainer {
+  padding: 20px;
+}
+.backLink {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 12px;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--dark-color-900);
+  text-decoration: none;
+  margin-bottom: 16px;
+  &:hover {
+    .iconBack {
+      background-color: rgba($color: #000000, $alpha: 0.2);
+    }
+    color: var(--dark-color-900);
+  }
+  .iconBack {
+    width: 40px;
+    height: 40px;
+    border-radius: 100rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .icon {
+    font-size: 24px;
+    color: var(--dark-color-900);
+  }
+}
+
+.userInfo {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  .avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 100rem;
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 100rem;
+    }
+  }
+  .name {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--dark-color-900);
+    margin-bottom: 0;
+  }
+  .nickname {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--dark-color-700);
+    margin-bottom: 0;
+  }
+  .dotIcon {
+    font-size: 20px;
+    cursor: pointer;
+    color: var(--dark-color-700);
+  }
+}
+.content {
+  width: 100%;
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--dark-color-900);
+  margin: 16px 0;
+}
+.image {
+  width: 100%;
+  border-radius: 10px;
+  object-fit: cover;
+}
+.dateCreated {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--dark-color-700);
+}
+.lineDivide {
+  width: 100%;
+  height: 0.5px;
+  background-color: var(--border-color-weight);
+  margin: 12px 0;
+}

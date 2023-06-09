@@ -1,3 +1,6 @@
+@import "../../../styles/mixins";
+@import "../../../styles/responsive";
+
 .noneText {
   text-align: center;
   font-size: 18px;
@@ -6,9 +9,6 @@
   margin-top: 40px;
 }
 .tweetList {
-  overflow-y: scroll;
-  overflow-x: hidden;
-  height: calc(100vh - 165px);
 }
 .tweetItem {
   display: flex;
@@ -17,6 +17,10 @@
   gap: 12px;
   padding: 16px;
   border-bottom: 1px solid var(--border-color-weight);
+  cursor: pointer;
+  &:hover {
+    background-color: var(--border-color-light);
+  }
   &:not(:first-child) {
     margin-top: 24px;
   }
@@ -32,6 +36,11 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
+    border-radius: 100rem;
+  }
+  @include mobile {
+    width: 40px;
+    height: 40px;
     border-radius: 100rem;
   }
 }
@@ -67,9 +76,13 @@
     font-weight: 500;
     color: var(--dark-color-900);
     white-space: pre-wrap;
+    margin-bottom: 16px;
   }
   .image {
     border-radius: 20px;
     cursor: pointer;
+    width: 100%;
+    object-fit: cover;
+    margin-bottom: 16px;
   }
 }

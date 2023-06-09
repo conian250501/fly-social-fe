@@ -6,10 +6,15 @@ import Loading from "../../Loading";
 import { RootState } from "@/app/redux/store";
 import styles from "./tweetList.module.scss";
 import moment from "moment";
+import ButtonsAction from "../TabsTweetList/components/ButtonsAction/ButtonsAction";
+import Link from "next/link";
+import { PATHS } from "@/contanst/paths";
+import { useRouter } from "next/navigation";
 
 type Props = {};
 
 const TweetList = (props: Props) => {
+  const router = useRouter();
   const dispatch = useAppDispatch();
   const [loadingGetAll, setLoadingGetAll] = useState<boolean>(false);
   const { tweets } = useAppSelector((state: RootState) => state.tweet);
@@ -26,10 +31,12 @@ const TweetList = (props: Props) => {
         console.log(error);
       }
     }
-    if (user) {
-      handleGetAllTweet();
-    }
+    handleGetAllTweet();
   }, []);
+
+  const handleMoveDetailPage = (tweetId: number) => {
+    router.push(`${PATHS.Tweets}/${tweetId}`);
+  };
 
   if (loadingGetAll) {
     return (
@@ -60,7 +67,10 @@ const TweetList = (props: Props) => {
                   className={styles.image}
                 />
               </div>
-              <div className={styles.tweetInfo}>
+              <div
+                className={styles.tweetInfo}
+                onClick={() => handleMoveDetailPage(tweet.id)}
+              >
                 <div className={styles.authorInfo}>
                   <h5 className={styles.name}>{tweet.user.name}</h5>
                   {tweet.user.nickname && (
@@ -73,9 +83,12 @@ const TweetList = (props: Props) => {
                 {tweet.content && (
                   <p className={styles.content}>{tweet.content}</p>
                 )}
-                {tweet.image && (
-                  <img src={tweet.image} alt="" className={styles.image} />
-                )}
+                <Link href={`${PATHS.Tweets}/${tweet.id}`}>
+                  {tweet.image && (
+                    <img src={tweet.image} alt="" className={styles.image} />
+                  )}
+                </Link>
+                <ButtonsAction tweet={tweet} />
               </div>
             </div>
           ))}

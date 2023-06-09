@@ -134,7 +134,7 @@ const CreateTweetForm = React.memo(({ show, handleClose }: Props) => {
           <div className={styles.avatar}>
             <img
               src={
-                user?.avatar ? user.avatar : "/images/avatar-placeholer-man.png"
+                user?.avatar ? user.avatar : "/images/avatar-placeholder-.png"
               }
               alt=""
             />

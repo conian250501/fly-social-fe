@@ -7,10 +7,12 @@ import { useEffect, useState } from "react";
 import { Col, Row } from "react-bootstrap";
 import { getUser } from "./features/auth/authAction";
 import styles from "./main.module.scss";
-import { useAppDispatch } from "./redux/hooks";
+import { useAppDispatch, useAppSelector } from "./redux/hooks";
 import { ETypeTabTweetList } from "@/components/interfaces";
-import TabsTweetList from "@/components/Home/TabsTweetList/TabsTweetList";
-import TweetListFollowing from "@/components/Home/TweetListFollowing/TweetListFollowing";
+import TabsTweetList from "@/components/Home/TabsTweetList";
+import TweetListFollowing from "@/components/Home/TweetListFollowing";
+import { RootState } from "./redux/store";
+import UserList from "@/components/Home/UserList/UserList";
 
 const Home = () => {
   const router = useRouter();
@@ -55,8 +57,9 @@ const Home = () => {
         <Col
           xs={12}
           sm={12}
-          md={7}
-          lg={7}
+          md={12}
+          lg={12}
+          xl={7}
           className={`${styles.homeWrapper} p-0`}
         >
           <h1 className={styles.heading}>Home</h1>
@@ -65,7 +68,7 @@ const Home = () => {
           {activeTab === ETypeTabTweetList.Following && <TweetListFollowing />}
         </Col>
         <Col xs={12} sm={12} md={5} lg={5}>
-          User list
+          <UserList />
         </Col>
       </Row>
     </GuestLayout>
