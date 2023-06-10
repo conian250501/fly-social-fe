@@ -19,6 +19,7 @@ import { RiEmotionHappyLine } from "react-icons/ri";
 import styles from "./createTweetForm.module.scss";
 import {
   create as createTweet,
+  getAll as getAllTweet,
   uploadFile,
 } from "@/app/features/tweet/tweetAction";
 import { setError } from "@/app/features/tweet/tweetSlice";
@@ -81,6 +82,8 @@ const CreateTweetForm = React.memo(({ show, handleClose }: Props) => {
             uploadFile({ id: newTweet.id, file: formData })
           ).unwrap();
         }
+        await dispatch(getAllTweet()).unwrap();
+
         setLoadingCreateTweet(false);
         resetForm();
         setIsFileChange(false);
@@ -134,7 +137,7 @@ const CreateTweetForm = React.memo(({ show, handleClose }: Props) => {
           <div className={styles.avatar}>
             <img
               src={
-                user?.avatar ? user.avatar : "/images/avatar-placeholder-.png"
+                user?.avatar ? user.avatar : "/images/avatar-placeholder.png"
               }
               alt=""
             />
@@ -158,6 +161,7 @@ const CreateTweetForm = React.memo(({ show, handleClose }: Props) => {
                   onClick={(e) => {
                     e.stopPropagation();
                     form.setFieldValue("isPrivate", false);
+                    setShowAudienceList(false);
                   }}
                 >
                   <div className={styles.audienceIcon}>
@@ -172,6 +176,7 @@ const CreateTweetForm = React.memo(({ show, handleClose }: Props) => {
                   onClick={(e) => {
                     e.stopPropagation();
                     form.setFieldValue("isPrivate", true);
+                    setShowAudienceList(false);
                   }}
                 >
                   <div className={styles.audienceIcon}>

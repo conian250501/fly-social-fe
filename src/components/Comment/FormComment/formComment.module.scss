@@ -39,4 +39,26 @@
     font-weight: 700;
     color: var(--white-color);
   }
+  .labelInputFileList {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 24px;
+  }
+  .inputFileItem {
+  }
+  .filePreview {
+    width: 100%;
+    object-fit: cover;
+    border-radius: 20px;
+    margin-top: 16px;
+  }
+  .labelInputFile {
+    display: block;
+    margin-bottom: 0;
+    cursor: pointer;
+    .icon {
+      font-size: 18px;
+    }
+  }
 }

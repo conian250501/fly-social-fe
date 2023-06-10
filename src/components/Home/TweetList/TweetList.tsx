@@ -1,15 +1,17 @@
 /* eslint-disable @next/next/no-img-element */
 import { getAll as getAllTweet } from "@/app/features/tweet/tweetAction";
 import { useAppDispatch, useAppSelector } from "@/app/redux/hooks";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import Loading from "../../Loading";
 import { RootState } from "@/app/redux/store";
 import styles from "./tweetList.module.scss";
 import moment from "moment";
-import ButtonsAction from "../TabsTweetList/components/ButtonsAction/ButtonsAction";
+import ButtonsAction from "../TabsTweetList/components/ButtonsAction";
 import Link from "next/link";
 import { PATHS } from "@/contanst/paths";
 import { useRouter } from "next/navigation";
+import ModalSuccess from "@/components/Modal/ModalSuccess";
+import { clearIsDeleted } from "@/app/features/tweet/tweetSlice";
 
 type Props = {};
 
@@ -17,7 +19,9 @@ const TweetList = (props: Props) => {
   const router = useRouter();
   const dispatch = useAppDispatch();
   const [loadingGetAll, setLoadingGetAll] = useState<boolean>(false);
-  const { tweets } = useAppSelector((state: RootState) => state.tweet);
+  const { tweets, isDeleted } = useAppSelector(
+    (state: RootState) => state.tweet
+  );
   const { user } = useAppSelector((state: RootState) => state.auth);
 
   useEffect(() => {
@@ -37,6 +41,9 @@ const TweetList = (props: Props) => {
   const handleMoveDetailPage = (tweetId: number) => {
     router.push(`${PATHS.Tweets}/${tweetId}`);
   };
+  const handleCloseModalSuccessDeletedTweet = useCallback(() => {
+    dispatch(clearIsDeleted());
+  }, []);
 
   if (loadingGetAll) {
     return (
@@ -94,6 +101,13 @@ const TweetList = (props: Props) => {
           ))}
         </>
       )}
+
+      {/* ====== MODALS ====== */}
+      <ModalSuccess
+        isOpen={isDeleted}
+        handleClose={handleCloseModalSuccessDeletedTweet}
+        message={`Deleted tweet successfully`}
+      />
     </div>
   );
 };

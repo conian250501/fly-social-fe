@@ -6,12 +6,14 @@ export interface IInitialState {
   tweets: ITweet[];
   tweet: ITweet | null;
   error: IError | null;
+  isDeleted: boolean;
 }
 
 const initialState: IInitialState = {
   tweets: [],
   tweet: null,
   error: null,
+  isDeleted: false,
 };
 
 const tweetSlice = createSlice({
@@ -23,6 +25,12 @@ const tweetSlice = createSlice({
     },
     clearError: (state) => {
       state.error = null;
+    },
+    deleteTweetSuccess: (state) => {
+      state.isDeleted = true;
+    },
+    clearIsDeleted: (state) => {
+      state.isDeleted = false;
     },
   },
   extraReducers(builder) {
@@ -52,6 +60,7 @@ const tweetSlice = createSlice({
   },
 });
 
-export const { setError, clearError } = tweetSlice.actions;
+export const { setError, clearError, deleteTweetSuccess, clearIsDeleted } =
+  tweetSlice.actions;
 
 export default tweetSlice.reducer;

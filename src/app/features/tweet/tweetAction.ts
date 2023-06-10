@@ -70,3 +70,16 @@ export const getById = createAsyncThunk(
     }
   }
 );
+
+export const deleteTweet = createAsyncThunk(
+  "tweet/delete",
+  async (id: number, { rejectWithValue }) => {
+    try {
+      const { data } = await axiosConfig.delete(`/tweets/${id}`);
+      return data.data;
+    } catch (error) {
+      const err = error as AxiosError;
+      return rejectWithValue(err.response?.data);
+    }
+  }
+);

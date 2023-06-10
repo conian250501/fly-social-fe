@@ -7,6 +7,7 @@ import { RootState } from "@/app/redux/store";
 import { BsThreeDots } from "react-icons/bs";
 import { useRouter } from "next/navigation";
 import { PATHS } from "@/contanst/paths";
+import { HiLogout } from "react-icons/hi";
 type Props = {};
 
 const UserInfo = React.memo((props: Props) => {
@@ -71,7 +72,12 @@ const UserInfo = React.memo((props: Props) => {
                 handleLogout();
               }}
             >
-              <span className="text-danger">Logout</span> @{user.name}
+              <div className={styles.iconWrapper}>
+                <HiLogout className={styles.icon} />
+              </div>
+              <div className={styles.text}>
+                <span className="text-danger">Logout</span> @{user.name}
+              </div>
             </li>
             <div className={styles.triangle}></div>
           </ul>
