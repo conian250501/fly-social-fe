@@ -15,8 +15,6 @@ import { RootState } from "./redux/store";
 import UserList from "@/components/Home/UserList/UserList";
 
 const Home = () => {
-  const router = useRouter();
-
   const dispatch = useAppDispatch();
   const [loading, setLoading] = useState<boolean>(true);
   const [activeTab, setActiveTab] = useState<ETypeTabTweetList>(
@@ -41,7 +39,7 @@ const Home = () => {
     } else {
       setLoading(false);
     }
-  }, [dispatch]);
+  }, []);
 
   if (loading) {
     return (

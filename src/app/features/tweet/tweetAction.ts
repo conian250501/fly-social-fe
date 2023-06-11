@@ -83,3 +83,29 @@ export const deleteTweet = createAsyncThunk(
     }
   }
 );
+
+export const likeTweet = createAsyncThunk(
+  "tweet/like",
+  async (id: number, { rejectWithValue }) => {
+    try {
+      const { data } = await axiosConfig.post(`/tweets/${id}/like`);
+      return data.data;
+    } catch (error) {
+      const err = error as AxiosError;
+      return rejectWithValue(err.response?.data);
+    }
+  }
+);
+
+export const disLikeTweet = createAsyncThunk(
+  "tweet/dislikess",
+  async (id: number, { rejectWithValue }) => {
+    try {
+      const { data } = await axiosConfig.post(`/tweets/${id}/dislike`);
+      return data.data;
+    } catch (error) {
+      const err = error as AxiosError;
+      return rejectWithValue(err.response?.data);
+    }
+  }
+);

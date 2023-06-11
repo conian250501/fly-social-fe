@@ -1,5 +1,6 @@
 import { IBaseTypes } from "./IBaseTypes";
 import { IUser } from "./auth.interface";
+import { ILike } from "./like.interface";
 
 export interface IPayloadTweet {
   content: string;
@@ -13,4 +14,5 @@ export interface ITweet extends IBaseTypes {
   image: string;
   video: string;
   user: IUser;
+  likes: ILike[];
 }

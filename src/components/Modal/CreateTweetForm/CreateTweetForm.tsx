@@ -1,6 +1,11 @@
 /* eslint-disable @next/next/no-img-element */
 /* eslint-disable react/display-name */
 import { IError, IPayloadTweet } from "@/app/features/interface";
+import {
+  create as createTweet,
+  getAll as getAllTweet,
+  uploadFile,
+} from "@/app/features/tweet/tweetAction";
 import { useAppDispatch, useAppSelector } from "@/app/redux/hooks";
 import { RootState } from "@/app/redux/store";
 import { useFormik } from "formik";
@@ -16,14 +21,9 @@ import { CgClose } from "react-icons/cg";
 import { FaAngleDown, FaUserSecret } from "react-icons/fa";
 import { GiWorld } from "react-icons/gi";
 import { RiEmotionHappyLine } from "react-icons/ri";
-import styles from "./createTweetForm.module.scss";
-import {
-  create as createTweet,
-  getAll as getAllTweet,
-  uploadFile,
-} from "@/app/features/tweet/tweetAction";
-import { setError } from "@/app/features/tweet/tweetSlice";
+import ModalError from "../ModalError";
 import ModalSuccess from "../ModalSuccess/ModalSuccess";
+import styles from "./createTweetForm.module.scss";
 type Props = {
   show: boolean;
   handleClose: () => void;
@@ -44,6 +44,7 @@ const CreateTweetForm = React.memo(({ show, handleClose }: Props) => {
     isPrivate: false,
   });
   const [isCreateSuccess, setIsCreateSuccess] = useState<boolean>(false);
+  const [error, setError] = useState<IError | null>(null);
 
   useEffect(() => {
     const handleCloseAudienceList = () => {
@@ -92,8 +93,7 @@ const CreateTweetForm = React.memo(({ show, handleClose }: Props) => {
         handleClose();
       } catch (error) {
         setLoadingCreateTweet(false);
-
-        dispatch(setError(error as IError));
+        setError(error as IError);
       }
     },
   });
@@ -116,6 +116,16 @@ const CreateTweetForm = React.memo(({ show, handleClose }: Props) => {
         isOpen={isCreateSuccess}
         handleClose={() => setIsCreateSuccess(false)}
         message="Created new tweet successfully"
+      />
+    );
+  }
+
+  if (error) {
+    return (
+      <ModalError
+        isOpen={Boolean(error)}
+        handleClose={() => setError(null)}
+        message={error.message}
       />
     );
   }

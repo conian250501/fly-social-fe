@@ -74,27 +74,29 @@ const TweetList = (props: Props) => {
                   className={styles.image}
                 />
               </div>
-              <div
-                className={styles.tweetInfo}
-                onClick={() => handleMoveDetailPage(tweet.id)}
-              >
-                <div className={styles.authorInfo}>
-                  <h5 className={styles.name}>{tweet.user.name}</h5>
-                  {tweet.user.nickname && (
-                    <p className={styles.nickname}>{tweet.user.nickname}</p>
+              <div className="w-100">
+                <div
+                  className={styles.tweetInfo}
+                  onClick={() => handleMoveDetailPage(tweet.id)}
+                >
+                  <div className={styles.authorInfo}>
+                    <h5 className={styles.name}>{tweet.user.name}</h5>
+                    {tweet.user.nickname && (
+                      <p className={styles.nickname}>{tweet.user.nickname}</p>
+                    )}
+                    <p className={styles.createdAt}>
+                      {moment(tweet.createdAt).fromNow()}
+                    </p>
+                  </div>
+                  {tweet.content && (
+                    <p className={styles.content}>{tweet.content}</p>
                   )}
-                  <p className={styles.createdAt}>
-                    {moment(tweet.createdAt).fromNow()}
-                  </p>
+                  <Link href={`${PATHS.Tweets}/${tweet.id}`}>
+                    {tweet.image && (
+                      <img src={tweet.image} alt="" className={styles.image} />
+                    )}
+                  </Link>
                 </div>
-                {tweet.content && (
-                  <p className={styles.content}>{tweet.content}</p>
-                )}
-                <Link href={`${PATHS.Tweets}/${tweet.id}`}>
-                  {tweet.image && (
-                    <img src={tweet.image} alt="" className={styles.image} />
-                  )}
-                </Link>
                 <ButtonsAction tweet={tweet} />
               </div>
             </div>

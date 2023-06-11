@@ -25,7 +25,8 @@
     border: none;
     font-size: 16px;
     font-weight: 500;
-    color: var(--dark-color-700);
+    color: var(--dark-color-900);
+    padding: 0;
     &:focus {
       border: none;
       box-shadow: none;
@@ -61,4 +62,7 @@
       font-size: 18px;
     }
   }
+}
+.formRight {
+  flex: 1;
 }

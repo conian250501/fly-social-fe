@@ -43,8 +43,8 @@ const FormComment = React.memo(({ tweet }: Props) => {
       <p className={styles.textReplyFor}>
         Replying to<span> @{tweet.user.name}</span>
       </p>
-      <div className="d-flex align-items-center justify-content-between">
-        <div className="d-flex align-items-start justify-content-start">
+      <div className="w-100">
+        <div className="d-flex align-items-start justify-content-start gap-3">
           <div className={styles.avatar}>
             <img
               src={
@@ -54,7 +54,7 @@ const FormComment = React.memo(({ tweet }: Props) => {
               className={styles.image}
             />
           </div>
-          <div>
+          <div className={styles.formRight}>
             <Form.Group className={styles.formGroup}>
               <Form.Control
                 type="text"
@@ -65,7 +65,7 @@ const FormComment = React.memo(({ tweet }: Props) => {
             {filePreview && (
               <img src={filePreview} alt="" className={styles.filePreview} />
             )}
-            <div className="d-flex align-items-center justify-content-between mt-3">
+            <div className="d-flex align-items-center justify-content-between mt-3 w-100">
               <Form.Group className={styles.labelInputFileList}>
                 <div className={styles.inputFileItem}>
                   <Form.Label
