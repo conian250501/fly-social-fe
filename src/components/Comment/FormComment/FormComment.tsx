@@ -2,44 +2,134 @@
 /* eslint-disable react/display-name */
 import React, { useState } from "react";
 import styles from "./formComment.module.scss";
-import { ITweet } from "@/app/features/interface";
+import {
+  IComment,
+  IError,
+  IPayloadComment,
+  ITweet,
+} from "@/app/features/interface";
 import { Button, Form } from "react-bootstrap";
-import { useAppSelector } from "@/app/redux/hooks";
+import { useAppDispatch, useAppSelector } from "@/app/redux/hooks";
 import { RootState } from "@/app/redux/store";
-import { AiOutlineGif, AiOutlineVideoCamera } from "react-icons/ai";
+import {
+  AiOutlineGif,
+  AiOutlineLoading,
+  AiOutlineVideoCamera,
+} from "react-icons/ai";
 import { RiEmotionHappyLine } from "react-icons/ri";
 import { BsFillImageFill } from "react-icons/bs";
 import { useFormik } from "formik";
+import { CgClose } from "react-icons/cg";
+import {
+  commentTweet,
+  updateComment,
+  uploadFileComment,
+} from "@/app/features/comment/commentAction";
+import { getById } from "@/app/features/tweet/tweetAction";
 type Props = {
   tweet: ITweet;
 };
 
 const FormComment = React.memo(({ tweet }: Props) => {
+  const dispatch = useAppDispatch();
   const { user } = useAppSelector((state: RootState) => state.auth);
-  const [filePreview, setFilePreview] = useState<string>("");
+  const [imagePreview, setImagePreview] = useState<string>("");
+  const [videoPreview, setVideoPreview] = useState<string>("");
   const [isFileChange, setIsFileChange] = useState<boolean>(false);
+  const [loadingComment, setLoadingComment] = useState<boolean>(false);
+  const [isDisabledBtnSubmit, setIsDisabledBtnSubmit] = useState<boolean>(true);
+  const [error, setError] = useState<IError | null>(null);
+  const [sizeAllowVideo, setSizeAllowVideo] = useState<number>(
+    10 * 1024 * 1024
+  );
 
-  const handleChangeFile = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const validate = (values: IPayloadComment) => {
+    const errors: { file: string; content: string } = { file: "", content: "" };
+    if (!values.content && !values.file) {
+      setIsDisabledBtnSubmit(true);
+      return (errors.content = `Disabled`);
+    } else {
+      setIsDisabledBtnSubmit(false);
+      return {};
+    }
+  };
+
+  const form = useFormik<IPayloadComment>({
+    initialValues: {
+      content: "",
+      tweetId: 0,
+      file: null,
+    },
+    validate,
+    async onSubmit(values, { resetForm }) {
+      const formData = new FormData();
+      formData.append("file", values.file as string);
+      try {
+        setLoadingComment(true);
+        const newComment: IComment = await dispatch(
+          commentTweet({
+            tweetId: tweet.id,
+            content: values.content,
+            file: null,
+          })
+        ).unwrap();
+        if (isFileChange) {
+          await dispatch(
+            uploadFileComment({ id: newComment.id, file: formData })
+          ).unwrap();
+        }
+
+        await dispatch(getById(tweet.id)).unwrap();
+
+        setLoadingComment(false);
+        resetForm();
+        setVideoPreview("");
+        setImagePreview("");
+        setIsFileChange(false);
+      } catch (error) {
+        setError(error as IError);
+        setLoadingComment(false);
+      }
+    },
+  });
+
+  const handleChangeImage = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
     if (!files) return;
     setIsFileChange(true);
-    setFilePreview(URL.createObjectURL(files[0]));
+    setImagePreview(URL.createObjectURL(files[0]));
+    setVideoPreview("");
     form.setFieldValue("file", files[0]);
   };
 
-  const form = useFormik({
-    initialValues: {
-      content: "",
-      file: "",
-    },
-    onSubmit(values, formikHelpers) {
-      try {
-        console.log({ values });
-      } catch (error) {}
-    },
-  });
+  const handleChangeVideo = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    if (!files) return;
+
+    if (files[0].size > sizeAllowVideo) {
+      form.setFieldError("file", `The video size must be until 10mb`);
+      return;
+    }
+    setIsFileChange(true);
+    setVideoPreview(URL.createObjectURL(files[0]));
+    setImagePreview("");
+    form.setFieldValue("file", files[0]);
+  };
+
+  const handleChangeContent = (e: React.ChangeEvent<HTMLInputElement>) => {
+    form.setFieldValue("content", e.target.value);
+  };
+  const handleDeleteImage = () => {
+    setImagePreview("");
+    form.setFieldValue("file", null);
+  };
+  const handleDeleteVideo = () => {
+    setVideoPreview("");
+    form.setFieldValue("file", null);
+  };
+
   return (
-    <Form className={styles.form}>
+    <Form className={styles.form} onSubmit={form.handleSubmit}>
       <p className={styles.textReplyFor}>
         Replying to<span> @{tweet.user.name}</span>
       </p>
@@ -59,11 +149,33 @@ const FormComment = React.memo(({ tweet }: Props) => {
               <Form.Control
                 type="text"
                 placeholder="Tweet your reply"
+                value={form.values.content}
+                onChange={handleChangeContent}
                 className={styles.formInput}
               />
             </Form.Group>
-            {filePreview && (
-              <img src={filePreview} alt="" className={styles.filePreview} />
+            {imagePreview && (
+              <div className="position-relative">
+                <div className={styles.deleteFile} onClick={handleDeleteImage}>
+                  <CgClose className={styles.icon} />
+                </div>
+                <img src={imagePreview} alt="" className={styles.filePreview} />
+              </div>
+            )}
+            {videoPreview && (
+              <div className="position-relative">
+                <div className={styles.deleteFile} onClick={handleDeleteVideo}>
+                  <CgClose className={styles.icon} />
+                </div>
+                <video
+                  controls
+                  src={videoPreview}
+                  className={styles.filePreview}
+                />
+              </div>
+            )}
+            {form.errors.file && (
+              <p className={styles.textErrorValidate}>{form.errors.file}</p>
             )}
             <div className="d-flex align-items-center justify-content-between mt-3 w-100">
               <Form.Group className={styles.labelInputFileList}>
@@ -79,13 +191,23 @@ const FormComment = React.memo(({ tweet }: Props) => {
                     id="input-file"
                     accept="image/*"
                     hidden
-                    onChange={handleChangeFile}
+                    onChange={handleChangeImage}
                   />
                 </div>
                 <div className={styles.inputFileItem}>
-                  <Form.Label className={styles.labelInputFile}>
+                  <Form.Label
+                    htmlFor="input-video"
+                    className={styles.labelInputFile}
+                  >
                     <AiOutlineVideoCamera className={styles.icon} />
                   </Form.Label>
+                  <Form.Control
+                    type="file"
+                    id="input-video"
+                    accept="video/*"
+                    hidden
+                    onChange={handleChangeVideo}
+                  />
                 </div>
                 <div className={styles.inputFileItem}>
                   <Form.Label className={styles.labelInputFile}>
@@ -98,8 +220,16 @@ const FormComment = React.memo(({ tweet }: Props) => {
                   </Form.Label>
                 </div>
               </Form.Group>
-              <Button type="submit" className={styles.btnSubmit}>
-                Reply
+              <Button
+                type="submit"
+                className={styles.btnSubmit}
+                disabled={isDisabledBtnSubmit || loadingComment}
+              >
+                {loadingComment ? (
+                  <AiOutlineLoading className={styles.iconLoading} />
+                ) : (
+                  "Reply"
+                )}
               </Button>
             </div>
           </div>

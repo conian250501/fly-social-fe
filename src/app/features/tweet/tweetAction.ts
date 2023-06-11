@@ -98,7 +98,7 @@ export const likeTweet = createAsyncThunk(
 );
 
 export const disLikeTweet = createAsyncThunk(
-  "tweet/dislikess",
+  "tweet/dislike",
   async (id: number, { rejectWithValue }) => {
     try {
       const { data } = await axiosConfig.post(`/tweets/${id}/dislike`);
