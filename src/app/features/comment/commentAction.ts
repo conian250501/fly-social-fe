@@ -38,7 +38,9 @@ export const updateComment = createAsyncThunk(
     { rejectWithValue }
   ) => {
     try {
-      const { data } = await axiosConfig.put(`/comments/${id}`, payload);
+      const { data } = await axiosConfig.put(`/comments/${id}`, {
+        content: payload.content,
+      });
       return data.data;
     } catch (error) {
       const err = error as AxiosError;
@@ -78,6 +80,19 @@ export const disLikeComment = createAsyncThunk(
   async (id: number, { rejectWithValue }) => {
     try {
       const { data } = await axiosConfig.post(`/comments/${id}/dislike`);
+      return data.data;
+    } catch (error) {
+      const err = error as AxiosError;
+      return rejectWithValue(err.response?.data);
+    }
+  }
+);
+
+export const getAllByTweet = createAsyncThunk(
+  "comment/get-all-by-tweet",
+  async (tweetId: number, { rejectWithValue }) => {
+    try {
+      const { data } = await axiosConfig.get(`/comments/${tweetId}`);
       return data.data;
     } catch (error) {
       const err = error as AxiosError;

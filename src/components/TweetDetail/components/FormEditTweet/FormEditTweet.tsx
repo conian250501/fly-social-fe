@@ -1,22 +1,21 @@
 /* eslint-disable @next/next/no-img-element */
 import { IError, IPayloadTweet, ITweet } from "@/app/features/interface";
-import React, { useState } from "react";
-import { Button, Form, Modal } from "react-bootstrap";
-import styles from "./formEditTweet.module.scss";
-import { useAppDispatch, useAppSelector } from "@/app/redux/hooks";
-import { RootState } from "@/app/redux/store";
-import { useFormik } from "formik";
-import { AiOutlineLoading } from "react-icons/ai";
-import { CgClose } from "react-icons/cg";
-import moment from "moment";
 import {
   getById,
   update as updateTweet,
 } from "@/app/features/tweet/tweetAction";
-import { GiWorld } from "react-icons/gi";
-import { FaAngleDown, FaUserSecret } from "react-icons/fa";
-import ModalSuccess from "@/components/Modal/ModalSuccess";
+import { useAppDispatch } from "@/app/redux/hooks";
 import ModalError from "@/components/Modal/ModalError";
+import ModalSuccess from "@/components/Modal/ModalSuccess";
+import { useFormik } from "formik";
+import moment from "moment";
+import { useState } from "react";
+import { Button, Form, Modal } from "react-bootstrap";
+import { AiOutlineLoading } from "react-icons/ai";
+import { CgClose } from "react-icons/cg";
+import { FaAngleDown, FaUserSecret } from "react-icons/fa";
+import { GiWorld } from "react-icons/gi";
+import styles from "./formEditTweet.module.scss";
 
 type Props = {
   open: boolean;

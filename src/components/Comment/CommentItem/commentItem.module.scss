@@ -67,7 +67,6 @@
     font-weight: 500;
     color: var(--dark-color-900);
     white-space: pre-wrap;
-    margin-bottom: 16px;
     margin-top: 16px;
   }
   .image {
@@ -76,9 +75,69 @@
     width: 100%;
     object-fit: cover;
     margin-bottom: 16px;
+    margin-top: 16px;
   }
+}
+.btnDot {
+  background-color: transparent;
+  border: none;
 }
 .dotIcon {
   font-size: 20px;
   color: var(--dark-color-700);
+}
+.popover {
+  border: none;
+  border-radius: 20px;
+}
+.menuSettingList {
+  @include resetList;
+  padding: 16px;
+  width: fit-content;
+  background-color: var(--white-color);
+  box-shadow: var(--shadow-popover);
+  border-radius: 20px;
+}
+.menuSettingItem {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px 12px;
+  gap: 8px;
+  cursor: pointer;
+  border-radius: 10px;
+  @include transition(0.2s, linear);
+  &:hover {
+    @include transition(0.2s, linear);
+    background-color: var(--border-color-light);
+  }
+  &.update {
+    &:hover {
+      span,
+      .icon {
+        color: var(--primary-color);
+      }
+    }
+  }
+  &.delete {
+    &:hover {
+      span,
+      .icon {
+        color: var(--error-color);
+      }
+    }
+  }
+  .settingIcon {
+    width: 16px;
+  }
+  .icon {
+    font-size: 16px;
+  }
+  span {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--dark-color-900);
+    white-space: nowrap;
+    flex: 1;
+  }
 }

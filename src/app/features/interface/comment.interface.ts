@@ -20,6 +20,6 @@ export interface IComment extends IBaseTypes {
 
 export interface IPayloadComment {
   content: string;
-  file: string | File | null;
-  tweetId: number;
+  file?: string | File | null;
+  tweetId?: number;
 }

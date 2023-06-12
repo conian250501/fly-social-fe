@@ -1,4 +1,4 @@
-export enum ETypeTweetSetting {
+export enum ETypeCommentSetting {
   Update = "Update",
   Delete = "Delete",
 }

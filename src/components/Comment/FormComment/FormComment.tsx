@@ -22,6 +22,7 @@ import { useFormik } from "formik";
 import { CgClose } from "react-icons/cg";
 import {
   commentTweet,
+  getAllByTweet,
   updateComment,
   uploadFileComment,
 } from "@/app/features/comment/commentAction";
@@ -80,6 +81,7 @@ const FormComment = React.memo(({ tweet }: Props) => {
         }
 
         await dispatch(getById(tweet.id)).unwrap();
+        await dispatch(getAllByTweet(tweet.id)).unwrap();
 
         setLoadingComment(false);
         resetForm();
@@ -147,6 +149,7 @@ const FormComment = React.memo(({ tweet }: Props) => {
           <div className={styles.formRight}>
             <Form.Group className={styles.formGroup}>
               <Form.Control
+                as="textarea"
                 type="text"
                 placeholder="Tweet your reply"
                 value={form.values.content}
