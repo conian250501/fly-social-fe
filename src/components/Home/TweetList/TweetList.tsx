@@ -74,7 +74,7 @@ const TweetList = (props: Props) => {
                   className={styles.image}
                 />
               </div>
-              <div>
+              <div className={styles.tweetInfoWrapper}>
                 <div
                   className={styles.tweetInfo}
                   onClick={() => handleMoveDetailPage(tweet.id)}

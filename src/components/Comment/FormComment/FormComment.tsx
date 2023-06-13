@@ -43,6 +43,7 @@ const FormComment = React.memo(({ tweet }: Props) => {
   const [sizeAllowVideo, setSizeAllowVideo] = useState<number>(
     10 * 1024 * 1024
   );
+  const [progressPercentage, setProgressPercentage] = useState<number>(0);
 
   const validate = (values: IPayloadComment) => {
     const errors: { file: string; content: string } = { file: "", content: "" };
@@ -120,6 +121,7 @@ const FormComment = React.memo(({ tweet }: Props) => {
 
   const handleChangeContent = (e: React.ChangeEvent<HTMLInputElement>) => {
     form.setFieldValue("content", e.target.value);
+    setProgressPercentage((e.target.value.length / 100) * 100);
   };
   const handleDeleteImage = () => {
     setImagePreview("");
@@ -147,7 +149,7 @@ const FormComment = React.memo(({ tweet }: Props) => {
             />
           </div>
           <div className={styles.formRight}>
-            <Form.Group className={styles.formGroup}>
+            <Form.Group className={`${styles.formGroup} position-relative`}>
               <Form.Control
                 as="textarea"
                 type="text"
@@ -155,7 +157,18 @@ const FormComment = React.memo(({ tweet }: Props) => {
                 value={form.values.content}
                 onChange={handleChangeContent}
                 className={styles.formInput}
+                maxLength={100}
               />
+              <div className="d-flex align-items-center justify-content-end w-100 mt-4">
+                <div
+                  className={styles.progressLimitContent}
+                  style={{
+                    backgroundImage: `conic-gradient(#3f9cf0 ${progressPercentage}%, lightgray 0)`,
+                  }}
+                >
+                  <div className={styles.circle}></div>
+                </div>
+              </div>
             </Form.Group>
             {imagePreview && (
               <div className="position-relative">

@@ -45,6 +45,7 @@ const CreateTweetForm = React.memo(({ show, handleClose }: Props) => {
   });
   const [isCreateSuccess, setIsCreateSuccess] = useState<boolean>(false);
   const [error, setError] = useState<IError | null>(null);
+  const [progressPercentage, setProgressPercentage] = useState<number>(0);
 
   useEffect(() => {
     const handleCloseAudienceList = () => {
@@ -198,36 +199,48 @@ const CreateTweetForm = React.memo(({ show, handleClose }: Props) => {
             )}
           </div>
         </div>
-        <Form.Group className={styles.formGroup}>
+        <Form.Group className={`${styles.formGroup} position-relative`}>
           <Form.Control
             as="textarea"
             placeholder="What is happening?"
             className={styles.formInput}
             value={form.values.content}
+            maxLength={100}
             name="content"
-            onChange={form.handleChange}
+            onChange={(e) => {
+              setProgressPercentage((form.values.content.length / 100) * 100);
+              form.setFieldValue("content", e.target.value);
+            }}
           />
-          {filePreview && (
-            <div className="position-relative">
-              <div className={styles.deleteFile} onClick={handleDeleteFile}>
-                <CgClose className={styles.icon} />
-              </div>
-              <img src={filePreview} alt="" className={styles.filePreview} />
-            </div>
-          )}
+          <div
+            className={styles.progressLimitContent}
+            style={{
+              backgroundImage: `conic-gradient(#3f9cf0 ${progressPercentage}%, lightgray 0)`,
+            }}
+          >
+            <div className={styles.circle}></div>
+          </div>
         </Form.Group>
+        {filePreview && (
+          <div className="position-relative">
+            <div className={styles.deleteFile} onClick={handleDeleteFile}>
+              <CgClose className={styles.icon} />
+            </div>
+            <img src={filePreview} alt="" className={styles.filePreview} />
+          </div>
+        )}
         <div className="d-flex align-items-center justify-content-between">
           <div className="d-flex align-items-center justify-content-center gap-4">
             <div className={styles.inputFileItem}>
               <Form.Label
                 className={styles.labelInputFile}
-                htmlFor="input-file"
+                htmlFor="input-image-tweet"
               >
                 <BsFillImageFill className={styles.icon} />
               </Form.Label>
               <Form.Control
                 type="file"
-                id="input-file"
+                id="input-image-tweet"
                 accept="image/*"
                 hidden
                 onChange={handleChangeFile}

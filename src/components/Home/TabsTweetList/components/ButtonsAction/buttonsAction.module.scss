@@ -11,8 +11,15 @@
   .icon {
     font-size: 20px;
     flex: 1;
-    color: var(--dark-color-700);
     cursor: pointer;
+    color: var(--dark-color-700);
+
+    &.saved {
+      color: var(--dark-color-900) !important;
+    }
+    &.unsaved {
+      color: var(--dark-color-700);
+    }
   }
   span {
     font-size: 14px;
@@ -56,17 +63,7 @@
     }
   }
 }
-@keyframes LikedAnimation {
-  0% {
-    background-position: left;
-  }
-  50% {
-    background-position: right;
-  }
-  100% {
-    background-position: right;
-  }
-}
+
 .lineDivide {
   height: 1px;
   width: 100%;
@@ -95,5 +92,16 @@
     font-size: 12px;
     font-weight: 500;
     color: var(--dark-color-700);
+  }
+}
+@keyframes LikedAnimation {
+  0% {
+    background-position: left;
+  }
+  50% {
+    background-position: right;
+  }
+  100% {
+    background-position: right;
   }
 }

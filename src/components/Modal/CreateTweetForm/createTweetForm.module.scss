@@ -26,6 +26,24 @@
       font-size: 20px;
     }
   }
+  .progressLimitContent {
+    position: absolute;
+    bottom: 12px;
+    right: 12px;
+    border-radius: 100rem;
+    width: 30px;
+    height: 30px;
+    border-radius: 100rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .circle {
+      width: 20px;
+      height: 20px;
+      border-radius: 100rem;
+      background-color: var(--white-color);
+    }
+  }
   .deleteFile {
     position: absolute;
     top: 16px;

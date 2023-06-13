@@ -2,6 +2,7 @@ import { IBaseTypes } from "./IBaseTypes";
 import { IUser } from "./auth.interface";
 import { ILike } from "./like.interface";
 import { IComment } from "./comment.interface";
+import { IStorageTweet } from "./storageTweet.interface";
 
 export interface IPayloadTweet {
   content: string;
@@ -17,4 +18,5 @@ export interface ITweet extends IBaseTypes {
   user: IUser;
   likes: ILike[];
   comments: IComment[];
+  storageTweets: IStorageTweet[];
 }

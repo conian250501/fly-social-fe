@@ -39,6 +39,21 @@
     align-items: center;
     gap: 24px;
   }
+  .progressLimitContent {
+    border-radius: 100rem;
+    width: 30px;
+    height: 30px;
+    border-radius: 100rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .circle {
+      width: 20px;
+      height: 20px;
+      border-radius: 100rem;
+      background-color: var(--white-color);
+    }
+  }
   .inputFileItem {
   }
   .deleteFile {

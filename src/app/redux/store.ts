@@ -1,12 +1,14 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
-import authSlice from "../features/auth/authSlice";
-import commentSlice from "../features/comment/commentSlice";
+import authReducer from "../features/auth/authSlice";
+import commentReducer from "../features/comment/commentSlice";
+import storageTweetReducer from "../features/storageTweet/storageTweetSlice";
 import tweetReducer from "../features/tweet/tweetSlice";
 
 const rootReducer = combineReducers({
-  auth: authSlice,
+  auth: authReducer,
   tweet: tweetReducer,
-  comment: commentSlice,
+  comment: commentReducer,
+  storage: storageTweetReducer,
 });
 
 export const store = configureStore({

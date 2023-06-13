@@ -1,4 +1,5 @@
 import { IBaseTypes } from "../interface/IBaseTypes";
+import { IStorageTweet } from "./storageTweet.interface";
 
 export interface IPayloadLogin {
   email: string;
@@ -20,6 +21,7 @@ export interface IUser extends IBaseTypes {
   phone: string;
   nickname: string;
   token: string;
+  storageTweets: IStorageTweet[];
 }
 
 export interface IPayloadResetPass {
