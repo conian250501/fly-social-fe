@@ -13,6 +13,7 @@ import TabsTweetList from "@/components/Home/TabsTweetList";
 import TweetListFollowing from "@/components/Home/TweetListFollowing";
 import { RootState } from "./redux/store";
 import UserList from "@/components/Home/UserList/UserList";
+import LayoutWithNews from "@/Layouts/LayoutWithNews";
 
 const Home = () => {
   const dispatch = useAppDispatch();
@@ -20,6 +21,7 @@ const Home = () => {
   const [activeTab, setActiveTab] = useState<ETypeTabTweetList>(
     ETypeTabTweetList.ForYou
   );
+  const { tweets } = useAppSelector((state: RootState) => state.tweet);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -51,24 +53,14 @@ const Home = () => {
 
   return (
     <GuestLayout>
-      <Row className={styles.mainPage}>
-        <Col
-          xs={12}
-          sm={12}
-          md={12}
-          lg={12}
-          xl={7}
-          className={`${styles.homeWrapper} p-0`}
-        >
-          <h1 className={styles.heading}>Home</h1>
-          <TabsTweetList activeTab={activeTab} changeActiveTab={setActiveTab} />
-          {activeTab === ETypeTabTweetList.ForYou && <TweetList />}
-          {activeTab === ETypeTabTweetList.Following && <TweetListFollowing />}
-        </Col>
-        <Col xs={12} sm={12} md={5} lg={5}>
-          <UserList />
-        </Col>
-      </Row>
+      <LayoutWithNews>
+        <h1 className={styles.heading}>Home</h1>
+        <TabsTweetList activeTab={activeTab} changeActiveTab={setActiveTab} />
+        {activeTab === ETypeTabTweetList.ForYou && (
+          <TweetList tweets={tweets} />
+        )}
+        {activeTab === ETypeTabTweetList.Following && <TweetListFollowing />}
+      </LayoutWithNews>
     </GuestLayout>
   );
 };

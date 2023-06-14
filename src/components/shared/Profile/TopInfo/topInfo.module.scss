@@ -1,0 +1,124 @@
+@import "../../../../styles/mixins";
+@import "../../../../styles/responsive";
+
+.coverImage {
+  width: 100%;
+  height: 300px;
+  img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+  }
+  .placeholderCover {
+    height: 100%;
+    width: 100%;
+    background-color: var(--border-color-light);
+  }
+  @include mobile {
+    height: 180px;
+  }
+}
+.actionInfo {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  height: 80px;
+}
+.avatar {
+  position: absolute;
+  top: -70px;
+  left: 16px;
+  img {
+    width: 140px;
+    height: 140px;
+    border-radius: 100rem;
+    object-fit: cover;
+    border: 4px solid var(--white-color);
+  }
+  @include mobile {
+    top: -50px;
+    img {
+      width: 100px;
+      height: 100px;
+      border-radius: 100rem;
+    }
+  }
+}
+.btnWrapper {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  width: 100%;
+  padding-right: 16px;
+}
+.btn {
+  padding: 10px 20px;
+  border-radius: 100rem;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--dark-color-900);
+  border: 1px solid var(--border-color-light);
+  background-color: transparent;
+
+  &.editProfile {
+  }
+  &.follow {
+  }
+  @include mobile {
+    font-size: 12px;
+  }
+}
+
+.generalInfo {
+  padding: 0 16px;
+  padding-bottom: 24px;
+  .name {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--dark-color-900);
+    margin-bottom: 4px;
+  }
+  .nickname {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--dark-color-700);
+    margin-bottom: 0;
+  }
+  .bio {
+    width: 90%;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--dark-color-900);
+    margin: 14px 0;
+  }
+  .countFollow {
+    span {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--dark-color-900);
+    }
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--dark-color-700);
+    text-decoration: none;
+  }
+  @include mobile {
+    .name {
+      font-size: 14px;
+    }
+    .nickname {
+      font-size: 10px;
+    }
+    .bio {
+      font-size: 10px;
+      margin: 8px 0;
+    }
+    .countFollow {
+      span {
+        font-size: 14px;
+      }
+      font-size: 12px;
+    }
+  }
+}

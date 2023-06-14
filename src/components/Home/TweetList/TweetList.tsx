@@ -12,16 +12,15 @@ import { PATHS } from "@/contanst/paths";
 import { useRouter } from "next/navigation";
 import ModalSuccess from "@/components/Modal/ModalSuccess";
 import { clearIsDeleted } from "@/app/features/tweet/tweetSlice";
+import { ITweet } from "@/app/features/interface";
 
-type Props = {};
+type Props = { tweets: ITweet[] };
 
-const TweetList = (props: Props) => {
+const TweetList = ({ tweets }: Props) => {
   const router = useRouter();
   const dispatch = useAppDispatch();
   const [loadingGetAll, setLoadingGetAll] = useState<boolean>(false);
-  const { tweets, isDeleted } = useAppSelector(
-    (state: RootState) => state.tweet
-  );
+  const { isDeleted } = useAppSelector((state: RootState) => state.tweet);
   const { user } = useAppSelector((state: RootState) => state.auth);
 
   useEffect(() => {

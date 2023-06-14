@@ -12,4 +12,8 @@ export const PATHS = {
   Connect: "/connect",
   Profile: "/profile",
   Tweets: "/tweets",
+  ProfileFollowing: "/profile/following",
+  ProfileFollower: "/profile/followers",
+  ProfileTweetsLike: "/profile/tweets-liked",
+  ProfileTweetsSaved: "/profile/tweets-saved",
 };
