@@ -21,21 +21,6 @@ const TweetList = ({ tweets }: Props) => {
   const dispatch = useAppDispatch();
   const [loadingGetAll, setLoadingGetAll] = useState<boolean>(false);
   const { isDeleted } = useAppSelector((state: RootState) => state.tweet);
-  const { user } = useAppSelector((state: RootState) => state.auth);
-
-  useEffect(() => {
-    async function handleGetAllTweet() {
-      try {
-        setLoadingGetAll(true);
-        await dispatch(getAllTweet());
-        setLoadingGetAll(false);
-      } catch (error) {
-        setLoadingGetAll(false);
-        console.log(error);
-      }
-    }
-    handleGetAllTweet();
-  }, []);
 
   const handleMoveDetailPage = (tweetId: number) => {
     router.push(`${PATHS.Tweets}/${tweetId}`);
@@ -62,7 +47,10 @@ const TweetList = ({ tweets }: Props) => {
         <>
           {tweets.map((tweet) => (
             <div key={tweet.id} className={styles.tweetItem}>
-              <div className={styles.avatarAuthor}>
+              <Link
+                href={`${PATHS.Profile}/${tweet.user.id}`}
+                className={styles.avatarAuthor}
+              >
                 <img
                   src={
                     tweet.user.avatar
@@ -72,21 +60,24 @@ const TweetList = ({ tweets }: Props) => {
                   alt=""
                   className={styles.image}
                 />
-              </div>
+              </Link>
               <div className={styles.tweetInfoWrapper}>
+                <Link
+                  href={`${PATHS.Profile}/${tweet.user.id}`}
+                  className={styles.authorInfo}
+                >
+                  <h5 className={styles.name}>{tweet.user.name}</h5>
+                  {tweet.user.nickname && (
+                    <p className={styles.nickname}>{tweet.user.nickname}</p>
+                  )}
+                  <p className={styles.createdAt}>
+                    {moment(tweet.createdAt).fromNow()}
+                  </p>
+                </Link>
                 <div
                   className={styles.tweetInfo}
                   onClick={() => handleMoveDetailPage(tweet.id)}
                 >
-                  <div className={styles.authorInfo}>
-                    <h5 className={styles.name}>{tweet.user.name}</h5>
-                    {tweet.user.nickname && (
-                      <p className={styles.nickname}>{tweet.user.nickname}</p>
-                    )}
-                    <p className={styles.createdAt}>
-                      {moment(tweet.createdAt).fromNow()}
-                    </p>
-                  </div>
                   {tweet.content && (
                     <p className={styles.content}>{tweet.content}</p>
                   )}

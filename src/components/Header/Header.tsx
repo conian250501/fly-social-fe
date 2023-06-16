@@ -62,7 +62,7 @@ const Header = React.memo(function Header(props: Props) {
       id: nanoid(),
       title: "Profile",
       icon: <FaRegUser className={styles.icon} />,
-      link: PATHS.Profile,
+      link: `${PATHS.Profile}/${user?.id}`,
     },
   ]);
 
@@ -89,7 +89,7 @@ const Header = React.memo(function Header(props: Props) {
       id: nanoid(),
       title: "Profile",
       icon: <FaRegUser className={styles.icon} />,
-      link: PATHS.Profile,
+      link: `${PATHS.Profile}/${user?.id}`,
     },
   ]);
 

@@ -1,3 +1,5 @@
+import { useAppSelector } from "@/app/redux/hooks";
+import { RootState } from "@/app/redux/store";
 import {
   ETypeTabProfile,
   ITabProfile,
@@ -11,37 +13,39 @@ import styles from "./tabsProfile.module.scss";
 type Props = {};
 
 const TabsProfile = (props: Props) => {
+  const { user } = useAppSelector((state: RootState) => state.user);
+
   const path = usePathname();
+  console.log({ path });
   const [tabs, setTabs] = useState<ITabProfile[]>([
     {
       id: nanoid(),
       type: ETypeTabProfile.Tweets,
-      link: PATHS.Profile,
+      link: `${PATHS.Profile}/${user?.id}`,
     },
     {
       id: nanoid(),
       type: ETypeTabProfile.Likes,
-      link: PATHS.ProfileTweetsLike,
+      link: `${PATHS.Profile}/${user?.id}${PATHS.ProfileTweetsLike}`,
     },
     {
       id: nanoid(),
       type: ETypeTabProfile.Saved,
-      link: PATHS.ProfileTweetsSaved,
+      link: `${PATHS.Profile}/${user?.id}${PATHS.ProfileTweetsSaved}`,
     },
   ]);
   return (
     <div className={styles.tabList}>
       {tabs.map((tab) => (
-        <div
+        <Link
+          href={tab.link}
           className={`${styles.tabItem} ${
-            path.startsWith(tab.link) ? styles.active : ""
+            path === tab.link ? styles.active : ""
           }`}
           key={tab.id}
         >
-          <Link href={tab.link} className={styles.tabLink}>
-            {tab.type}
-          </Link>
-        </div>
+          {tab.type}
+        </Link>
       ))}
     </div>
   );

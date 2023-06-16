@@ -62,7 +62,7 @@ const TopInfo = ({ user }: Props) => {
           <p className={styles.bio}>
             {user?.bio}Consultant. Sharing coding tips. I help devs grow.
             Teaching software dev: http://pluralsight.com Helping teams switch
-            to React: http://reactjsconsulting.com{" "}
+            to React: http://reactjsconsulting.coms
           </p>
         )}
 

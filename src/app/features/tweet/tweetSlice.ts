@@ -1,19 +1,25 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { IError, ITweet } from "../interface";
-import { create, getAll, getById } from "./tweetAction";
+import { create, getAll, getAllTweetByUser, getById } from "./tweetAction";
 
 export interface IInitialState {
   tweets: ITweet[];
+  tweetsOfUser: ITweet[];
   tweet: ITweet | null;
   error: IError | null;
   isDeleted: boolean;
+  page: number;
+  totalPage: number;
 }
 
 const initialState: IInitialState = {
   tweets: [],
+  tweetsOfUser: [],
   tweet: null,
   error: null,
   isDeleted: false,
+  page: 0,
+  totalPage: 0,
 };
 
 const tweetSlice = createSlice({
@@ -55,6 +61,23 @@ const tweetSlice = createSlice({
       getById.fulfilled,
       (state, action: PayloadAction<ITweet>) => {
         state.tweet = action.payload;
+      }
+    );
+
+    // ====== GET ALL BY USER =====
+    builder.addCase(
+      getAllTweetByUser.fulfilled,
+      (
+        state,
+        action: PayloadAction<{
+          tweets: ITweet[];
+          page: number;
+          totalPage: number;
+        }>
+      ) => {
+        state.totalPage = action.payload.totalPage;
+        state.page = action.payload.page;
+        state.tweetsOfUser = action.payload.tweets;
       }
     );
   },

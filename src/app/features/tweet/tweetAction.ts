@@ -1,7 +1,8 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { IPayloadTweet } from "../interface";
+import { IBaseFilter, IPayloadTweet } from "../interface";
 import { AxiosError } from "axios";
 import axiosConfig from "@/config/axiosConfig";
+import queryString from "query-string";
 
 export const create = createAsyncThunk(
   "tweet/create",
@@ -102,6 +103,50 @@ export const disLikeTweet = createAsyncThunk(
   async (id: number, { rejectWithValue }) => {
     try {
       const { data } = await axiosConfig.post(`/tweets/${id}/dislike`);
+      return data.data;
+    } catch (error) {
+      const err = error as AxiosError;
+      return rejectWithValue(err.response?.data);
+    }
+  }
+);
+
+export const getAllTweetByUser = createAsyncThunk(
+  "tweet/get-all-by-user",
+  async (
+    { userId, filter }: { userId: number; filter: IBaseFilter },
+    { rejectWithValue }
+  ) => {
+    try {
+      const query = queryString.stringify({
+        limit: filter.limit || 2,
+        page: filter.page || 1,
+      });
+      const { data } = await axiosConfig.get(
+        `/tweets/get-by-user/${userId}?${query}`
+      );
+      return data.data;
+    } catch (error) {
+      const err = error as AxiosError;
+      return rejectWithValue(err.response?.data);
+    }
+  }
+);
+
+export const getAllTweetsSaved = createAsyncThunk(
+  "tweet/get-all-saved",
+  async (
+    { userId, filter }: { userId: number; filter: IBaseFilter },
+    { rejectWithValue }
+  ) => {
+    try {
+      const query = queryString.stringify({
+        limit: filter.limit || 2,
+        page: filter.page || 1,
+      });
+      const { data } = await axiosConfig.get(
+        `/tweets/saved/${userId}?${query}`
+      );
       return data.data;
     } catch (error) {
       const err = error as AxiosError;

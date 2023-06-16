@@ -28,7 +28,7 @@ import { deleteTweetSuccess } from "@/app/features/tweet/tweetSlice";
 type Props = { tweet: ITweet | null };
 
 const TweetDetail = ({ tweet }: Props) => {
-  const { isAuthor } = useCheckAuthor(Number(tweet?.user?.id));
+  const { isAuthor } = useCheckAuthor(Number(tweet?.user.id));
   const dispatch = useAppDispatch();
   const router = useRouter();
 

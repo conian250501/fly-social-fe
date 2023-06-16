@@ -3,12 +3,14 @@ import authReducer from "../features/auth/authSlice";
 import commentReducer from "../features/comment/commentSlice";
 import storageTweetReducer from "../features/storageTweet/storageTweetSlice";
 import tweetReducer from "../features/tweet/tweetSlice";
+import userReducer from "../features/user/userSlice";
 
 const rootReducer = combineReducers({
   auth: authReducer,
   tweet: tweetReducer,
   comment: commentReducer,
   storage: storageTweetReducer,
+  user: userReducer,
 });
 
 export const store = configureStore({

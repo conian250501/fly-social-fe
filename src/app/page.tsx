@@ -1,19 +1,17 @@
 "use client";
-import GuestLayout from "@/Layouts/GuestLayout/GuestLayout";
-import Loading from "@/components/Loading/Loading";
+import TabsTweetList from "@/components/Home/TabsTweetList";
 import TweetList from "@/components/Home/TweetList";
-import { useRouter } from "next/navigation";
+import TweetListFollowing from "@/components/Home/TweetListFollowing";
+import { ETypeTabTweetList } from "@/components/interfaces";
+import Loading from "@/components/Loading/Loading";
+import GuestLayout from "@/Layouts/GuestLayout/GuestLayout";
+import LayoutWithNews from "@/Layouts/LayoutWithNews";
 import { useEffect, useState } from "react";
-import { Col, Row } from "react-bootstrap";
 import { getUser } from "./features/auth/authAction";
+import { getAll as getAllTweet } from "./features/tweet/tweetAction";
 import styles from "./main.module.scss";
 import { useAppDispatch, useAppSelector } from "./redux/hooks";
-import { ETypeTabTweetList } from "@/components/interfaces";
-import TabsTweetList from "@/components/Home/TabsTweetList";
-import TweetListFollowing from "@/components/Home/TweetListFollowing";
 import { RootState } from "./redux/store";
-import UserList from "@/components/Home/UserList/UserList";
-import LayoutWithNews from "@/Layouts/LayoutWithNews";
 
 const Home = () => {
   const dispatch = useAppDispatch();
@@ -41,6 +39,10 @@ const Home = () => {
     } else {
       setLoading(false);
     }
+  }, []);
+
+  useEffect(() => {
+    dispatch(getAllTweet());
   }, []);
 
   if (loading) {
