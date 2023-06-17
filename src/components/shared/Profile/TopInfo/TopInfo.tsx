@@ -5,8 +5,10 @@ import { PATHS } from "@/contanst/paths";
 import { useCheckIsMe } from "@/hooks/useCheckIsMe";
 import Link from "next/link";
 import React, { FC, useState } from "react";
-import { Button } from "react-bootstrap";
+import { AiOutlineLink } from "react-icons/ai";
+import { MdOutlineLocationOn } from "react-icons/md";
 import styles from "./topInfo.module.scss";
+
 type Props = {
   user: IUser | null;
 };
@@ -58,16 +60,29 @@ const TopInfo = ({ user }: Props) => {
 
       <div className={styles.generalInfo}>
         <h1 className={styles.name}>{user?.name}</h1>
-        {!user?.nickname && (
-          <p className={styles.nickname}>{user?.nickname}asdads</p>
-        )}
-        {!user?.bio && (
-          <p className={styles.bio}>
-            {user?.bio}Consultant. Sharing coding tips. I help devs grow.
-            Teaching software dev: http://pluralsight.com Helping teams switch
-            to React: http://reactjsconsulting.coms
-          </p>
-        )}
+        {user?.nickname && <p className={styles.nickname}>@{user?.nickname}</p>}
+        {user?.bio && <p className={styles.bio}>{user?.bio}</p>}
+
+        <div className="d-flex align-items-center justify-content-start gap-3 mb-4">
+          {user?.address && (
+            <div className={styles.address}>
+              <MdOutlineLocationOn className={styles.icon} />
+              <p className={styles.text}>{user.address}</p>
+            </div>
+          )}
+          {user?.website && (
+            <div className={styles.website}>
+              <AiOutlineLink className={styles.icon} />
+              <a
+                href={`https://${user.website}`}
+                target="_blank"
+                className={styles.text}
+              >
+                {user.website}
+              </a>
+            </div>
+          )}
+        </div>
 
         <div className="d-flex align-items-center justify-content-start gap-4">
           <Link href={PATHS.ProfileFollowing} className={styles.countFollow}>

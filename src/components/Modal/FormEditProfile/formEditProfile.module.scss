@@ -172,7 +172,13 @@
     }
   }
 }
+
+.textErrorValidate {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--error-color);
+}
 .iconLoading {
-  font-size: 24px;
+  font-size: 20px;
   animation: Rotate 0.5s linear infinite;
 }

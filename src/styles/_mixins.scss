@@ -27,6 +27,9 @@
     display: none; /* for Chrome, Safari, and Opera */
   }
 }
+@mixin textLineBreak {
+  white-space: pre-line;
+}
 
 // CUSTOM SCROLLBAR
 @mixin customScrollbar($widthScrollbar) {

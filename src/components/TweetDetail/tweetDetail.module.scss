@@ -133,6 +133,7 @@
   font-weight: 500;
   color: var(--dark-color-900);
   margin: 16px 0;
+  @include textLineBreak;
 }
 .image {
   width: 100%;

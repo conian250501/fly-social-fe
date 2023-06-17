@@ -1,14 +1,23 @@
 /* eslint-disable react/display-name */
+import { getUser } from "@/app/features/auth/authAction";
 import { IError, IPayloadEditProfile, IUser } from "@/app/features/interface";
+import { getAllTweetByUser } from "@/app/features/tweet/tweetAction";
+import {
+  getUserById,
+  updateProfile,
+  uploadFilesProfile,
+} from "@/app/features/user/userAction";
+import { useAppDispatch } from "@/app/redux/hooks";
 import { ETypeInputProfile } from "@/components/interfaces";
+import { regexUrl } from "@/contanst/regexs";
 import { useFormik } from "formik";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Form, Modal } from "react-bootstrap";
+import DatePicker from "react-datepicker";
 import { AiOutlineLoading } from "react-icons/ai";
 import { IoMdClose } from "react-icons/io";
 import { MdCameraswitch } from "react-icons/md";
 import styles from "./formEditProfile.module.scss";
-import DatePicker from "react-datepicker";
 
 type Props = {
   isOpen: boolean;
@@ -17,6 +26,8 @@ type Props = {
 };
 
 const FormEditProfile = React.memo(({ isOpen, handleClose, user }: Props) => {
+  const dispatch = useAppDispatch();
+
   const [coverPreview, setCoverPreview] = useState<string>(user.cover);
   const [avatarPreview, setAvatarPreview] = useState<string>(user.avatar);
 
@@ -45,6 +56,18 @@ const FormEditProfile = React.memo(({ isOpen, handleClose, user }: Props) => {
     isFocus: boolean;
   }>({ type: "", isFocus: false });
 
+  const validate = (values: IPayloadEditProfile) => {
+    const errors: { website: string } = { website: "" };
+
+    if (values.website && !regexUrl.test(values.website)) {
+      errors.website = `Website must is link`;
+    }
+    if (!errors.website) {
+      return {};
+    }
+    return errors;
+  };
+
   const form = useFormik<IPayloadEditProfile>({
     initialValues: {
       cover: user.cover || "",
@@ -56,10 +79,28 @@ const FormEditProfile = React.memo(({ isOpen, handleClose, user }: Props) => {
       website: user.website || "",
       birthDate: user.birthDate || "",
     },
+    validate,
     async onSubmit(values, { resetForm }) {
+      const formData = new FormData();
+      formData.append("avatar", values.avatar);
+      formData.append("cover", values.cover);
       try {
-        console.log({ values });
+        setLoadingSave(true);
+        await dispatch(
+          updateProfile({ id: user.id, payload: values })
+        ).unwrap();
+        if (isFileChange) {
+          await dispatch(
+            uploadFilesProfile({ id: user.id, files: formData })
+          ).unwrap();
+        }
+        await dispatch(getUserById(user.id)).unwrap();
+        await dispatch(getUser()).unwrap();
+
+        setLoadingSave(false);
+        handleClose();
       } catch (error) {
+        setLoadingSave(false);
         setError(error as IError);
         return error;
       }
@@ -85,6 +126,7 @@ const FormEditProfile = React.memo(({ isOpen, handleClose, user }: Props) => {
     form.setFieldValue("avatar", files[0]);
     setIsFileChange(true);
   };
+
   return (
     <Modal
       show={isOpen}
@@ -257,6 +299,9 @@ const FormEditProfile = React.memo(({ isOpen, handleClose, user }: Props) => {
             <p className={styles.countValueInput}>
               {form.values.website.length} / {maxLengthInputs.website}
             </p>
+          )}
+          {form.errors.website && (
+            <p className={styles.textErrorValidate}>{form.errors.website}</p>
           )}
         </Form.Group>
 

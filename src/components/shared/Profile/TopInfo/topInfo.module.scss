@@ -91,7 +91,36 @@
     font-weight: 500;
     color: var(--dark-color-900);
     margin: 14px 0;
+    @include textLineBreak;
   }
+
+  .website {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 6px;
+    .icon {
+      font-size: 20px;
+      color: var(--dark-color-700);
+    }
+    .text {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--primary-color);
+      margin-bottom: 0;
+      text-decoration: none;
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+  .address {
+    @extend .website;
+    .text {
+      color: var(--dark-color-700);
+    }
+  }
+
   .countFollow {
     span {
       font-size: 16px;
