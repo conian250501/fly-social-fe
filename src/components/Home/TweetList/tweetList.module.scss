@@ -1,0 +1,92 @@
+@import "../../../styles/mixins";
+@import "../../../styles/responsive";
+
+.noneText {
+  text-align: center;
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--error-color);
+  margin-top: 40px;
+}
+.tweetList {
+}
+.tweetItem {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 16px;
+  border-bottom: 1px solid var(--border-color-weight);
+  cursor: pointer;
+  &:hover {
+    background-color: var(--border-color-light);
+  }
+  &:not(:first-child) {
+    margin-top: 24px;
+  }
+}
+.avatarAuthor {
+  width: 60px;
+  height: 60px;
+  border-radius: 100rem;
+  object-fit: cover;
+  cursor: pointer;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 100rem;
+  }
+  @include mobile {
+    width: 40px;
+    height: 40px;
+    border-radius: 100rem;
+  }
+}
+.tweetInfoWrapper {
+  flex: 1;
+}
+.authorInfo {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 6px;
+  text-decoration: none;
+  .name {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--dark-color-900);
+    margin-bottom: 0;
+  }
+  .nickname {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--dark-color-700);
+    margin-bottom: 0;
+  }
+  .createdAt {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--dark-color-700);
+    margin-bottom: 0;
+  }
+}
+.tweetInfo {
+  flex: 1;
+
+  .content {
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--dark-color-900);
+    white-space: pre-wrap;
+    margin-bottom: 16px;
+  }
+  .image {
+    border-radius: 20px;
+    cursor: pointer;
+    width: 100%;
+    object-fit: cover;
+    margin-bottom: 16px;
+  }
+}

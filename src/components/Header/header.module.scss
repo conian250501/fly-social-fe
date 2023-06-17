@@ -2,8 +2,12 @@
 @import "../../styles/mixins";
 
 .header {
-  position: sticky;
+  position: fixed;
+  left: 0;
+  bottom: 0;
   padding: 10px 12px;
+  width: 300px;
+  background-color: var(--white-color);
   height: 100vh;
   border-right: 1px solid #ccc;
   overflow-y: scroll;
@@ -12,6 +16,8 @@
   align-items: center;
   flex-direction: column;
   @include hidden-scrollbar;
+  flex: 1;
+  z-index: 2;
 }
 
 .headerMobile {
@@ -57,6 +63,9 @@
   font-size: 18px;
   font-weight: 600;
   margin-top: 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   @include tablet {
     aspect-ratio: 1;
   }
@@ -72,6 +81,23 @@
     @include tablet {
       display: none;
     }
+  }
+}
+
+.btnAddTweetMobile {
+  position: fixed;
+  bottom: 10%;
+  right: 6%;
+  width: 50px;
+  height: 50px;
+  border-radius: 100rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--primary-color);
+  .icon {
+    font-size: 24px;
+    color: var(--white-color);
   }
 }
 
@@ -205,14 +231,18 @@
     }
     &.hidden {
       opacity: 0;
+      display: none;
       @include transition(0.2s, linear);
     }
     @include tablet {
       width: fit-content;
       position: absolute;
       top: -80%;
-      left: 200%;
+      left: 28px;
       transform: translate(-50%, -50%);
+      .triangle {
+        display: none;
+      }
     }
   }
   .menuUserInfoItem {
@@ -223,6 +253,25 @@
     white-space: nowrap;
     padding: 14px;
     border-radius: 10px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 12px;
+    .iconWrapper {
+      width: 20px;
+      .icon {
+        font-size: 20px;
+        color: var(--error-color);
+      }
+    }
+    span {
+      flex: 1;
+    }
+    @include tablet {
+      .text {
+        display: none;
+      }
+    }
     &:hover {
       background-color: rgba($color: #3f9cf0, $alpha: 0.1);
     }
@@ -239,7 +288,7 @@
   justify-content: space-between;
   align-items: center;
   background-color: var(--primary-color);
-  z-index: 2;
+  z-index: 100000;
   padding: 14px 16%;
   .title {
     font-size: 18px;
@@ -280,7 +329,6 @@
 
 @include tablet {
   .header {
-    overflow: visible;
     width: fit-content;
   }
   .menuList {
@@ -333,6 +381,8 @@
       align-items: center;
       position: fixed;
       bottom: 0;
+      left: 0;
+      right: 0;
       width: 100%;
       padding: 12px 5%;
     }

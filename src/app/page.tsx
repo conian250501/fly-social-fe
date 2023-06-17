@@ -1,18 +1,25 @@
 "use client";
-import MainLayout from "@/Layouts/MainLayout/MainLayout";
-import { useRouter } from "next/navigation";
+import TabsTweetList from "@/components/Home/TabsTweetList";
+import TweetList from "@/components/Home/TweetList";
+import TweetListFollowing from "@/components/Home/TweetListFollowing";
+import { ETypeTabTweetList } from "@/components/interfaces";
+import Loading from "@/components/Loading/Loading";
+import GuestLayout from "@/Layouts/GuestLayout/GuestLayout";
+import LayoutWithNews from "@/Layouts/LayoutWithNews";
 import { useEffect, useState } from "react";
 import { getUser } from "./features/auth/authAction";
+import { getAll as getAllTweet } from "./features/tweet/tweetAction";
 import styles from "./main.module.scss";
-import { useAppDispatch } from "./redux/hooks";
-import GuestLayout from "@/Layouts/GuestLayout/GuestLayout";
-import Loading from "@/components/Loading/Loading";
+import { useAppDispatch, useAppSelector } from "./redux/hooks";
+import { RootState } from "./redux/store";
 
 const Home = () => {
-  const router = useRouter();
-
   const dispatch = useAppDispatch();
   const [loading, setLoading] = useState<boolean>(true);
+  const [activeTab, setActiveTab] = useState<ETypeTabTweetList>(
+    ETypeTabTweetList.ForYou
+  );
+  const { tweets } = useAppSelector((state: RootState) => state.tweet);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -32,7 +39,11 @@ const Home = () => {
     } else {
       setLoading(false);
     }
-  }, [dispatch]);
+  }, []);
+
+  useEffect(() => {
+    dispatch(getAllTweet());
+  }, []);
 
   if (loading) {
     return (
@@ -44,9 +55,14 @@ const Home = () => {
 
   return (
     <GuestLayout>
-      <main className={styles.mainPage}>
-        <div className="homepage">Home page</div>
-      </main>
+      <LayoutWithNews>
+        <h1 className={styles.heading}>Home</h1>
+        <TabsTweetList activeTab={activeTab} changeActiveTab={setActiveTab} />
+        {activeTab === ETypeTabTweetList.ForYou && (
+          <TweetList tweets={tweets} />
+        )}
+        {activeTab === ETypeTabTweetList.Following && <TweetListFollowing />}
+      </LayoutWithNews>
     </GuestLayout>
   );
 };

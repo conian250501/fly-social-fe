@@ -1,5 +1,6 @@
 {
   "rules": {
-    "require-await": "error"
+    "require-await": "error",
+    "@next/next/no-img-element": "off"
   }
 }

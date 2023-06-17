@@ -1,0 +1,107 @@
+@import "../../../../../styles/mixins";
+@import "../../../../../styles/responsive";
+
+.btnList {
+}
+.btnItem {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 6px;
+  .icon {
+    font-size: 20px;
+    flex: 1;
+    cursor: pointer;
+    color: var(--dark-color-700);
+
+    &.saved {
+      color: var(--dark-color-900) !important;
+    }
+    &.unsaved {
+      color: var(--dark-color-700);
+    }
+  }
+  span {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--dark-color-700);
+    margin-bottom: 0;
+  }
+  @include mobile {
+    gap: 2px;
+    .iconItem {
+      width: 20px;
+      height: 20px;
+      border-radius: 100rem;
+    }
+    .icon {
+      font-size: 16px;
+    }
+    span {
+      font-size: 12px;
+    }
+  }
+}
+
+.stage {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  .heart {
+    width: 60px;
+    height: 20px;
+    background: url("https://i.ibb.co/vw78mf3/heart.png") no-repeat 0% 50%;
+    background-size: 2900%;
+    cursor: pointer;
+
+    &.liked {
+      animation-name: LikedAnimation;
+      animation-duration: 2s;
+      animation-iteration-count: 1;
+      animation-fill-mode: forwards;
+      animation-timing-function: steps(28);
+    }
+  }
+}
+
+.lineDivide {
+  height: 1px;
+  width: 100%;
+  background-color: var(--border-color-weight);
+  margin: 12px 0;
+}
+.listInfo {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 24px;
+  margin-left: 20px;
+}
+.listInfoItem {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 4px;
+  .number {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--dark-color-900);
+    margin-bottom: 0;
+  }
+  .text {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--dark-color-700);
+  }
+}
+@keyframes LikedAnimation {
+  0% {
+    background-position: left;
+  }
+  50% {
+    background-position: right;
+  }
+  100% {
+    background-position: right;
+  }
+}

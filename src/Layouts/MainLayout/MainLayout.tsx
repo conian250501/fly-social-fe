@@ -6,11 +6,14 @@ import styles from "./mainLayout.module.scss";
 import useAuth from "@/hooks/useAuth";
 import Loading from "@/components/Loading/Loading";
 import { Col, Container, Row } from "react-bootstrap";
+import { useAppDispatch } from "@/app/redux/hooks";
+import { getUser } from "@/app/features/auth/authAction";
 type Props = {
   children: React.ReactNode;
 };
 
 const MainLayout = ({ children }: Props) => {
+  const dispatch = useAppDispatch();
   const { isAuthenticated } = useAuth();
   const [loading, setLoading] = useState(true);
 
@@ -19,11 +22,19 @@ const MainLayout = ({ children }: Props) => {
       if (isAuthenticated) {
         setLoading(false);
       }
-    }, 1000);
+    }, 0);
     return () => {
       clearTimeout(timer);
     };
   }, [isAuthenticated]);
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      dispatch(getUser());
+    }
+  }, []);
+
   return (
     <div>
       {loading ? (
@@ -33,14 +44,8 @@ const MainLayout = ({ children }: Props) => {
       ) : (
         <div className={styles.mainLayout}>
           <div className={styles.container}>
-            <Row className="w-100">
-              <Col xs={0} sm={0} md={2} lg={3} className={styles.colHeader}>
-                <Header />
-              </Col>
-              <Col xs={12} sm={12} md={10} lg={9}>
-                {children}
-              </Col>
-            </Row>
+            <Header />
+            <div className={styles.children}> {children}</div>
           </div>
         </div>
       )}
