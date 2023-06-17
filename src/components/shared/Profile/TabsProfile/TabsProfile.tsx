@@ -16,7 +16,7 @@ const TabsProfile = (props: Props) => {
   const { user } = useAppSelector((state: RootState) => state.user);
 
   const path = usePathname();
-  console.log({ path });
+
   const [tabs, setTabs] = useState<ITabProfile[]>([
     {
       id: nanoid(),

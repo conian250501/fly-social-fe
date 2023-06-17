@@ -1,0 +1,178 @@
+@import "../../../styles/mixins";
+@import "../../../styles/responsive";
+
+.contentModal {
+  border-radius: 20px;
+  overflow: hidden;
+}
+.header {
+  padding: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  background-color: rgba($color: #fff, $alpha: 0.8);
+  .iconClose {
+    width: 30px;
+    height: 30px;
+    border-radius: 100rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    &:hover {
+      background-color: var(--border-color-light);
+    }
+    .icon {
+      font-size: 20px;
+    }
+  }
+  .title {
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--dark-color-900);
+    margin-bottom: 0;
+  }
+  .btnSave {
+    padding: 8px 24px;
+    border-radius: 100rem;
+    background-color: var(--dark-color-900);
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--white-color);
+    &:hover {
+      background-color: rgba($color: #000000, $alpha: 0.8);
+    }
+  }
+}
+.form {
+  overflow-y: scroll;
+  height: calc(100vh - 100px);
+  .formGroup {
+    position: relative;
+    padding: 0 16px;
+    margin-bottom: 16px;
+  }
+  .formLabel {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--dark-color-900);
+    margin-bottom: 4px;
+    display: block;
+  }
+  .formInput {
+    width: 100%;
+    padding: 16px;
+    border: 1px solid var(--border-color-light);
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: 500;
+    &:focus {
+      border: 2px solid var(--primary-color);
+      box-shadow: none;
+    }
+  }
+  .countValueInput {
+    position: absolute;
+    top: 50%;
+    right: 32px;
+    transform: translate(0, -50%);
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--dark-color-700);
+    margin-bottom: 0;
+  }
+}
+.formGroupCover {
+  width: 100%;
+  height: 200px;
+  position: relative;
+  .coverPreview {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .coverPlaceholder {
+    height: 100%;
+    width: 100%;
+    background-color: var(--border-color-weight);
+  }
+  .iconCamera {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 40px;
+    height: 40px;
+    border-radius: 100rem;
+    background-color: var(--dark-color-700);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    .icon {
+      color: var(--white-color);
+      font-size: 24px;
+    }
+  }
+}
+
+.formGroupAvatar {
+  width: 100%;
+  height: 60px;
+  position: relative;
+  .avatarPreviewWrapper {
+    width: 100px;
+    height: 100px;
+    position: absolute;
+    bottom: 12px;
+    left: 16px;
+    border: 4px solid var(--white-color);
+    border-radius: 100rem;
+  }
+  .background {
+    height: 100%;
+    width: 100%;
+    background-color: rgba($color: #000000, $alpha: 0.4);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 100rem;
+  }
+  .avatarPreview {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    border-radius: 100rem;
+  }
+  .coverPlaceholder {
+    height: 100%;
+    width: 100%;
+    background-color: var(--border-color-weight);
+  }
+  .iconCamera {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 30px;
+    height: 30px;
+    border-radius: 100rem;
+    background-color: rgba($color: #000000, $alpha: 0.3);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    .icon {
+      color: var(--white-color);
+      font-size: 20px;
+    }
+  }
+}
+.iconLoading {
+  font-size: 24px;
+  animation: Rotate 0.5s linear infinite;
+}

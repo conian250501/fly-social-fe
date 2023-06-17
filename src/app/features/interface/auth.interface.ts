@@ -26,6 +26,8 @@ export interface IUser extends IBaseTypes {
   token: string;
   storageTweets: IStorageTweet[];
   tweets: ITweet[];
+  website: string;
+  birthDate: string;
 }
 
 export interface IPayloadResetPass {

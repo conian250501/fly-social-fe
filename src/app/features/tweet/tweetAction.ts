@@ -154,3 +154,24 @@ export const getAllTweetsSaved = createAsyncThunk(
     }
   }
 );
+export const getAllTweetsLiked = createAsyncThunk(
+  "tweet/get-all-liked",
+  async (
+    { userId, filter }: { userId: number; filter: IBaseFilter },
+    { rejectWithValue }
+  ) => {
+    try {
+      const query = queryString.stringify({
+        limit: filter.limit || 2,
+        page: filter.page || 1,
+      });
+      const { data } = await axiosConfig.get(
+        `/tweets/liked/${userId}?${query}`
+      );
+      return data.data;
+    } catch (error) {
+      const err = error as AxiosError;
+      return rejectWithValue(err.response?.data);
+    }
+  }
+);

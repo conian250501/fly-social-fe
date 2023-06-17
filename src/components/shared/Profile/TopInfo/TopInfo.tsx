@@ -1,9 +1,10 @@
 /* eslint-disable @next/next/no-img-element */
 import { IUser } from "@/app/features/interface";
+import FormEditProfile from "@/components/Modal/FormEditProfile";
 import { PATHS } from "@/contanst/paths";
 import { useCheckIsMe } from "@/hooks/useCheckIsMe";
 import Link from "next/link";
-import React, { FC } from "react";
+import React, { FC, useState } from "react";
 import { Button } from "react-bootstrap";
 import styles from "./topInfo.module.scss";
 type Props = {
@@ -12,6 +13,7 @@ type Props = {
 
 const TopInfo = ({ user }: Props) => {
   const { isMe } = useCheckIsMe(Number(user?.id));
+  const [openFormEdit, setOpenFormEdit] = useState<boolean>(false);
 
   const ButtonAction: FC = () => {
     return (
@@ -21,6 +23,7 @@ const TopInfo = ({ user }: Props) => {
             <button
               type="button"
               className={`${styles.btn} ${styles.editProfile}`}
+              onClick={() => setOpenFormEdit(true)}
             >
               Edit profile
             </button>
@@ -75,6 +78,12 @@ const TopInfo = ({ user }: Props) => {
           </Link>
         </div>
       </div>
+
+      <FormEditProfile
+        isOpen={openFormEdit}
+        handleClose={() => setOpenFormEdit(false)}
+        user={user as IUser}
+      />
     </div>
   );
 };
