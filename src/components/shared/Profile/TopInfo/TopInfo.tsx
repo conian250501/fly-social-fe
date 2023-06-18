@@ -1,7 +1,14 @@
+/* eslint-disable react/display-name */
 /* eslint-disable @next/next/no-img-element */
 import { followUser, unFollowUser } from "@/app/features/follow/followAction";
 import { IError, IUser } from "@/app/features/interface";
-import { useAppDispatch } from "@/app/redux/hooks";
+import {
+  getAllUserFollowers,
+  getAllUserFollowing,
+  getUserById,
+} from "@/app/features/user/userAction";
+import { useAppDispatch, useAppSelector } from "@/app/redux/hooks";
+import { RootState } from "@/app/redux/store";
 import FormEditProfile from "@/components/Modal/FormEditProfile";
 import ModalError from "@/components/Modal/ModalError";
 import { PATHS } from "@/contanst/paths";
@@ -17,11 +24,14 @@ type Props = {
   user: IUser | null;
 };
 
-const TopInfo = ({ user }: Props) => {
+const TopInfo = React.memo(({ user }: Props) => {
   const { isMe } = useCheckIsMe(Number(user?.id));
-  const { isFollowed: _isFollowed } = useCheckFollowed(Number(user?.id));
 
   const dispatch = useAppDispatch();
+  const { usersFollower, usersFollowing } = useAppSelector(
+    (state: RootState) => state.user
+  );
+  const { isFollowed: _isFollowed } = useCheckFollowed(usersFollower);
 
   const [openFormEdit, setOpenFormEdit] = useState<boolean>(false);
   const [loadingFollow, setLoadingFollow] = useState<boolean>(false);
@@ -30,15 +40,18 @@ const TopInfo = ({ user }: Props) => {
 
   useEffect(() => {
     setIsFollowed(_isFollowed);
-  }, []);
-
-  console.log({ _isFollowed });
+  }, [_isFollowed]);
 
   const handleFollow = async () => {
     try {
       setLoadingFollow(true);
+
       await dispatch(followUser(Number(user?.id))).unwrap();
+      await dispatch(getAllUserFollowers(Number(user?.id))).unwrap();
+      await dispatch(getAllUserFollowing(Number(user?.id))).unwrap();
+
       setLoadingFollow(false);
+      setIsFollowed(true);
     } catch (error) {
       setError(error as IError);
       setLoadingFollow(false);
@@ -48,24 +61,18 @@ const TopInfo = ({ user }: Props) => {
   const handleUnFollow = async () => {
     try {
       setLoadingFollow(true);
-      await dispatch(unFollowUser(Number(user?.id))).unwrap();
 
+      await dispatch(unFollowUser(Number(user?.id))).unwrap();
+      await dispatch(getAllUserFollowers(Number(user?.id))).unwrap();
+      await dispatch(getAllUserFollowing(Number(user?.id))).unwrap();
+
+      setIsFollowed(false);
       setLoadingFollow(false);
     } catch (error) {
       setError(error as IError);
       setLoadingFollow(false);
     }
   };
-
-  if (error) {
-    return (
-      <ModalError
-        isOpen={Boolean(error)}
-        handleClose={() => setError(null)}
-        message={error.message}
-      />
-    );
-  }
 
   const ButtonsAction: FC = () => {
     return (
@@ -84,11 +91,14 @@ const TopInfo = ({ user }: Props) => {
               {isFollowed ? (
                 <button
                   type="button"
-                  className={`${styles.btn} ${styles.follow}`}
+                  className={`${styles.btn} ${styles.unFollow}`}
                   onClick={handleUnFollow}
                   disabled={loadingFollow}
                 >
-                  Un Follow
+                  <p className={styles.textFollowing}>
+                    {loadingFollow ? "..." : "Following"}
+                  </p>
+                  <p className={styles.textUnFollow}>Unfollow</p>
                 </button>
               ) : (
                 <button
@@ -97,7 +107,7 @@ const TopInfo = ({ user }: Props) => {
                   onClick={handleFollow}
                   disabled={loadingFollow}
                 >
-                  Following
+                  {loadingFollow ? "..." : "Follow"}
                 </button>
               )}
             </>
@@ -154,10 +164,10 @@ const TopInfo = ({ user }: Props) => {
 
         <div className="d-flex align-items-center justify-content-start gap-4">
           <Link href={PATHS.ProfileFollowing} className={styles.countFollow}>
-            <span>123</span> Following
+            <span>{usersFollowing.length}</span> Following
           </Link>
           <Link href={PATHS.ProfileFollowing} className={styles.countFollow}>
-            <span>123</span> Followers
+            <span>{usersFollower.length}</span> Followers
           </Link>
         </div>
       </div>
@@ -167,8 +177,16 @@ const TopInfo = ({ user }: Props) => {
         handleClose={() => setOpenFormEdit(false)}
         user={user as IUser}
       />
+
+      {error && (
+        <ModalError
+          isOpen={Boolean(error)}
+          handleClose={() => setError(null)}
+          message={error.message}
+        />
+      )}
     </div>
   );
-};
+});
 
 export default TopInfo;

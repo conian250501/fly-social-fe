@@ -15,6 +15,31 @@ export const getUserById = createAsyncThunk(
     }
   }
 );
+export const getAllUserFollowing = createAsyncThunk(
+  "user/get-all-following",
+  async (userId: number, { rejectWithValue }) => {
+    try {
+      const { data } = await axiosConfig.get(`/users/followings/${userId}`);
+      return data.data;
+    } catch (error) {
+      const err = error as AxiosError;
+      return rejectWithValue(err.response?.data);
+    }
+  }
+);
+
+export const getAllUserFollowers = createAsyncThunk(
+  "user/get-all-followers",
+  async (userId: number, { rejectWithValue }) => {
+    try {
+      const { data } = await axiosConfig.get(`/users/followers/${userId}`);
+      return data.data;
+    } catch (error) {
+      const err = error as AxiosError;
+      return rejectWithValue(err.response?.data);
+    }
+  }
+);
 
 export const updateProfile = createAsyncThunk(
   "user/update",

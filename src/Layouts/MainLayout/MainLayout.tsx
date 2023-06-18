@@ -29,10 +29,10 @@ const MainLayout = ({ children }: Props) => {
   }, [isAuthenticated]);
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (token) {
-      dispatch(getUser());
+    async function fetchUser() {
+      await dispatch(getUser()).unwrap();
     }
+    fetchUser();
   }, []);
 
   return (

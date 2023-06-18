@@ -44,7 +44,8 @@ const LoginForm = React.memo(({ show, close, loading, setLoading }: Props) => {
       const user: IUser = await dispatch(login(payloadLogin)).unwrap();
       setLoading(false);
       localStorage.setItem("token", user.token);
-      router.push(PATHS.Home);
+      close();
+      router.replace(PATHS.Home);
     } catch (error) {
       setLoading(false);
       dispatch(setError(error));

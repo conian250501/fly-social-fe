@@ -58,14 +58,14 @@ const FormEditProfile = React.memo(({ isOpen, handleClose, user }: Props) => {
 
   useEffect(() => {
     form.setValues({
-      cover: user.cover,
-      avatar: user.avatar,
-      name: user.name,
-      nickname: user.nickname,
-      bio: user.bio,
-      address: user.address,
-      website: user.website,
-      birthDate: user.birthDate,
+      cover: user.cover || "",
+      avatar: user.avatar || "",
+      name: user.name || "",
+      nickname: user.nickname || "",
+      bio: user.bio || "",
+      address: user.address || "",
+      website: user.website || "",
+      birthDate: user.birthDate || "",
     });
     setAvatarPreview(user.avatar);
     setCoverPreview(user.cover);

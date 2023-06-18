@@ -3,11 +3,34 @@ import { ITweet } from "@/app/features/interface";
 import { getAllTweetsLiked } from "@/app/features/tweet/tweetAction";
 import { getUserById } from "@/app/features/user/userAction";
 import { useAppDispatch } from "@/app/redux/hooks";
-import ProfileLayout from "@/Layouts/ProfileLayout";
 import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
+
+const LayoutWithNews = dynamic(() => import("@/Layouts/LayoutWithNews"), {
+  ssr: false,
+  loading: () => {
+    return <p>loading...</p>;
+  },
+});
+
+const ProfileLayout = dynamic(() => import("@/Layouts/ProfileLayout"), {
+  ssr: false,
+  loading: () => {
+    return <p>loading...</p>;
+  },
+});
+
+const MainLayout = dynamic(() => import("@/Layouts/MainLayout"), {
+  ssr: false,
+  loading: () => {
+    return <p>loading...</p>;
+  },
+});
 const TweetList = dynamic(() => import("@/components/Home/TweetList"), {
   ssr: false,
+  loading: () => {
+    return <p>loading...</p>;
+  },
 });
 
 type Props = {
@@ -73,9 +96,13 @@ const Page = ({ params }: Props) => {
   };
 
   return (
-    <ProfileLayout id={Number(params.id)}>
-      <TweetList tweets={tweets} />
-    </ProfileLayout>
+    <MainLayout>
+      <LayoutWithNews>
+        <ProfileLayout id={Number(params.id)}>
+          <TweetList tweets={tweets} />
+        </ProfileLayout>
+      </LayoutWithNews>
+    </MainLayout>
   );
 };
 

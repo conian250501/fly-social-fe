@@ -3,6 +3,8 @@ import { ITweet } from "@/app/features/interface";
 import { getAllTweetsSaved } from "@/app/features/tweet/tweetAction";
 import { getUserById } from "@/app/features/user/userAction";
 import { useAppDispatch } from "@/app/redux/hooks";
+import LayoutWithNews from "@/Layouts/LayoutWithNews";
+import MainLayout from "@/Layouts/MainLayout";
 import ProfileLayout from "@/Layouts/ProfileLayout";
 import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
@@ -69,9 +71,13 @@ const Page = ({ params }: Props) => {
   };
 
   return (
-    <ProfileLayout id={Number(params.id)}>
-      <TweetList tweets={tweets} />
-    </ProfileLayout>
+    <MainLayout>
+      <LayoutWithNews>
+        <ProfileLayout id={Number(params.id)}>
+          <TweetList tweets={tweets} />
+        </ProfileLayout>
+      </LayoutWithNews>
+    </MainLayout>
   );
 };
 
