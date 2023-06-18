@@ -1,5 +1,6 @@
 "use client";
 import { getUserById } from "@/app/features/user/userAction";
+import Loading from "@/components/Loading";
 import ProfileLayout from "@/Layouts/ProfileLayout";
 import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";

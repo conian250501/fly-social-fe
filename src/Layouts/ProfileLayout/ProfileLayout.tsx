@@ -60,6 +60,7 @@ const ProfileLayout = ({ children, id }: Props) => {
   useEffect(() => {
     dispatch(getUserById(id));
   }, []);
+
   return (
     <MainLayout>
       <LayoutWithNews>

@@ -24,6 +24,7 @@ import { deleteTweet } from "@/app/features/tweet/tweetAction";
 import ModalError from "../Modal/ModalError/ModalError";
 import { useRouter } from "next/navigation";
 import { deleteTweetSuccess } from "@/app/features/tweet/tweetSlice";
+import { ETypeFormEditTweet } from "../interfaces/formEditTweet.interface";
 
 type Props = { tweet: ITweet | null };
 
@@ -205,6 +206,7 @@ const TweetDetail = ({ tweet }: Props) => {
         open={openFormEdit}
         handleClose={() => setOpenFormEdit(false)}
         tweet={tweet}
+        type={ETypeFormEditTweet.TweetDetail}
       />
 
       <ActionModal

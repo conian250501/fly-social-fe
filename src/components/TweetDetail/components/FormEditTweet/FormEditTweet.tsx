@@ -1,10 +1,12 @@
 /* eslint-disable @next/next/no-img-element */
 import { IError, IPayloadTweet, ITweet } from "@/app/features/interface";
 import {
+  getAllTweetByUser,
   getById,
   update as updateTweet,
 } from "@/app/features/tweet/tweetAction";
 import { useAppDispatch } from "@/app/redux/hooks";
+import { ETypeFormEditTweet } from "@/components/interfaces/formEditTweet.interface";
 import ModalError from "@/components/Modal/ModalError";
 import ModalSuccess from "@/components/Modal/ModalSuccess";
 import { useFormik } from "formik";
@@ -20,10 +22,11 @@ import styles from "./formEditTweet.module.scss";
 type Props = {
   open: boolean;
   tweet: ITweet;
+  type: ETypeFormEditTweet;
   handleClose: () => void;
 };
 
-const FormEditTweet = ({ open, tweet, handleClose }: Props) => {
+const FormEditTweet = ({ open, tweet, handleClose, type }: Props) => {
   const dispatch = useAppDispatch();
   const [loadingSave, setLoadingSave] = useState<boolean>(false);
   const [showAudienceList, setShowAudienceList] = useState<boolean>(false);
@@ -43,6 +46,11 @@ const FormEditTweet = ({ open, tweet, handleClose }: Props) => {
         ).unwrap();
 
         await dispatch(getById(tweet.id)).unwrap();
+        if (type === ETypeFormEditTweet.TweetListProfilePage) {
+          await dispatch(
+            getAllTweetByUser({ userId: tweet.user.id, filter: {} })
+          ).unwrap();
+        }
 
         setLoadingSave(false);
         setSaveSuccess(true);
