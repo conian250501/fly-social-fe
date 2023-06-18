@@ -40,7 +40,7 @@ const TabsProfile = (props: Props) => {
         <Link
           href={tab.link}
           className={`${styles.tabItem} ${
-            path === tab.link ? styles.active : ""
+            path == tab.link ? styles.active : ""
           }`}
           key={tab.id}
         >

@@ -94,6 +94,10 @@ const TweetDetail = ({ tweet }: Props) => {
     }
   };
 
+  const handleBackPage = () => {
+    router.back();
+  };
+
   const MenuSettingTweet: FC = () => {
     return (
       <React.Fragment>
@@ -123,12 +127,12 @@ const TweetDetail = ({ tweet }: Props) => {
     );
   return (
     <div className={styles.tweetDetailContainer}>
-      <Link href={PATHS.Home} className={styles.backLink}>
+      <div onClick={handleBackPage} className={styles.backLink}>
         <div className={styles.iconBack}>
           <BsArrowLeft className={styles.icon} />
         </div>
         Tweet
-      </Link>
+      </div>
       <div className={styles.userInfo}>
         <div className="d-flex align-items-center justify-content-start gap-3">
           <img

@@ -1,7 +1,9 @@
 "use client";
 import { ITweet } from "@/app/features/interface";
 import { getAllTweetsLiked } from "@/app/features/tweet/tweetAction";
+import { getUserById } from "@/app/features/user/userAction";
 import { useAppDispatch } from "@/app/redux/hooks";
+import ProfileLayout from "@/Layouts/ProfileLayout";
 import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
 const TweetList = dynamic(() => import("@/components/Home/TweetList"), {
@@ -21,6 +23,10 @@ const Page = ({ params }: Props) => {
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState<number>(1);
   const [lastPage, setLastPage] = useState<boolean>(false);
+
+  useEffect(() => {
+    dispatch(getUserById(Number(params.id)));
+  }, []);
 
   useEffect(() => {
     if (lastPage) return;
@@ -66,7 +72,11 @@ const Page = ({ params }: Props) => {
     }
   };
 
-  return <TweetList tweets={tweets} />;
+  return (
+    <ProfileLayout id={Number(params.id)}>
+      <TweetList tweets={tweets} />
+    </ProfileLayout>
+  );
 };
 
 export default Page;

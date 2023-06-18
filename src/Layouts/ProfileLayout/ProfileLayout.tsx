@@ -1,11 +1,9 @@
-"use client";
 import { getUserById } from "@/app/features/user/userAction";
 import { useAppDispatch, useAppSelector } from "@/app/redux/hooks";
 import { RootState } from "@/app/redux/store";
 import Loading from "@/components/Loading";
 import dynamic from "next/dynamic";
 import { ReactNode, useEffect } from "react";
-
 const BackLink = dynamic(() => import("@/components/shared/Profile/BackLink"), {
   ssr: false,
   loading: () => (
@@ -50,19 +48,17 @@ const LayoutWithNews = dynamic(() => import("@/Layouts/LayoutWithNews"), {
   ),
 });
 
-export type Props = {
-  params: {
-    id: string;
-  };
+type Props = {
   children: ReactNode;
+  id: number;
 };
 
-export default function ProfileLayout({ params, children }: Props) {
+const ProfileLayout = ({ children, id }: Props) => {
   const dispatch = useAppDispatch();
   const { user } = useAppSelector((state: RootState) => state.user);
 
   useEffect(() => {
-    dispatch(getUserById(Number(params.id)));
+    dispatch(getUserById(id));
   }, []);
   return (
     <MainLayout>
@@ -80,4 +76,6 @@ export default function ProfileLayout({ params, children }: Props) {
       </LayoutWithNews>
     </MainLayout>
   );
-}
+};
+
+export default ProfileLayout;

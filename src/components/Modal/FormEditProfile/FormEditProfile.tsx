@@ -56,6 +56,21 @@ const FormEditProfile = React.memo(({ isOpen, handleClose, user }: Props) => {
     isFocus: boolean;
   }>({ type: "", isFocus: false });
 
+  useEffect(() => {
+    form.setValues({
+      cover: user.cover,
+      avatar: user.avatar,
+      name: user.name,
+      nickname: user.nickname,
+      bio: user.bio,
+      address: user.address,
+      website: user.website,
+      birthDate: user.birthDate,
+    });
+    setAvatarPreview(user.avatar);
+    setCoverPreview(user.cover);
+  }, [user]);
+
   const validate = (values: IPayloadEditProfile) => {
     const errors: { website: string } = { website: "" };
 
@@ -70,14 +85,14 @@ const FormEditProfile = React.memo(({ isOpen, handleClose, user }: Props) => {
 
   const form = useFormik<IPayloadEditProfile>({
     initialValues: {
-      cover: user.cover || "",
-      avatar: user.avatar || "",
-      name: user.name || "",
-      nickname: user.nickname || "",
-      bio: user.bio || "",
-      address: user.address || "",
-      website: user.website || "",
-      birthDate: user.birthDate || "",
+      cover: "",
+      avatar: "",
+      name: "",
+      nickname: "",
+      bio: "",
+      address: "",
+      website: "",
+      birthDate: "",
     },
     validate,
     async onSubmit(values, { resetForm }) {
@@ -157,6 +172,7 @@ const FormEditProfile = React.memo(({ isOpen, handleClose, user }: Props) => {
 
         {/*====== COVER ====== */}
         <Form.Group className={styles.formGroupCover}>
+          <div className={styles.background}></div>
           {coverPreview ? (
             <img src={coverPreview} alt="" className={styles.coverPreview} />
           ) : (

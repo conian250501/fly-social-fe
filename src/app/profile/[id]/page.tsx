@@ -1,4 +1,6 @@
 "use client";
+import { getUserById } from "@/app/features/user/userAction";
+import ProfileLayout from "@/Layouts/ProfileLayout";
 import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
 import { ITweet } from "../../features/interface";
@@ -68,10 +70,10 @@ const Page = ({ params }: Props) => {
   };
 
   return (
-    <section>
+    <ProfileLayout id={Number(params.id)}>
       <TweetList tweets={tweets} />
       {loading && !lastPage && <h1>loading...</h1>}
-    </section>
+    </ProfileLayout>
   );
 };
 
