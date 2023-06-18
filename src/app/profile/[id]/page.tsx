@@ -10,6 +10,11 @@ import { useAppDispatch } from "../../redux/hooks";
 
 const TweetList = dynamic(() => import("@/components/Home/TweetList"), {
   ssr: false,
+  loading: () => (
+    <div className="d-flex align-items-center justify-content-center w-100 vh-100">
+      <Loading />
+    </div>
+  ),
 });
 
 type Props = {

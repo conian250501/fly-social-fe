@@ -22,11 +22,10 @@ import styles from "./formEditTweet.module.scss";
 type Props = {
   open: boolean;
   tweet: ITweet;
-  type: ETypeFormEditTweet;
   handleClose: () => void;
 };
 
-const FormEditTweet = ({ open, tweet, handleClose, type }: Props) => {
+const FormEditTweet = ({ open, tweet, handleClose }: Props) => {
   const dispatch = useAppDispatch();
   const [loadingSave, setLoadingSave] = useState<boolean>(false);
   const [showAudienceList, setShowAudienceList] = useState<boolean>(false);
@@ -46,11 +45,6 @@ const FormEditTweet = ({ open, tweet, handleClose, type }: Props) => {
         ).unwrap();
 
         await dispatch(getById(tweet.id)).unwrap();
-        if (type === ETypeFormEditTweet.TweetListProfilePage) {
-          await dispatch(
-            getAllTweetByUser({ userId: tweet.user.id, filter: {} })
-          ).unwrap();
-        }
 
         setLoadingSave(false);
         setSaveSuccess(true);

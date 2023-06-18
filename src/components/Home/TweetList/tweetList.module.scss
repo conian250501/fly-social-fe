@@ -71,6 +71,13 @@
     color: var(--dark-color-700);
     margin-bottom: 0;
   }
+  .audienceIcon {
+    .icon {
+      font-size: 18px;
+      color: var(--black-color);
+      margin-left: 10px;
+    }
+  }
 }
 .tweetInfo {
   flex: 1;

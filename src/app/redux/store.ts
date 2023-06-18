@@ -1,6 +1,7 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import authReducer from "../features/auth/authSlice";
 import commentReducer from "../features/comment/commentSlice";
+import followReducer from "../features/follow/followSlice";
 import storageTweetReducer from "../features/storageTweet/storageTweetSlice";
 import tweetReducer from "../features/tweet/tweetSlice";
 import userReducer from "../features/user/userSlice";
@@ -11,6 +12,7 @@ const rootReducer = combineReducers({
   comment: commentReducer,
   storage: storageTweetReducer,
   user: userReducer,
+  follow: followReducer,
 });
 
 export const store = configureStore({

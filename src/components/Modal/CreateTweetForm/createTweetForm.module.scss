@@ -143,17 +143,17 @@
   }
   .audienceList {
     position: absolute;
-    top: 110%;
-    left: 50%;
-    transform: translate(-50%, 0);
+    top: 114%;
+    left: 0;
     @include resetList;
-    padding: 12px;
+    padding: 16px;
     border-radius: 10px;
     background-color: var(--white-color);
     box-shadow: var(--shadow-popover);
     width: fit-content;
+    z-index: 2;
     .title {
-      font-size: 24px;
+      font-size: 20px;
       font-weight: 600;
       color: var(--dark-color-900);
       white-space: nowrap;
@@ -171,7 +171,7 @@
     transition: all 0.2s linear;
 
     &:not(:first-child) {
-      margin-top: 24px;
+      margin-top: 6px;
     }
 
     &:hover {

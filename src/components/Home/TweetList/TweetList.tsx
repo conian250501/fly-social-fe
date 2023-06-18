@@ -3,30 +3,40 @@ import { ITweet } from "@/app/features/interface";
 import { clearIsDeleted } from "@/app/features/tweet/tweetSlice";
 import { useAppDispatch, useAppSelector } from "@/app/redux/hooks";
 import { RootState } from "@/app/redux/store";
-import Loading from "@/components/Loading";
 import ModalSuccess from "@/components/Modal/ModalSuccess";
-import dynamic from "next/dynamic";
-import { useCallback } from "react";
-const TweetItem = dynamic(() => import("./components/TweetItem"), {
-  ssr: false,
-  loading: () => (
-    <div className="d-flex align-items-center justify-content-center w-100 vh-100 mt-4">
-      <Loading />
-    </div>
-  ),
-});
+import { PATHS } from "@/contanst/paths";
+import moment from "moment";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useCallback, useState } from "react";
+import { FiLock } from "react-icons/fi";
+import { GiWorld } from "react-icons/gi";
+import Loading from "../../Loading";
+import ButtonsAction from "../TabsTweetList/components/ButtonsAction";
 import styles from "./tweetList.module.scss";
 
 type Props = { tweets: ITweet[] };
 
 const TweetList = ({ tweets }: Props) => {
+  const router = useRouter();
   const dispatch = useAppDispatch();
-
+  const [loadingGetAll, setLoadingGetAll] = useState<boolean>(false);
   const { isDeleted } = useAppSelector((state: RootState) => state.tweet);
 
+  const handleMoveDetailPage = (tweetId: number) => {
+    router.push(`${PATHS.Tweets}/${tweetId}`);
+  };
   const handleCloseModalSuccessDeletedTweet = useCallback(() => {
     dispatch(clearIsDeleted());
   }, []);
+
+  if (loadingGetAll) {
+    return (
+      <div className="d-flex align-items-center justify-content-center w-100 mt-4">
+        <Loading />
+      </div>
+    );
+  }
 
   return (
     <div className={styles.tweetList}>
@@ -37,7 +47,57 @@ const TweetList = ({ tweets }: Props) => {
       ) : (
         <>
           {tweets.map((tweet) => (
-            <TweetItem key={tweet.id} tweet={tweet} />
+            <div key={tweet.id} className={styles.tweetItem}>
+              <Link
+                href={`${PATHS.Profile}/${tweet.user.id}`}
+                className={styles.avatarAuthor}
+              >
+                <img
+                  src={
+                    tweet.user.avatar
+                      ? tweet.user.avatar
+                      : "/images/avatar-placeholder.png"
+                  }
+                  alt=""
+                  className={styles.image}
+                />
+              </Link>
+              <div className={styles.tweetInfoWrapper}>
+                <Link
+                  href={`${PATHS.Profile}/${tweet.user.id}`}
+                  className={styles.authorInfo}
+                >
+                  <h5 className={styles.name}>{tweet.user.name}</h5>
+                  {tweet.user.nickname && (
+                    <p className={styles.nickname}>{tweet.user.nickname}</p>
+                  )}
+                  <p className={styles.createdAt}>
+                    {moment(tweet.createdAt).fromNow()}
+                  </p>
+                  <div className={styles.audienceIcon}>
+                    {tweet.isPrivate ? (
+                      <FiLock className={styles.icon} />
+                    ) : (
+                      <GiWorld className={styles.icon} />
+                    )}
+                  </div>
+                </Link>
+                <div
+                  className={styles.tweetInfo}
+                  onClick={() => handleMoveDetailPage(tweet.id)}
+                >
+                  {tweet.content && (
+                    <p className={styles.content}>{tweet.content}</p>
+                  )}
+                  <Link href={`${PATHS.Tweets}/${tweet.id}`}>
+                    {tweet.image && (
+                      <img src={tweet.image} alt="" className={styles.image} />
+                    )}
+                  </Link>
+                </div>
+                <ButtonsAction tweet={tweet} />
+              </div>
+            </div>
           ))}
         </>
       )}

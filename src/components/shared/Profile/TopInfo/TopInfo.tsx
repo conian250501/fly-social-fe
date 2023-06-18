@@ -1,10 +1,14 @@
 /* eslint-disable @next/next/no-img-element */
-import { IUser } from "@/app/features/interface";
+import { followUser, unFollowUser } from "@/app/features/follow/followAction";
+import { IError, IUser } from "@/app/features/interface";
+import { useAppDispatch } from "@/app/redux/hooks";
 import FormEditProfile from "@/components/Modal/FormEditProfile";
+import ModalError from "@/components/Modal/ModalError";
 import { PATHS } from "@/contanst/paths";
+import { useCheckFollowed } from "@/hooks/useCheckFollowed";
 import { useCheckIsMe } from "@/hooks/useCheckIsMe";
 import Link from "next/link";
-import React, { FC, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import { AiOutlineLink } from "react-icons/ai";
 import { MdOutlineLocationOn } from "react-icons/md";
 import styles from "./topInfo.module.scss";
@@ -15,9 +19,55 @@ type Props = {
 
 const TopInfo = ({ user }: Props) => {
   const { isMe } = useCheckIsMe(Number(user?.id));
-  const [openFormEdit, setOpenFormEdit] = useState<boolean>(false);
+  const { isFollowed: _isFollowed } = useCheckFollowed(Number(user?.id));
 
-  const ButtonAction: FC = () => {
+  const dispatch = useAppDispatch();
+
+  const [openFormEdit, setOpenFormEdit] = useState<boolean>(false);
+  const [loadingFollow, setLoadingFollow] = useState<boolean>(false);
+  const [isFollowed, setIsFollowed] = useState<boolean>(false);
+  const [error, setError] = useState<IError | null>(null);
+
+  useEffect(() => {
+    setIsFollowed(_isFollowed);
+  }, []);
+
+  console.log({ _isFollowed });
+
+  const handleFollow = async () => {
+    try {
+      setLoadingFollow(true);
+      await dispatch(followUser(Number(user?.id))).unwrap();
+      setLoadingFollow(false);
+    } catch (error) {
+      setError(error as IError);
+      setLoadingFollow(false);
+    }
+  };
+
+  const handleUnFollow = async () => {
+    try {
+      setLoadingFollow(true);
+      await dispatch(unFollowUser(Number(user?.id))).unwrap();
+
+      setLoadingFollow(false);
+    } catch (error) {
+      setError(error as IError);
+      setLoadingFollow(false);
+    }
+  };
+
+  if (error) {
+    return (
+      <ModalError
+        isOpen={Boolean(error)}
+        handleClose={() => setError(null)}
+        message={error.message}
+      />
+    );
+  }
+
+  const ButtonsAction: FC = () => {
     return (
       <React.Fragment>
         <div className={styles.btnWrapper}>
@@ -30,9 +80,27 @@ const TopInfo = ({ user }: Props) => {
               Edit profile
             </button>
           ) : (
-            <button type="button" className={`${styles.btn} ${styles.follow}`}>
-              Following
-            </button>
+            <>
+              {isFollowed ? (
+                <button
+                  type="button"
+                  className={`${styles.btn} ${styles.follow}`}
+                  onClick={handleUnFollow}
+                  disabled={loadingFollow}
+                >
+                  Un Follow
+                </button>
+              ) : (
+                <button
+                  type="button"
+                  className={`${styles.btn} ${styles.follow}`}
+                  onClick={handleFollow}
+                  disabled={loadingFollow}
+                >
+                  Following
+                </button>
+              )}
+            </>
           )}
         </div>
       </React.Fragment>
@@ -55,7 +123,7 @@ const TopInfo = ({ user }: Props) => {
             alt=""
           />
         </div>
-        <ButtonAction />
+        <ButtonsAction />
       </div>
 
       <div className={styles.generalInfo}>
