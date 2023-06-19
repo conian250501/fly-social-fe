@@ -1,14 +1,14 @@
 "use client";
-import { getUserById } from "@/app/features/user/userAction";
+import { getUserById } from "@/features/user/userAction";
 import Loading from "@/components/Loading";
 import LayoutWithNews from "@/Layouts/LayoutWithNews";
 import MainLayout from "@/Layouts/MainLayout";
 import ProfileLayout from "@/Layouts/ProfileLayout";
 import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
-import { ITweet } from "../../features/interface";
-import { getAllTweetByUser } from "../../features/tweet/tweetAction";
-import { useAppDispatch } from "../../redux/hooks";
+import { ITweet } from "@/features/interface";
+import { getAllTweetByUser } from "@/features/tweet/tweetAction";
+import { useAppDispatch } from "../../../redux/hooks";
 
 const TweetList = dynamic(() => import("@/components/Home/TweetList"), {
   ssr: false,

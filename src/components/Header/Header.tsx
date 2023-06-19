@@ -1,6 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
-import { useAppSelector } from "@/app/redux/hooks";
-import { RootState } from "@/app/redux/store";
+import { useAppSelector } from "@/redux/hooks";
+import { RootState } from "@/redux/store";
 import { PATHS } from "@/contanst/paths";
 import { nanoid } from "@reduxjs/toolkit";
 import Link from "next/link";
@@ -127,7 +127,7 @@ const Header = React.memo(function Header(props: Props) {
                 People on Twitter are the first to know.
               </p>
             </div>
-            <div className="d-flex align-items-center justify-content-end gap-3">
+            <div className={styles.authBtnList}>
               <Link
                 href={PATHS.LoginPage}
                 className={`${styles.link} ${styles.login}`}

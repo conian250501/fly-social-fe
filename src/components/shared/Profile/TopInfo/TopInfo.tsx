@@ -1,14 +1,14 @@
 /* eslint-disable react/display-name */
 /* eslint-disable @next/next/no-img-element */
-import { followUser, unFollowUser } from "@/app/features/follow/followAction";
-import { IError, IUser } from "@/app/features/interface";
+import { followUser, unFollowUser } from "@/features/follow/followAction";
+import { IError, IUser } from "@/features/interface";
 import {
   getAllUserFollowers,
   getAllUserFollowing,
   getUserById,
-} from "@/app/features/user/userAction";
-import { useAppDispatch, useAppSelector } from "@/app/redux/hooks";
-import { RootState } from "@/app/redux/store";
+} from "@/features/user/userAction";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { RootState } from "@/redux/store";
 import FormEditProfile from "@/components/Modal/FormEditProfile";
 import ModalError from "@/components/Modal/ModalError";
 import { PATHS } from "@/contanst/paths";
@@ -163,10 +163,16 @@ const TopInfo = React.memo(({ user }: Props) => {
         </div>
 
         <div className="d-flex align-items-center justify-content-start gap-4">
-          <Link href={PATHS.ProfileFollowing} className={styles.countFollow}>
+          <Link
+            href={`${PATHS.Profile}/${user?.id}${PATHS.ProfileFollowing}`}
+            className={styles.countFollow}
+          >
             <span>{usersFollowing.length}</span> Following
           </Link>
-          <Link href={PATHS.ProfileFollowing} className={styles.countFollow}>
+          <Link
+            href={`${PATHS.Profile}/${user?.id}${PATHS.ProfileFollower}`}
+            className={styles.countFollow}
+          >
             <span>{usersFollower.length}</span> Followers
           </Link>
         </div>

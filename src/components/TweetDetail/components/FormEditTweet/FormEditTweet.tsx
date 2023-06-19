@@ -1,12 +1,11 @@
 /* eslint-disable @next/next/no-img-element */
-import { IError, IPayloadTweet, ITweet } from "@/app/features/interface";
+import { IError, IPayloadTweet, ITweet } from "@/features/interface";
 import {
   getAllTweetByUser,
   getById,
   update as updateTweet,
-} from "@/app/features/tweet/tweetAction";
-import { useAppDispatch } from "@/app/redux/hooks";
-import { ETypeFormEditTweet } from "@/components/interfaces/formEditTweet.interface";
+} from "@/features/tweet/tweetAction";
+import { useAppDispatch } from "@/redux/hooks";
 import ModalError from "@/components/Modal/ModalError";
 import ModalSuccess from "@/components/Modal/ModalSuccess";
 import { useFormik } from "formik";

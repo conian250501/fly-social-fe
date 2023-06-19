@@ -1,6 +1,6 @@
-import { IUser } from "@/app/features/interface";
-import { useAppSelector } from "@/app/redux/hooks";
-import { RootState } from "@/app/redux/store";
+import { IUser } from "@/features/interface";
+import { useAppSelector } from "@/redux/hooks";
+import { RootState } from "@/redux/store";
 
 export const useCheckFollowed = (
   followers: IUser[]

@@ -1,11 +1,11 @@
 /* eslint-disable react/display-name */
-import { IError, ITweet } from "@/app/features/interface";
+import { IError, ITweet } from "@/features/interface";
 import {
   saveTweet,
   unSaveTweet,
-} from "@/app/features/storageTweet/storageTweetAction";
-import { disLikeTweet, likeTweet } from "@/app/features/tweet/tweetAction";
-import { useAppDispatch } from "@/app/redux/hooks";
+} from "@/features/storageTweet/storageTweetAction";
+import { disLikeTweet, likeTweet } from "@/features/tweet/tweetAction";
+import { useAppDispatch } from "@/redux/hooks";
 import ModalError from "@/components/Modal/ModalError";
 import { PATHS } from "@/contanst/paths";
 import { useCheckLiked } from "@/hooks/useCheckLiked";

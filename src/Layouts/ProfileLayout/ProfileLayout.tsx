@@ -1,13 +1,12 @@
 /* eslint-disable react/display-name */
-import { getUser } from "@/app/features/auth/authAction";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { RootState } from "@/redux/store";
+import Loading from "@/components/Loading";
 import {
   getAllUserFollowers,
   getAllUserFollowing,
   getUserById,
-} from "@/app/features/user/userAction";
-import { useAppDispatch, useAppSelector } from "@/app/redux/hooks";
-import { RootState } from "@/app/redux/store";
-import Loading from "@/components/Loading";
+} from "@/features/user/userAction";
 import dynamic from "next/dynamic";
 import React, { ReactNode, useEffect } from "react";
 const BackLink = dynamic(() => import("@/components/shared/Profile/BackLink"), {

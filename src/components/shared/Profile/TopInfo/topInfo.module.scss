@@ -63,6 +63,7 @@
   font-weight: 700;
 
   &.editProfile {
+    border: 1px solid var(--border-color-weight);
   }
   .textUnFollow {
     display: none;
@@ -167,6 +168,9 @@
     font-weight: 500;
     color: var(--dark-color-700);
     text-decoration: none;
+    &:hover {
+      text-decoration: underline;
+    }
   }
   @include mobile {
     .name {

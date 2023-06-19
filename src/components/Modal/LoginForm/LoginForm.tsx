@@ -3,12 +3,12 @@ import React, { useState } from "react";
 import { Form, Modal } from "react-bootstrap";
 import Loading from "@/components/Loading/Loading";
 import { useRouter } from "next/navigation";
-import { useAppDispatch } from "@/app/redux/hooks";
-import { IUser } from "@/app/features/interface";
+import { useAppDispatch } from "@/redux/hooks";
+import { IUser } from "@/features/interface";
 import { PATHS } from "@/contanst/paths";
-import { setError } from "@/app/features/auth/authSlice";
+import { setError } from "@/features/auth/authSlice";
 import Link from "next/link";
-import { login } from "@/app/features/auth/authAction";
+import { login } from "@/features/auth/authAction";
 import styles from "./loginForm.module.scss";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 

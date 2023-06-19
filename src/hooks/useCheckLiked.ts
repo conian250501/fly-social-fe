@@ -1,6 +1,6 @@
-import { ILike } from "@/app/features/interface/like.interface";
-import { useAppSelector } from "@/app/redux/hooks";
-import { RootState } from "@/app/redux/store";
+import { ILike } from "@/features/interface/like.interface";
+import { useAppSelector } from "@/redux/hooks";
+import { RootState } from "@/redux/store";
 
 export function useCheckLiked(likes: ILike[]): { userIsLiked: boolean } {
   const { user } = useAppSelector((state: RootState) => state.auth);

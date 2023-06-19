@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import styles from "./tabsTweetList.module.scss";
 import { ETypeTabTweetList, ITabTweetList } from "@/components/interfaces";
 import { nanoid } from "@reduxjs/toolkit";
-import { useAppSelector } from "@/app/redux/hooks";
-import { RootState } from "@/app/redux/store";
+import { useAppSelector } from "@/redux/hooks";
+import { RootState } from "@/redux/store";
 import ButtonsAction from "./components/ButtonsAction";
 
 type Props = {

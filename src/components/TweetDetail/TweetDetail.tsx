@@ -1,8 +1,8 @@
 /* eslint-disable @next/next/no-img-element */
-import { IError, ITweet } from "@/app/features/interface";
-import { deleteTweet } from "@/app/features/tweet/tweetAction";
-import { deleteTweetSuccess } from "@/app/features/tweet/tweetSlice";
-import { useAppDispatch } from "@/app/redux/hooks";
+import { IError, ITweet } from "@/features/interface";
+import { deleteTweet } from "@/features/tweet/tweetAction";
+import { deleteTweetSuccess } from "@/features/tweet/tweetSlice";
+import { useAppDispatch } from "@/redux/hooks";
 import { useCheckAuthor } from "@/hooks/useCheckAuthor";
 import { nanoid } from "@reduxjs/toolkit";
 import moment from "moment";

@@ -1,8 +1,8 @@
 "use client";
-import { ITweet } from "@/app/features/interface";
-import { getAllTweetsLiked } from "@/app/features/tweet/tweetAction";
-import { getUserById } from "@/app/features/user/userAction";
-import { useAppDispatch } from "@/app/redux/hooks";
+import { ITweet } from "@/features/interface";
+import { getAllTweetsLiked } from "@/features/tweet/tweetAction";
+import { getUserById } from "@/features/user/userAction";
+import { useAppDispatch } from "@/redux/hooks";
 import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
 

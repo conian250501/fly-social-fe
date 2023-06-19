@@ -1,11 +1,8 @@
 /* eslint-disable react/display-name */
-import {
-  disLikeComment,
-  likeComment,
-} from "@/app/features/comment/commentAction";
-import { IComment, IError, ITweet } from "@/app/features/interface";
-import { disLikeTweet, likeTweet } from "@/app/features/tweet/tweetAction";
-import { useAppDispatch } from "@/app/redux/hooks";
+import { disLikeComment, likeComment } from "@/features/comment/commentAction";
+import { IComment, IError, ITweet } from "@/features/interface";
+import { disLikeTweet, likeTweet } from "@/features/tweet/tweetAction";
+import { useAppDispatch } from "@/redux/hooks";
 import ModalError from "@/components/Modal/ModalError";
 import { PATHS } from "@/contanst/paths";
 import { useCheckLiked } from "@/hooks/useCheckLiked";

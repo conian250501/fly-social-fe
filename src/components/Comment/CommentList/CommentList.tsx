@@ -2,13 +2,13 @@
 /* eslint-disable @next/next/no-img-element */
 import React, { FC, useEffect, useState } from "react";
 import styles from "./commentList.module.scss";
-import { IComment, ITweet } from "@/app/features/interface";
+import { IComment, ITweet } from "@/features/interface";
 import moment from "moment";
 import { useCheckAuthor } from "@/hooks/useCheckAuthor";
-import { useAppDispatch, useAppSelector } from "@/app/redux/hooks";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import CommentItem from "../CommentItem";
-import { getAllByTweet } from "@/app/features/comment/commentAction";
-import { RootState } from "@/app/redux/store";
+import { getAllByTweet } from "@/features/comment/commentAction";
+import { RootState } from "@/redux/store";
 import Loading from "@/components/Loading";
 type Props = {
   tweet: ITweet;

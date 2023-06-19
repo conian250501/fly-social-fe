@@ -1,8 +1,8 @@
 /* eslint-disable @next/next/no-img-element */
-import { ITweet } from "@/app/features/interface";
-import { clearIsDeleted } from "@/app/features/tweet/tweetSlice";
-import { useAppDispatch, useAppSelector } from "@/app/redux/hooks";
-import { RootState } from "@/app/redux/store";
+import { ITweet } from "@/features/interface";
+import { clearIsDeleted } from "@/features/tweet/tweetSlice";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { RootState } from "@/redux/store";
 import ModalSuccess from "@/components/Modal/ModalSuccess";
 import { PATHS } from "@/contanst/paths";
 import moment from "moment";

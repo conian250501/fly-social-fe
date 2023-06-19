@@ -1,23 +1,19 @@
 "use client";
 import Facebook from "@/components/AuthButtons/Facebook";
+import Github from "@/components/AuthButtons/Github/Github";
 import Google from "@/components/AuthButtons/Google/Google";
 import Loading from "@/components/Loading/Loading";
+import LoginForm from "@/components/Modal/LoginForm/LoginForm";
+import SignUpForm from "@/components/Modal/SignUpForm";
 import ToastError from "@/components/Toasts/Error/Error";
+import { PATHS } from "@/contanst/paths";
+import { getUser } from "@/features/auth/authAction";
+import { clearError } from "@/features/auth/authSlice";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
-import { Form, Modal } from "react-bootstrap";
-import { getUser, login, register } from "../features/auth/authAction";
-import { clearError, setError } from "../features/auth/authSlice";
-import { useAppDispatch, useAppSelector } from "../redux/hooks";
-import { RootState } from "../redux/store";
+import { useAppDispatch, useAppSelector } from "../../redux/hooks";
+import { RootState } from "../../redux/store";
 import styles from "./auth.module.scss";
-import Github from "@/components/AuthButtons/Github/Github";
-import { PATHS } from "@/contanst/paths";
-import Link from "next/link";
-import { regexPassword } from "@/contanst/regexs";
-import { IUser } from "../features/interface";
-import SignUpForm from "@/components/Modal/SignUpForm";
-import LoginForm from "@/components/Modal/LoginForm/LoginForm";
 
 type Props = {};
 

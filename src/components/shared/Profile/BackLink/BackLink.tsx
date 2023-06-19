@@ -1,5 +1,5 @@
 /* eslint-disable react/display-name */
-import { IUser } from "@/app/features/interface";
+import { IUser } from "@/features/interface";
 import { useRouter } from "next/navigation";
 import React from "react";
 import { BsArrowLeft } from "react-icons/bs";
@@ -11,6 +11,7 @@ type Props = {
 
 const BackLink = React.memo(({ user }: Props) => {
   const router = useRouter();
+
   return (
     <div className={styles.container}>
       <div onClick={() => router.back()} className={styles.iconArrow}>

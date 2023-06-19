@@ -1,6 +1,6 @@
-import { loginByFacebook } from "@/app/features/auth/authAction";
-import { setError } from "@/app/features/auth/authSlice";
-import { useAppDispatch } from "@/app/redux/hooks";
+import { loginByFacebook } from "@/features/auth/authAction";
+import { setError } from "@/features/auth/authSlice";
+import { useAppDispatch } from "@/redux/hooks";
 import FacebookLogin, {
   SuccessResponse,
 } from "@greatsumini/react-facebook-login";

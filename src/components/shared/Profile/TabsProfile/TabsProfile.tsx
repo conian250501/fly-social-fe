@@ -1,7 +1,4 @@
 /* eslint-disable react/display-name */
-import { IUser } from "@/app/features/interface";
-import { useAppSelector } from "@/app/redux/hooks";
-import { RootState } from "@/app/redux/store";
 import {
   ETypeTabProfile,
   ITabProfile,
@@ -11,7 +8,7 @@ import { useCheckIsMe } from "@/hooks/useCheckIsMe";
 import { nanoid } from "@reduxjs/toolkit";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import styles from "./tabsProfile.module.scss";
 type Props = {
   userId: number;

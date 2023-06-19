@@ -1,15 +1,14 @@
 /* eslint-disable react/display-name */
-import { getUser } from "@/app/features/auth/authAction";
-import { IError, IPayloadEditProfile, IUser } from "@/app/features/interface";
-import { getAllTweetByUser } from "@/app/features/tweet/tweetAction";
+import { useAppDispatch } from "@/redux/hooks";
+import { ETypeInputProfile } from "@/components/interfaces";
+import { regexUrl } from "@/contanst/regexs";
+import { getUser } from "@/features/auth/authAction";
+import { IError, IPayloadEditProfile, IUser } from "@/features/interface";
 import {
   getUserById,
   updateProfile,
   uploadFilesProfile,
-} from "@/app/features/user/userAction";
-import { useAppDispatch } from "@/app/redux/hooks";
-import { ETypeInputProfile } from "@/components/interfaces";
-import { regexUrl } from "@/contanst/regexs";
+} from "@/features/user/userAction";
 import { useFormik } from "formik";
 import React, { useEffect, useState } from "react";
 import { Form, Modal } from "react-bootstrap";
