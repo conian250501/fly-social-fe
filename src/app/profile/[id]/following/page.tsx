@@ -46,7 +46,10 @@ const Page = ({ params }: Props) => {
             <BackLink user={user} />
             <TabsFollow id={Number(params.id)} />
 
-            <Following users={usersFollowing} />
+            <Following
+              currentUserId={Number(params.id)}
+              users={usersFollowing}
+            />
           </>
         ) : (
           <h1>User doesn&apos;t exist</h1>

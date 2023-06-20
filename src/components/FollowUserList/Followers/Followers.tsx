@@ -1,84 +1,13 @@
-import ModalError from "@/components/Modal/ModalError";
-import { followUser, unFollowUser } from "@/features/follow/followAction";
-import { IError, IUser } from "@/features/interface";
-import {
-  getAllUserFollowers,
-  getAllUserFollowing,
-} from "@/features/user/userAction";
-import { useCheckFollowed } from "@/hooks/useCheckFollowed";
-import { useAppDispatch } from "@/redux/hooks";
-import React, { FC, useEffect, useState } from "react";
+import { IUser } from "@/features/interface";
+import FollowerItem from "./FollowerItem";
 import styles from "./followers.module.scss";
 
 type Props = {
   users: IUser[];
+  currentUserId: number;
 };
 
-const Followers = ({ users }: Props) => {
-  const dispatch = useAppDispatch();
-
-  const [loadingFollow, setLoadingFollow] = useState<boolean>(false);
-  const [isFollowed, setIsFollowed] = useState<boolean>(false);
-  const [error, setError] = useState<IError | null>(null);
-
-  const handleFollow = async (userId: number) => {
-    try {
-      setLoadingFollow(true);
-
-      await dispatch(followUser(Number(userId))).unwrap();
-
-      setLoadingFollow(false);
-      setIsFollowed(true);
-    } catch (error) {
-      setError(error as IError);
-      setLoadingFollow(false);
-    }
-  };
-
-  const handleUnFollow = async (userId: number) => {
-    try {
-      setLoadingFollow(true);
-
-      await dispatch(unFollowUser(Number(userId))).unwrap();
-
-      setIsFollowed(false);
-      setLoadingFollow(false);
-    } catch (error) {
-      setError(error as IError);
-      setLoadingFollow(false);
-    }
-  };
-
-  const ButtonAction: FC<{ user: IUser }> = ({ user }) => {
-    return (
-      <React.Fragment>
-        <div className={styles.btnWrapper}>
-          {isFollowed ? (
-            <button
-              type="button"
-              className={`${styles.btn} ${styles.unFollow}`}
-              onClick={() => handleUnFollow(user.id)}
-              disabled={loadingFollow}
-            >
-              <p className={styles.textFollowing}>
-                {loadingFollow ? "..." : "Following"}
-              </p>
-              <p className={styles.textUnFollow}>Unfollow</p>
-            </button>
-          ) : (
-            <button
-              type="button"
-              className={`${styles.btn} ${styles.follow}`}
-              onClick={() => handleFollow(user.id)}
-              disabled={loadingFollow}
-            >
-              {loadingFollow ? "..." : "Follow"}
-            </button>
-          )}
-        </div>
-      </React.Fragment>
-    );
-  };
+const Followers = ({ currentUserId, users }: Props) => {
   return (
     <ul className={styles.userFollowList}>
       {users.length <= 0 ? (
@@ -92,38 +21,12 @@ const Followers = ({ users }: Props) => {
         </div>
       ) : (
         users.map((user) => (
-          <li key={user.id} className={styles.userFollowItem}>
-            <div className={styles.userInfo}>
-              <div className="d-flex align-items-center justify-content-start gap-4">
-                <div className={styles.avatar}>
-                  <img
-                    src={
-                      user.avatar
-                        ? user.avatar
-                        : "/images/avatar-placeholder.png"
-                    }
-                    alt=""
-                  />
-                </div>
-                <div className={styles.info}>
-                  <h6 className={styles.name}>{user.name}</h6>
-                  <p className={styles.nickname}>@{user.nickname}</p>
-                </div>
-              </div>
-              <ButtonAction user={user} />
-            </div>
-            <p className={styles.bio}>{user.bio}</p>
-          </li>
+          <FollowerItem
+            currentUserId={currentUserId}
+            key={user.id}
+            user={user}
+          />
         ))
-      )}
-
-      {/* ====== MODALS ====== */}
-      {error && (
-        <ModalError
-          isOpen={Boolean(error)}
-          handleClose={() => setError(null)}
-          message={error.message}
-        />
       )}
     </ul>
   );
