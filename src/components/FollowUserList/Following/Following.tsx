@@ -17,7 +17,6 @@ type Props = {
 };
 
 const Following = ({ users, currentUserId }: Props) => {
-  const dispatch = useAppDispatch();
   return (
     <ul className={styles.userFollowList}>
       {users.length <= 0 ? (

@@ -86,7 +86,7 @@
     font-size: 16px;
     font-weight: 500;
     color: var(--dark-color-900);
-    margin-bottom: 16px;
+    margin-top: 8px;
     @include textLineBreak;
   }
   .image {
@@ -94,6 +94,7 @@
     cursor: pointer;
     width: 100%;
     object-fit: cover;
+    margin-top: 16px;
     margin-bottom: 16px;
   }
 }

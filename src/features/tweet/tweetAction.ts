@@ -175,3 +175,19 @@ export const getAllTweetsLiked = createAsyncThunk(
     }
   }
 );
+export const getAllTweetsFollowing = createAsyncThunk(
+  "tweet/get-all-following",
+  async ({ filter }: { filter: IBaseFilter }, { rejectWithValue }) => {
+    try {
+      const query = queryString.stringify({
+        limit: filter.limit || 2,
+        page: filter.page || 1,
+      });
+      const { data } = await axiosConfig.get(`/tweets/following?${query}`);
+      return data.data;
+    } catch (error) {
+      const err = error as AxiosError;
+      return rejectWithValue(err.response?.data);
+    }
+  }
+);

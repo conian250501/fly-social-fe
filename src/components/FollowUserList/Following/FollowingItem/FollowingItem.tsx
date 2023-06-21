@@ -20,6 +20,7 @@ const FollowerItem = React.memo(({ currentUserId, user }: Props) => {
       <div className={styles.userInfo}>
         <Link
           href={`${PATHS.Profile}/${user.id}`}
+          style={{ textDecoration: "none" }}
           className="d-flex align-items-center justify-content-start gap-4"
         >
           <div className={styles.avatar}>

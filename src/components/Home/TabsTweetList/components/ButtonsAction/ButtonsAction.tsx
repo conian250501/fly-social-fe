@@ -92,7 +92,7 @@ const ButtonsAction = React.memo(({ tweet }: Props) => {
           <div className={styles.text}>Comments</div>
         </div>
         <div className={styles.listInfoItem}>
-          <p className={styles.number}>12</p>
+          <p className={styles.number}>{tweet.storageTweets.length}</p>
           <div className={styles.text}>Bookmark</div>
         </div>
       </div>
