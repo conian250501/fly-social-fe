@@ -71,6 +71,13 @@
     color: var(--dark-color-700);
     margin-bottom: 0;
   }
+  .audienceIcon {
+    .icon {
+      font-size: 18px;
+      color: var(--black-color);
+      margin-left: 10px;
+    }
+  }
 }
 .tweetInfo {
   flex: 1;
@@ -79,14 +86,15 @@
     font-size: 16px;
     font-weight: 500;
     color: var(--dark-color-900);
-    white-space: pre-wrap;
-    margin-bottom: 16px;
+    margin-top: 8px;
+    @include textLineBreak;
   }
   .image {
     border-radius: 20px;
     cursor: pointer;
     width: 100%;
     object-fit: cover;
+    margin-top: 16px;
     margin-bottom: 16px;
   }
 }

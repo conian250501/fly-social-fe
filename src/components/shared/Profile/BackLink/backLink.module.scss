@@ -4,6 +4,10 @@
   align-items: center;
   padding: 8px;
   gap: 24px;
+  position: sticky;
+  top: 0;
+  background-color: rgba($color: #fff, $alpha: 0.8);
+  z-index: 4;
 }
 .iconArrow {
   width: 50px;

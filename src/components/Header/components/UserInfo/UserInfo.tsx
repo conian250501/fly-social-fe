@@ -2,8 +2,8 @@
 /* eslint-disable react/display-name */
 import React, { useEffect, useState } from "react";
 import styles from "./userInfo.module.scss";
-import { useAppSelector } from "@/app/redux/hooks";
-import { RootState } from "@/app/redux/store";
+import { useAppSelector } from "@/redux/hooks";
+import { RootState } from "@/redux/store";
 import { BsThreeDots } from "react-icons/bs";
 import { useRouter } from "next/navigation";
 import { PATHS } from "@/contanst/paths";

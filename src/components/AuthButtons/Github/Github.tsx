@@ -2,9 +2,9 @@
 import {
   getAccessTokenGithub,
   loginByGithub,
-} from "@/app/features/auth/authAction";
-import { setError } from "@/app/features/auth/authSlice";
-import { useAppDispatch } from "@/app/redux/hooks";
+} from "@/features/auth/authAction";
+import { setError } from "@/features/auth/authSlice";
+import { useAppDispatch } from "@/redux/hooks";
 import { useRouter, useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import styles from "./github.module.scss";

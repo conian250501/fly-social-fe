@@ -6,8 +6,8 @@ import styles from "./mainLayout.module.scss";
 import useAuth from "@/hooks/useAuth";
 import Loading from "@/components/Loading/Loading";
 import { Col, Container, Row } from "react-bootstrap";
-import { useAppDispatch } from "@/app/redux/hooks";
-import { getUser } from "@/app/features/auth/authAction";
+import { useAppDispatch } from "@/redux/hooks";
+import { getUser } from "@/features/auth/authAction";
 type Props = {
   children: React.ReactNode;
 };
@@ -29,10 +29,10 @@ const MainLayout = ({ children }: Props) => {
   }, [isAuthenticated]);
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (token) {
-      dispatch(getUser());
+    async function fetchUser() {
+      await dispatch(getUser()).unwrap();
     }
+    fetchUser();
   }, []);
 
   return (

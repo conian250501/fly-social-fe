@@ -7,11 +7,11 @@ import Loading from "@/components/Loading/Loading";
 import GuestLayout from "@/Layouts/GuestLayout/GuestLayout";
 import LayoutWithNews from "@/Layouts/LayoutWithNews";
 import { useEffect, useState } from "react";
-import { getUser } from "./features/auth/authAction";
-import { getAll as getAllTweet } from "./features/tweet/tweetAction";
+import { getUser } from "@/features/auth/authAction";
+import { getAll as getAllTweet } from "@/features/tweet/tweetAction";
 import styles from "./main.module.scss";
-import { useAppDispatch, useAppSelector } from "./redux/hooks";
-import { RootState } from "./redux/store";
+import { useAppDispatch, useAppSelector } from "../redux/hooks";
+import { RootState } from "../redux/store";
 
 const Home = () => {
   const dispatch = useAppDispatch();

@@ -1,18 +1,19 @@
 /* eslint-disable @next/next/no-img-element */
-import { getAll as getAllTweet } from "@/app/features/tweet/tweetAction";
-import { useAppDispatch, useAppSelector } from "@/app/redux/hooks";
-import React, { useCallback, useEffect, useState } from "react";
-import Loading from "../../Loading";
-import { RootState } from "@/app/redux/store";
-import styles from "./tweetList.module.scss";
-import moment from "moment";
-import ButtonsAction from "../TabsTweetList/components/ButtonsAction";
-import Link from "next/link";
-import { PATHS } from "@/contanst/paths";
-import { useRouter } from "next/navigation";
+import { ITweet } from "@/features/interface";
+import { clearIsDeleted } from "@/features/tweet/tweetSlice";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { RootState } from "@/redux/store";
 import ModalSuccess from "@/components/Modal/ModalSuccess";
-import { clearIsDeleted } from "@/app/features/tweet/tweetSlice";
-import { ITweet } from "@/app/features/interface";
+import { PATHS } from "@/contanst/paths";
+import moment from "moment";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useCallback, useState } from "react";
+import { FiLock } from "react-icons/fi";
+import { GiWorld } from "react-icons/gi";
+import Loading from "../../Loading";
+import ButtonsAction from "../TabsTweetList/components/ButtonsAction";
+import styles from "./tweetList.module.scss";
 
 type Props = { tweets: ITweet[] };
 
@@ -73,6 +74,13 @@ const TweetList = ({ tweets }: Props) => {
                   <p className={styles.createdAt}>
                     {moment(tweet.createdAt).fromNow()}
                   </p>
+                  <div className={styles.audienceIcon}>
+                    {tweet.isPrivate ? (
+                      <FiLock className={styles.icon} />
+                    ) : (
+                      <GiWorld className={styles.icon} />
+                    )}
+                  </div>
                 </Link>
                 <div
                   className={styles.tweetInfo}

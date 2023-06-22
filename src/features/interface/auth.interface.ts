@@ -1,4 +1,5 @@
 import { IBaseTypes } from "../interface/IBaseTypes";
+import { IFollow } from "./follow.interface";
 import { IStorageTweet } from "./storageTweet.interface";
 import { ITweet } from "./tweet.interface";
 
@@ -26,6 +27,10 @@ export interface IUser extends IBaseTypes {
   token: string;
   storageTweets: IStorageTweet[];
   tweets: ITweet[];
+  website: string;
+  birthDate: string;
+  followers: IFollow[];
+  followings: IFollow[];
 }
 
 export interface IPayloadResetPass {

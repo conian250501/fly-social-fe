@@ -1,9 +1,10 @@
 "use client";
 import { Montserrat } from "next/font/google";
 import { Provider } from "react-redux";
-import { store } from "./redux/store";
+import { store } from "../redux/store";
 import "../styles/global.scss";
 import "bootstrap/dist/css/bootstrap.min.css";
+import "react-datepicker/dist/react-datepicker.css";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 
 const montserrat = Montserrat({

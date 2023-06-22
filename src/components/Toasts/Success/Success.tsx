@@ -1,5 +1,3 @@
-import { IError } from "@/app/features/interface";
-import React from "react";
 import { Toast } from "react-bootstrap";
 import styles from "./success.module.scss";
 

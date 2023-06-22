@@ -1,29 +1,26 @@
 /* eslint-disable @next/next/no-img-element */
-import { IError, ITweet } from "@/app/features/interface";
-import { PATHS } from "@/contanst/paths";
+import { IError, ITweet } from "@/features/interface";
+import { deleteTweet } from "@/features/tweet/tweetAction";
+import { deleteTweetSuccess } from "@/features/tweet/tweetSlice";
+import { useAppDispatch } from "@/redux/hooks";
 import { useCheckAuthor } from "@/hooks/useCheckAuthor";
-import Link from "next/link";
-import { BsArrowLeft } from "react-icons/bs";
-import { TbDots } from "react-icons/tb";
-import styles from "./tweetDetail.module.scss";
-import ButtonsAction from "../Home/TabsTweetList/components/ButtonsAction";
-import moment from "moment";
-import FormComment from "../Comment/FormComment";
-import CommentList from "../Comment/CommentList";
-import React, { FC, ReactNode, useEffect, useState } from "react";
 import { nanoid } from "@reduxjs/toolkit";
-import { RxUpdate } from "react-icons/rx";
-import { TbGitBranchDeleted } from "react-icons/tb";
-import { ETypeTweetSetting } from "../interfaces";
-import FormEditTweet from "./components/FormEditTweet/FormEditTweet";
-import ActionModal from "../shared/ActionModal/ActionModal";
-import { GiWorld } from "react-icons/gi";
-import { FaUserSecret } from "react-icons/fa";
-import { useAppDispatch } from "@/app/redux/hooks";
-import { deleteTweet } from "@/app/features/tweet/tweetAction";
-import ModalError from "../Modal/ModalError/ModalError";
+import moment from "moment";
 import { useRouter } from "next/navigation";
-import { deleteTweetSuccess } from "@/app/features/tweet/tweetSlice";
+import React, { FC, ReactNode, useEffect, useState } from "react";
+import { BsArrowLeft } from "react-icons/bs";
+import { FiLock } from "react-icons/fi";
+import { GiWorld } from "react-icons/gi";
+import { RxUpdate } from "react-icons/rx";
+import { TbDots, TbGitBranchDeleted } from "react-icons/tb";
+import CommentList from "../Comment/CommentList";
+import FormComment from "../Comment/FormComment";
+import ButtonsAction from "../Home/TabsTweetList/components/ButtonsAction";
+import { ETypeTweetSetting } from "../interfaces";
+import ModalError from "../Modal/ModalError/ModalError";
+import ActionModal from "../shared/ActionModal/ActionModal";
+import FormEditTweet from "./components/FormEditTweet/FormEditTweet";
+import styles from "./tweetDetail.module.scss";
 
 type Props = { tweet: ITweet | null };
 
@@ -85,13 +82,18 @@ const TweetDetail = ({ tweet }: Props) => {
     try {
       setLoadingDelete(true);
       await dispatch(deleteTweet(Number(tweet?.id))).unwrap();
-      router.push(PATHS.Home);
+      router.back();
+      setOpenConfirmDelete(false);
       setLoadingDelete(false);
       dispatch(deleteTweetSuccess());
     } catch (error) {
       setLoadingDelete(false);
       setError(error as IError);
     }
+  };
+
+  const handleBackPage = () => {
+    router.back();
   };
 
   const MenuSettingTweet: FC = () => {
@@ -123,12 +125,12 @@ const TweetDetail = ({ tweet }: Props) => {
     );
   return (
     <div className={styles.tweetDetailContainer}>
-      <Link href={PATHS.Home} className={styles.backLink}>
+      <div onClick={handleBackPage} className={styles.backLink}>
         <div className={styles.iconBack}>
           <BsArrowLeft className={styles.icon} />
         </div>
         Tweet
-      </Link>
+      </div>
       <div className={styles.userInfo}>
         <div className="d-flex align-items-center justify-content-start gap-3">
           <img
@@ -151,7 +153,7 @@ const TweetDetail = ({ tweet }: Props) => {
           </div>
           <div className={styles.audienceIcon}>
             {tweet.isPrivate ? (
-              <FaUserSecret className={styles.icon} />
+              <FiLock className={styles.icon} />
             ) : (
               <GiWorld className={styles.icon} />
             )}

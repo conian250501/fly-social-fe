@@ -1,13 +1,13 @@
 /* eslint-disable @next/next/no-img-element */
 /* eslint-disable react/display-name */
-import { IError, IPayloadTweet } from "@/app/features/interface";
+import { IError, IPayloadTweet } from "@/features/interface";
 import {
   create as createTweet,
   getAll as getAllTweet,
   uploadFile,
-} from "@/app/features/tweet/tweetAction";
-import { useAppDispatch, useAppSelector } from "@/app/redux/hooks";
-import { RootState } from "@/app/redux/store";
+} from "@/features/tweet/tweetAction";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { RootState } from "@/redux/store";
 import { useFormik } from "formik";
 import React, { useEffect, useState } from "react";
 import { Button, Form, Modal } from "react-bootstrap";

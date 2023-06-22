@@ -4,10 +4,10 @@ import {
   getAllByTweet,
   updateComment,
   uploadFileComment,
-} from "@/app/features/comment/commentAction";
-import { IComment, IError, IPayloadComment } from "@/app/features/interface";
-import { getById } from "@/app/features/tweet/tweetAction";
-import { useAppDispatch } from "@/app/redux/hooks";
+} from "@/features/comment/commentAction";
+import { IComment, IError, IPayloadComment } from "@/features/interface";
+import { getById } from "@/features/tweet/tweetAction";
+import { useAppDispatch } from "@/redux/hooks";
 import ModalError from "@/components/Modal/ModalError";
 import ModalSuccess from "@/components/Modal/ModalSuccess";
 import { useFormik } from "formik";

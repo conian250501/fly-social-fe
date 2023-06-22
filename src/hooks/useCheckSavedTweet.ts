@@ -1,6 +1,6 @@
-import { IStorageTweet } from "@/app/features/interface";
-import { useAppSelector } from "@/app/redux/hooks";
-import { RootState } from "@/app/redux/store";
+import { IStorageTweet } from "@/features/interface";
+import { useAppSelector } from "@/redux/hooks";
+import { RootState } from "@/redux/store";
 
 export function useCheckSavedTweet(storageTweets: IStorageTweet[]): {
   tweetIsSaved: boolean;

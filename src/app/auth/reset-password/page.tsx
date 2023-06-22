@@ -10,15 +10,15 @@ import {
 import { useRouter, useSearchParams } from "next/navigation";
 import { Button, Form } from "react-bootstrap";
 import { useFormik } from "formik";
-import { useAppDispatch, useAppSelector } from "@/app/redux/hooks";
-import { RootState } from "@/app/redux/store";
-import { resetPassword, verifyToken } from "@/app/features/auth/authAction";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { RootState } from "@/redux/store";
+import { resetPassword, verifyToken } from "@/features/auth/authAction";
 import { regexPassword } from "@/contanst/regexs";
-import { clearError, setError } from "@/app/features/auth/authSlice";
-import { IError } from "@/app/features/interface";
+import { clearError, setError } from "@/features/auth/authSlice";
+import { IError } from "@/features/interface";
 import Loading from "@/components/Loading/Loading";
 import ModalSuccess from "@/components/Modal/ModalSuccess";
-import { IPayloadResetPass, IUser } from "@/app/features/interface";
+import { IPayloadResetPass, IUser } from "@/features/interface";
 
 import styles from "./page.module.scss";
 import { PATHS } from "@/contanst/paths";

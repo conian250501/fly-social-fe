@@ -1,8 +1,8 @@
-import { IError } from "@/app/features/interface/IError";
+import { IError } from "@/features/interface/IError";
 import React, { useEffect, useState } from "react";
 import { Toast, ToastContainer } from "react-bootstrap";
 import styles from "./error.module.scss";
-import { useAppDispatch } from "@/app/redux/hooks";
+import { useAppDispatch } from "@/redux/hooks";
 
 type Props = {
   error: IError;

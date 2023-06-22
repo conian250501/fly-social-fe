@@ -1,10 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
-import {
-  deleteComment,
-  getAllByTweet,
-} from "@/app/features/comment/commentAction";
-import { IComment, IError } from "@/app/features/interface";
-import { useAppDispatch } from "@/app/redux/hooks";
+import { deleteComment, getAllByTweet } from "@/features/comment/commentAction";
+import { IComment, IError } from "@/features/interface";
+import { useAppDispatch } from "@/redux/hooks";
 import { ETypeCommentSetting } from "@/components/interfaces";
 import ModalError from "@/components/Modal/ModalError";
 import ModalSuccess from "@/components/Modal/ModalSuccess";

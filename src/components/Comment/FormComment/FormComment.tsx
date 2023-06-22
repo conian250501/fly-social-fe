@@ -7,10 +7,10 @@ import {
   IError,
   IPayloadComment,
   ITweet,
-} from "@/app/features/interface";
+} from "@/features/interface";
 import { Button, Form } from "react-bootstrap";
-import { useAppDispatch, useAppSelector } from "@/app/redux/hooks";
-import { RootState } from "@/app/redux/store";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { RootState } from "@/redux/store";
 import {
   AiOutlineGif,
   AiOutlineLoading,
@@ -25,8 +25,8 @@ import {
   getAllByTweet,
   updateComment,
   uploadFileComment,
-} from "@/app/features/comment/commentAction";
-import { getById } from "@/app/features/tweet/tweetAction";
+} from "@/features/comment/commentAction";
+import { getById } from "@/features/tweet/tweetAction";
 type Props = {
   tweet: ITweet;
 };

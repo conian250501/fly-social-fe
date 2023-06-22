@@ -1,12 +1,22 @@
 "use client";
+import { getUserById } from "@/features/user/userAction";
+import Loading from "@/components/Loading";
+import LayoutWithNews from "@/Layouts/LayoutWithNews";
+import MainLayout from "@/Layouts/MainLayout";
+import ProfileLayout from "@/Layouts/ProfileLayout";
 import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
-import { ITweet } from "../../features/interface";
-import { getAllTweetByUser } from "../../features/tweet/tweetAction";
-import { useAppDispatch } from "../../redux/hooks";
+import { ITweet } from "@/features/interface";
+import { getAllTweetByUser } from "@/features/tweet/tweetAction";
+import { useAppDispatch } from "../../../redux/hooks";
 
 const TweetList = dynamic(() => import("@/components/Home/TweetList"), {
   ssr: false,
+  loading: () => (
+    <div className="d-flex align-items-center justify-content-center w-100 vh-100">
+      <Loading />
+    </div>
+  ),
 });
 
 type Props = {
@@ -68,10 +78,14 @@ const Page = ({ params }: Props) => {
   };
 
   return (
-    <section>
-      <TweetList tweets={tweets} />
-      {loading && !lastPage && <h1>loading...</h1>}
-    </section>
+    <MainLayout>
+      <LayoutWithNews>
+        <ProfileLayout id={Number(params.id)}>
+          <TweetList tweets={tweets} />
+          {loading && !lastPage && <h1>loading...</h1>}
+        </ProfileLayout>
+      </LayoutWithNews>
+    </MainLayout>
   );
 };
 

@@ -1,11 +1,14 @@
-"use client";
-import { getUserById } from "@/app/features/user/userAction";
-import { useAppDispatch, useAppSelector } from "@/app/redux/hooks";
-import { RootState } from "@/app/redux/store";
+/* eslint-disable react/display-name */
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { RootState } from "@/redux/store";
 import Loading from "@/components/Loading";
+import {
+  getAllUserFollowers,
+  getAllUserFollowing,
+  getUserById,
+} from "@/features/user/userAction";
 import dynamic from "next/dynamic";
-import { ReactNode, useEffect } from "react";
-
+import React, { ReactNode, useEffect } from "react";
 const BackLink = dynamic(() => import("@/components/shared/Profile/BackLink"), {
   ssr: false,
   loading: () => (
@@ -50,34 +53,40 @@ const LayoutWithNews = dynamic(() => import("@/Layouts/LayoutWithNews"), {
   ),
 });
 
-export type Props = {
-  params: {
-    id: string;
-  };
+type Props = {
   children: ReactNode;
+  id: number;
 };
 
-export default function ProfileLayout({ params, children }: Props) {
+const ProfileLayout = React.memo(({ children, id }: Props) => {
   const dispatch = useAppDispatch();
   const { user } = useAppSelector((state: RootState) => state.user);
 
   useEffect(() => {
-    dispatch(getUserById(Number(params.id)));
+    async function getData() {
+      await Promise.all([
+        dispatch(getUserById(id)),
+        dispatch(getAllUserFollowers(id)),
+        dispatch(getAllUserFollowing(id)),
+      ]);
+    }
+    getData();
   }, []);
+
   return (
-    <MainLayout>
-      <LayoutWithNews>
-        {user ? (
-          <>
-            <BackLink user={user} />
-            <TopInfo user={user} />
-            <TabsProfile />
-            {children}
-          </>
-        ) : (
-          <h1>User doesn&apos;t exist</h1>
-        )}
-      </LayoutWithNews>
-    </MainLayout>
+    <div>
+      {user ? (
+        <>
+          <BackLink user={user} />
+          <TopInfo user={user} />
+          <TabsProfile userId={id} />
+          {children}
+        </>
+      ) : (
+        <h1>User doesn&apos;t exist</h1>
+      )}
+    </div>
   );
-}
+});
+
+export default ProfileLayout;

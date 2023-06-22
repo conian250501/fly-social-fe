@@ -1,7 +1,11 @@
 "use client";
-import { ITweet } from "@/app/features/interface";
-import { getAllTweetsSaved } from "@/app/features/tweet/tweetAction";
-import { useAppDispatch } from "@/app/redux/hooks";
+import { ITweet } from "@/features/interface";
+import { getAllTweetsSaved } from "@/features/tweet/tweetAction";
+import { getUserById } from "@/features/user/userAction";
+import { useAppDispatch } from "@/redux/hooks";
+import LayoutWithNews from "@/Layouts/LayoutWithNews";
+import MainLayout from "@/Layouts/MainLayout";
+import ProfileLayout from "@/Layouts/ProfileLayout";
 import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
 const TweetList = dynamic(() => import("@/components/Home/TweetList"), {
@@ -66,7 +70,15 @@ const Page = ({ params }: Props) => {
     }
   };
 
-  return <TweetList tweets={tweets} />;
+  return (
+    <MainLayout>
+      <LayoutWithNews>
+        <ProfileLayout id={Number(params.id)}>
+          <TweetList tweets={tweets} />
+        </ProfileLayout>
+      </LayoutWithNews>
+    </MainLayout>
+  );
 };
 
 export default Page;

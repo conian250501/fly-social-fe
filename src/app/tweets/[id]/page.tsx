@@ -1,8 +1,8 @@
 "use client";
 import MainLayout from "@/Layouts/MainLayout/MainLayout";
-import { getById } from "@/app/features/tweet/tweetAction";
-import { useAppDispatch, useAppSelector } from "@/app/redux/hooks";
-import { RootState } from "@/app/redux/store";
+import { getById } from "@/features/tweet/tweetAction";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { RootState } from "@/redux/store";
 import UserList from "@/components/Home/UserList/UserList";
 import Loading from "@/components/Loading/Loading";
 import TweetDetail from "@/components/TweetDetail";

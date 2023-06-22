@@ -1,6 +1,6 @@
-import { loginByGoogle } from "@/app/features/auth/authAction";
-import { setError } from "@/app/features/auth/authSlice";
-import { useAppDispatch } from "@/app/redux/hooks";
+import { loginByGoogle } from "@/features/auth/authAction";
+import { setError } from "@/features/auth/authSlice";
+import { useAppDispatch } from "@/redux/hooks";
 import { useGoogleLogin } from "@react-oauth/google";
 import { useRouter } from "next/navigation";
 import React from "react";
