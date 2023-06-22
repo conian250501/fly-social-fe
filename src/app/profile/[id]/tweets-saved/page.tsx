@@ -1,11 +1,11 @@
 "use client";
 import { ITweet } from "@/features/interface";
 import { getAllTweetsSaved } from "@/features/tweet/tweetAction";
-import { getUserById } from "@/features/user/userAction";
-import { useAppDispatch } from "@/redux/hooks";
 import LayoutWithNews from "@/Layouts/LayoutWithNews";
 import MainLayout from "@/Layouts/MainLayout";
 import ProfileLayout from "@/Layouts/ProfileLayout";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { RootState } from "@/redux/store";
 import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
 const TweetList = dynamic(() => import("@/components/Home/TweetList"), {
@@ -20,6 +20,7 @@ type Props = {
 
 const Page = ({ params }: Props) => {
   const dispatch = useAppDispatch();
+  const { user } = useAppSelector((state: RootState) => state.auth);
 
   const [tweets, setTweets] = useState<ITweet[]>([]);
   const [loading, setLoading] = useState(false);
@@ -27,13 +28,15 @@ const Page = ({ params }: Props) => {
   const [lastPage, setLastPage] = useState<boolean>(false);
 
   useEffect(() => {
+    if (!user) return;
     if (lastPage) return;
     getTweets();
-  }, [page]);
+  }, [page, user]);
 
   useEffect(() => {
     const handleScroll = () => {
       if (window.innerHeight + window.scrollY >= document.body.scrollHeight) {
+        if (lastPage) return;
         setPage((prevPage) => prevPage + 1);
       }
     };

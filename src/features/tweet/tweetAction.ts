@@ -48,9 +48,13 @@ export const update = createAsyncThunk(
 
 export const getAll = createAsyncThunk(
   "tweet/get-all",
-  async (_, { rejectWithValue }) => {
+  async (filter: IBaseFilter, { rejectWithValue }) => {
     try {
-      const { data } = await axiosConfig.get(`/tweets`);
+      const query = queryString.stringify({
+        limit: filter.limit || 10,
+        page: filter.page || 1,
+      });
+      const { data } = await axiosConfig.get(`/tweets?${query}`);
       return data.data;
     } catch (error) {
       const err = error as AxiosError;
@@ -177,7 +181,7 @@ export const getAllTweetsLiked = createAsyncThunk(
 );
 export const getAllTweetsFollowing = createAsyncThunk(
   "tweet/get-all-following",
-  async ({ filter }: { filter: IBaseFilter }, { rejectWithValue }) => {
+  async (filter: IBaseFilter, { rejectWithValue }) => {
     try {
       const query = queryString.stringify({
         limit: filter.limit || 2,

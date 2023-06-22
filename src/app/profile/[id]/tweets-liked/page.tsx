@@ -1,35 +1,53 @@
 "use client";
+import Loading from "@/components/Loading";
 import { ITweet } from "@/features/interface";
 import { getAllTweetsLiked } from "@/features/tweet/tweetAction";
 import { getUserById } from "@/features/user/userAction";
-import { useAppDispatch } from "@/redux/hooks";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { RootState } from "@/redux/store";
 import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
 
 const LayoutWithNews = dynamic(() => import("@/Layouts/LayoutWithNews"), {
   ssr: false,
   loading: () => {
-    return <p>loading...</p>;
+    return (
+      <div className="d-flex align-items-center justify-content-center mt-4">
+        <Loading />
+      </div>
+    );
   },
 });
 
 const ProfileLayout = dynamic(() => import("@/Layouts/ProfileLayout"), {
   ssr: false,
   loading: () => {
-    return <p>loading...</p>;
+    return (
+      <div className="d-flex align-items-center justify-content-center mt-4">
+        <Loading />
+      </div>
+    );
   },
 });
 
 const MainLayout = dynamic(() => import("@/Layouts/MainLayout"), {
   ssr: false,
   loading: () => {
-    return <p>loading...</p>;
+    return (
+      <div className="d-flex align-items-center justify-content-center vw-100 vh-100 mt-4">
+        <Loading />
+      </div>
+    );
   },
 });
 const TweetList = dynamic(() => import("@/components/Home/TweetList"), {
   ssr: false,
   loading: () => {
-    return <p>loading...</p>;
+    return (
+      <div className="d-flex align-items-center justify-content-center vw-100 vh-100 mt-4">
+        <Loading />
+      </div>
+    );
   },
 });
 
@@ -41,6 +59,7 @@ type Props = {
 
 const Page = ({ params }: Props) => {
   const dispatch = useAppDispatch();
+  const { user } = useAppSelector((state: RootState) => state.auth);
 
   const [tweets, setTweets] = useState<ITweet[]>([]);
   const [loading, setLoading] = useState(false);
@@ -52,13 +71,15 @@ const Page = ({ params }: Props) => {
   }, []);
 
   useEffect(() => {
+    if (!user) return;
     if (lastPage) return;
     getTweets();
-  }, [page]);
+  }, [page, user]);
 
   useEffect(() => {
     const handleScroll = () => {
       if (window.innerHeight + window.scrollY >= document.body.scrollHeight) {
+        if (lastPage) return;
         setPage((prevPage) => prevPage + 1);
       }
     };
@@ -100,6 +121,11 @@ const Page = ({ params }: Props) => {
       <LayoutWithNews>
         <ProfileLayout id={Number(params.id)}>
           <TweetList tweets={tweets} />
+          {loading && (
+            <div className="d-flex align-items-center justify-content-center w-100 mt-5">
+              <Loading />
+            </div>
+          )}
         </ProfileLayout>
       </LayoutWithNews>
     </MainLayout>

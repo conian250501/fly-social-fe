@@ -20,7 +20,6 @@ type Props = { tweets: ITweet[] };
 const TweetList = ({ tweets }: Props) => {
   const router = useRouter();
   const dispatch = useAppDispatch();
-  const [loadingGetAll, setLoadingGetAll] = useState<boolean>(false);
   const { isDeleted } = useAppSelector((state: RootState) => state.tweet);
 
   const handleMoveDetailPage = (tweetId: number) => {
@@ -29,14 +28,6 @@ const TweetList = ({ tweets }: Props) => {
   const handleCloseModalSuccessDeletedTweet = useCallback(() => {
     dispatch(clearIsDeleted());
   }, []);
-
-  if (loadingGetAll) {
-    return (
-      <div className="d-flex align-items-center justify-content-center w-100 mt-4">
-        <Loading />
-      </div>
-    );
-  }
 
   return (
     <div className={styles.tweetList}>

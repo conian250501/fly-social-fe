@@ -35,34 +35,18 @@ const Page = ({ params }: Props) => {
     getData();
   }, []);
 
-  useEffect(() => {
-    async function getData() {
-      await dispatch(getUserById(Number(params.id)));
-    }
-    getData();
-  }, []);
-
   return (
     <MainLayout>
       <LayoutWithNews>
-        {user ? (
-          <>
-            <BackLink user={user} />
-            <TabsFollow id={Number(params.id)} />
+        <BackLink user={user} />
+        <TabsFollow id={Number(params.id)} />
 
-            {loadingGetAllUser ? (
-              <div className="d-flex align-items-center justify-content-center mt-5">
-                <Loading />
-              </div>
-            ) : (
-              <Following
-                currentUserId={Number(params.id)}
-                users={usersFollowing}
-              />
-            )}
-          </>
+        {loadingGetAllUser ? (
+          <div className="d-flex align-items-center justify-content-center mt-5">
+            <Loading />
+          </div>
         ) : (
-          <h1>User doesn&apos;t exist</h1>
+          <Following currentUserId={Number(params.id)} users={usersFollowing} />
         )}
       </LayoutWithNews>
     </MainLayout>

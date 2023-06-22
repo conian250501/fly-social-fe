@@ -18,6 +18,7 @@ type Props = {
 
 const Page = ({ params }: Props) => {
   const dispatch = useAppDispatch();
+
   const { user } = useAppSelector((state: RootState) => state.user);
   const { usersFollower } = useAppSelector((state: RootState) => state.user);
   const [loadingGetAllUser, setLoadingGetAllUser] = useState<boolean>(false);
@@ -31,30 +32,22 @@ const Page = ({ params }: Props) => {
       ]);
       setLoadingGetAllUser(false);
     }
+
     getData();
   }, []);
 
   return (
     <MainLayout>
       <LayoutWithNews>
-        {user ? (
-          <>
-            <BackLink user={user} />
-            <TabsFollow id={Number(params.id)} />
+        <BackLink user={user} />
+        <TabsFollow id={Number(params.id)} />
 
-            {loadingGetAllUser ? (
-              <div className="d-flex align-items-center justify-content-center mt-5">
-                <Loading />
-              </div>
-            ) : (
-              <Followers
-                currentUserId={Number(params.id)}
-                users={usersFollower}
-              />
-            )}
-          </>
+        {loadingGetAllUser ? (
+          <div className="d-flex align-items-center justify-content-center mt-5">
+            <Loading />
+          </div>
         ) : (
-          <h1>User doesn&apos;t exist</h1>
+          <Followers currentUserId={Number(params.id)} users={usersFollower} />
         )}
       </LayoutWithNews>
     </MainLayout>

@@ -1,26 +1,23 @@
-/* eslint-disable react/display-name */
-import Loading from "@/components/Loading";
 import { getUser } from "@/features/auth/authAction";
 import { ITweet } from "@/features/interface";
-import { getAllTweetsFollowing } from "@/features/tweet/tweetAction";
-import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import React, { useEffect, useState } from "react";
-import TweetList from "../TweetList/TweetList";
-
+import { getAll as getAllTweets } from "@/features/tweet/tweetAction";
+import { useAppDispatch } from "@/redux/hooks";
+import { useEffect, useState } from "react";
+import TweetList from "../Home/TweetList";
 type Props = {};
 
-const TweetListFollowing = React.memo((props: Props) => {
+const TweetListHomePage = ({}: Props) => {
   const dispatch = useAppDispatch();
 
-  const [loadingGetTweets, setLoadingGetTweets] = useState<boolean>(false);
   const [tweets, setTweets] = useState<ITweet[]>([]);
+  const [loading, setLoading] = useState(false);
   const [page, setPage] = useState<number>(1);
   const [lastPage, setLastPage] = useState<boolean>(false);
 
   useEffect(() => {
     if (lastPage) return;
     getTweets();
-  }, [lastPage, page]);
+  }, [page]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -38,18 +35,17 @@ const TweetListFollowing = React.memo((props: Props) => {
 
   const getTweets = async () => {
     try {
-      setLoadingGetTweets(true);
-      if (!loadingGetTweets) {
-        const tweets = await dispatch(
-          getAllTweetsFollowing({ page: page, limit: 10 })
-        ).unwrap();
-      }
+      setLoading(true);
+      const tweets = await dispatch(
+        getAllTweets({
+          page: page,
+        })
+      ).unwrap();
 
       if (tweets.length === 0) {
         setLastPage(true);
         return;
       }
-      setLoadingGetTweets(false);
 
       setTweets((prevTweets) => {
         const uniqueTweets = tweets.filter(
@@ -58,8 +54,9 @@ const TweetListFollowing = React.memo((props: Props) => {
         );
         return [...prevTweets, ...uniqueTweets];
       });
+      setLoading(false);
     } catch (error) {
-      setLoadingGetTweets(false);
+      setLoading(false);
       console.log(error);
     }
   };
@@ -69,6 +66,6 @@ const TweetListFollowing = React.memo((props: Props) => {
       <TweetList tweets={tweets} />
     </div>
   );
-});
+};
 
-export default TweetListFollowing;
+export default TweetListHomePage;
