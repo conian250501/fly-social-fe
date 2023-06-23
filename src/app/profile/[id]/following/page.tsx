@@ -26,30 +26,26 @@ const Page = ({ params }: Props) => {
   useEffect(() => {
     async function getData() {
       setLoadingGetAllUser(true);
-      await Promise.all([
-        dispatch(getUserById(Number(params.id))),
-        dispatch(getAllUserFollowing(Number(params.id))),
-      ]);
+      await dispatch(getUserById(Number(params.id))).unwrap();
+      await await dispatch(getAllUserFollowing(Number(params.id))).unwrap();
       setLoadingGetAllUser(false);
     }
     getData();
   }, []);
 
   return (
-    <MainLayout>
-      <LayoutWithNews>
-        <BackLink user={user} />
-        <TabsFollow id={Number(params.id)} />
+    <section>
+      <BackLink user={user} />
+      <TabsFollow id={Number(params.id)} />
 
-        {loadingGetAllUser ? (
-          <div className="d-flex align-items-center justify-content-center mt-5">
-            <Loading />
-          </div>
-        ) : (
-          <Following currentUserId={Number(params.id)} users={usersFollowing} />
-        )}
-      </LayoutWithNews>
-    </MainLayout>
+      {loadingGetAllUser ? (
+        <div className="d-flex align-items-center justify-content-center mt-5">
+          <Loading />
+        </div>
+      ) : (
+        <Following currentUserId={Number(params.id)} users={usersFollowing} />
+      )}
+    </section>
   );
 };
 

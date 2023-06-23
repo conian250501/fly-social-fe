@@ -1,9 +1,8 @@
 /* eslint-disable react/display-name */
-import Loading from "@/components/Loading";
-import { getUser } from "@/features/auth/authAction";
+import LoadingDots from "@/components/LoadingDots";
 import { ITweet } from "@/features/interface";
 import { getAllTweetsFollowing } from "@/features/tweet/tweetAction";
-import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { useAppDispatch } from "@/redux/hooks";
 import React, { useEffect, useState } from "react";
 import TweetList from "../TweetList/TweetList";
 
@@ -18,14 +17,19 @@ const TweetListFollowing = React.memo((props: Props) => {
   const [lastPage, setLastPage] = useState<boolean>(false);
 
   useEffect(() => {
-    if (lastPage) return;
+    if (lastPage) {
+      setLoadingGetTweets(false);
+      return;
+    }
     getTweets();
-  }, [lastPage, page]);
+  }, [page]);
 
   useEffect(() => {
     const handleScroll = () => {
-      if (window.innerHeight + window.scrollY >= document.body.scrollHeight) {
-        if (lastPage) return;
+      if (
+        window.innerHeight + document.documentElement.scrollTop >=
+        document.documentElement.scrollHeight
+      ) {
         setPage((prevPage) => prevPage + 1);
       }
     };
@@ -39,11 +43,9 @@ const TweetListFollowing = React.memo((props: Props) => {
   const getTweets = async () => {
     try {
       setLoadingGetTweets(true);
-      if (!loadingGetTweets) {
-        const tweets = await dispatch(
-          getAllTweetsFollowing({ page: page, limit: 10 })
-        ).unwrap();
-      }
+      const tweets = await dispatch(
+        getAllTweetsFollowing({ page: page, limit: 10 })
+      ).unwrap();
 
       if (tweets.length === 0) {
         setLastPage(true);
@@ -67,6 +69,11 @@ const TweetListFollowing = React.memo((props: Props) => {
   return (
     <div>
       <TweetList tweets={tweets} />
+      {loadingGetTweets && (
+        <div className="d-flex align-items-center justify-content-center mt-4 mb-4">
+          <LoadingDots />
+        </div>
+      )}
     </div>
   );
 });

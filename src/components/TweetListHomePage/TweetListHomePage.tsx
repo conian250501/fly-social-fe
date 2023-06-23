@@ -4,6 +4,7 @@ import { getAll as getAllTweets } from "@/features/tweet/tweetAction";
 import { useAppDispatch } from "@/redux/hooks";
 import { useEffect, useState } from "react";
 import TweetList from "../Home/TweetList";
+import LoadingDots from "../LoadingDots";
 type Props = {};
 
 const TweetListHomePage = ({}: Props) => {
@@ -15,14 +16,19 @@ const TweetListHomePage = ({}: Props) => {
   const [lastPage, setLastPage] = useState<boolean>(false);
 
   useEffect(() => {
-    if (lastPage) return;
+    if (lastPage) {
+      setLoading(false);
+      return;
+    }
     getTweets();
   }, [page]);
 
   useEffect(() => {
     const handleScroll = () => {
-      if (window.innerHeight + window.scrollY >= document.body.scrollHeight) {
-        if (lastPage) return;
+      if (
+        window.innerHeight + document.documentElement.scrollTop >=
+        document.documentElement.scrollHeight
+      ) {
         setPage((prevPage) => prevPage + 1);
       }
     };
@@ -64,6 +70,11 @@ const TweetListHomePage = ({}: Props) => {
   return (
     <div>
       <TweetList tweets={tweets} />
+      {loading && (
+        <div className="d-flex align-items-center justify-content-center mt-4 mb-4">
+          <LoadingDots />
+        </div>
+      )}
     </div>
   );
 };

@@ -1,4 +1,8 @@
 "use client";
+import LoadingDots from "@/components/LoadingDots";
+import BackLink from "@/components/shared/Profile/BackLink";
+import TabsProfile from "@/components/shared/Profile/TabsProfile";
+import TopInfo from "@/components/shared/Profile/TopInfo";
 import { ITweet } from "@/features/interface";
 import { getAllTweetsSaved } from "@/features/tweet/tweetAction";
 import LayoutWithNews from "@/Layouts/LayoutWithNews";
@@ -20,7 +24,7 @@ type Props = {
 
 const Page = ({ params }: Props) => {
   const dispatch = useAppDispatch();
-  const { user } = useAppSelector((state: RootState) => state.auth);
+  const { user } = useAppSelector((state: RootState) => state.user);
 
   const [tweets, setTweets] = useState<ITweet[]>([]);
   const [loading, setLoading] = useState(false);
@@ -28,15 +32,19 @@ const Page = ({ params }: Props) => {
   const [lastPage, setLastPage] = useState<boolean>(false);
 
   useEffect(() => {
-    if (!user) return;
-    if (lastPage) return;
+    if (lastPage) {
+      setLoading(false);
+      return;
+    }
     getTweets();
-  }, [page, user]);
+  }, [page]);
 
   useEffect(() => {
     const handleScroll = () => {
-      if (window.innerHeight + window.scrollY >= document.body.scrollHeight) {
-        if (lastPage) return;
+      if (
+        window.innerHeight + document.documentElement.scrollTop + 1 >=
+        document.documentElement.scrollHeight
+      ) {
         setPage((prevPage) => prevPage + 1);
       }
     };
@@ -74,13 +82,17 @@ const Page = ({ params }: Props) => {
   };
 
   return (
-    <MainLayout>
-      <LayoutWithNews>
-        <ProfileLayout id={Number(params.id)}>
-          <TweetList tweets={tweets} />
-        </ProfileLayout>
-      </LayoutWithNews>
-    </MainLayout>
+    <section>
+      <BackLink user={user} />
+      <TopInfo user={user} />
+      <TabsProfile userId={Number(params.id)} />
+      <TweetList tweets={tweets} />
+      {loading && (
+        <div className="d-flex align-items-center justify-content-center mt-4 mb-4">
+          <LoadingDots />
+        </div>
+      )}
+    </section>
   );
 };
 

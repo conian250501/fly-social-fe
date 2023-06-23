@@ -20,15 +20,24 @@ const MainLayout = ({ children }: Props) => {
   useEffect(() => {
     async function fetchUser() {
       try {
-        setLoading(true);
         await dispatch(getUser()).unwrap();
-        setLoading(false);
       } catch (error) {
-        setLoading(false);
+        console.log({ error });
       }
     }
     fetchUser();
-  }, []);
+  }, [dispatch]);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (isAuthenticated) {
+        setLoading(false);
+      }
+    }, 0);
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [isAuthenticated]);
 
   return (
     <div>

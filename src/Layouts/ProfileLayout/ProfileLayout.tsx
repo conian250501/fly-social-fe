@@ -1,41 +1,13 @@
 /* eslint-disable react/display-name */
-import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import { RootState } from "@/redux/store";
 import Loading from "@/components/Loading";
 import {
   getAllUserFollowers,
   getAllUserFollowing,
   getUserById,
 } from "@/features/user/userAction";
-import dynamic from "next/dynamic";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { RootState } from "@/redux/store";
 import React, { ReactNode, useEffect, useState } from "react";
-const BackLink = dynamic(() => import("@/components/shared/Profile/BackLink"), {
-  ssr: false,
-  loading: () => (
-    <div className="d-flex align-items-center justify-content-center w-100 h-100">
-      <Loading />
-    </div>
-  ),
-});
-const TabsProfile = dynamic(
-  () => import("@/components/shared/Profile/TabsProfile"),
-  {
-    ssr: false,
-    loading: () => (
-      <div className="d-flex align-items-center justify-content-center w-100 vh-100">
-        <Loading />
-      </div>
-    ),
-  }
-);
-const TopInfo = dynamic(() => import("@/components/shared/Profile/TopInfo"), {
-  ssr: false,
-  loading: () => (
-    <div className="d-flex align-items-center justify-content-center w-100 vh-100">
-      <Loading />
-    </div>
-  ),
-});
 
 type Props = {
   children: ReactNode;
@@ -51,8 +23,8 @@ const ProfileLayout = React.memo(({ children, id }: Props) => {
     async function getData() {
       try {
         setLoading(true);
+        await dispatch(getUserById(id)).unwrap();
         await Promise.all([
-          dispatch(getUserById(id)),
           dispatch(getAllUserFollowers(id)),
           dispatch(getAllUserFollowing(id)),
         ]);
@@ -75,14 +47,7 @@ const ProfileLayout = React.memo(({ children, id }: Props) => {
 
   if (!user) return <h1>User doesn&apos;t exist</h1>;
 
-  return (
-    <div>
-      <BackLink user={user} />
-      <TopInfo user={user} />
-      <TabsProfile userId={id} />
-      {children}
-    </div>
-  );
+  return <div>{children}</div>;
 });
 
 export default ProfileLayout;
