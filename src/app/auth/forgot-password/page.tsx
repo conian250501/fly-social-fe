@@ -140,7 +140,11 @@ const Page = (props: Props) => {
           </div>
         ) : (
           <>
-            <Link href={PATHS.Auth} className={styles.iconClose}>
+            <Link
+              href={PATHS.Auth}
+              prefetch={false}
+              className={styles.iconClose}
+            >
               <IoMdClose className={styles.icon} />
             </Link>
             <div className={styles.logo}>

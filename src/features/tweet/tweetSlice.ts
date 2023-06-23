@@ -10,6 +10,7 @@ export interface IInitialState {
   isDeleted: boolean;
   page: number;
   totalPage: number;
+  isCreated: boolean;
 }
 
 const initialState: IInitialState = {
@@ -20,6 +21,7 @@ const initialState: IInitialState = {
   isDeleted: false,
   page: 0,
   totalPage: 0,
+  isCreated: false,
 };
 
 const tweetSlice = createSlice({
@@ -37,6 +39,12 @@ const tweetSlice = createSlice({
     },
     clearIsDeleted: (state) => {
       state.isDeleted = false;
+    },
+    createTweetSuccess: (state) => {
+      state.isCreated = true;
+    },
+    clearIsCreated: (state) => {
+      state.isCreated = false;
     },
   },
   extraReducers(builder) {
@@ -83,7 +91,13 @@ const tweetSlice = createSlice({
   },
 });
 
-export const { setError, clearError, deleteTweetSuccess, clearIsDeleted } =
-  tweetSlice.actions;
+export const {
+  setError,
+  clearError,
+  deleteTweetSuccess,
+  clearIsDeleted,
+  createTweetSuccess,
+  clearIsCreated,
+} = tweetSlice.actions;
 
 export default tweetSlice.reducer;

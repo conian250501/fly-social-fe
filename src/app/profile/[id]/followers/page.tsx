@@ -18,6 +18,7 @@ type Props = {
 
 const Page = ({ params }: Props) => {
   const dispatch = useAppDispatch();
+
   const { user } = useAppSelector((state: RootState) => state.user);
   const { usersFollower } = useAppSelector((state: RootState) => state.user);
   const [loadingGetAllUser, setLoadingGetAllUser] = useState<boolean>(false);
@@ -25,39 +26,27 @@ const Page = ({ params }: Props) => {
   useEffect(() => {
     async function getData() {
       setLoadingGetAllUser(true);
-      await Promise.all([
-        dispatch(getUserById(Number(params.id))),
-        dispatch(getAllUserFollowers(Number(params.id))),
-      ]);
+      await dispatch(getUserById(Number(params.id))).unwrap();
+      dispatch(getAllUserFollowers(Number(params.id))).unwrap();
+
       setLoadingGetAllUser(false);
     }
+
     getData();
   }, []);
 
   return (
-    <MainLayout>
-      <LayoutWithNews>
-        {user ? (
-          <>
-            <BackLink user={user} />
-            <TabsFollow id={Number(params.id)} />
-
-            {loadingGetAllUser ? (
-              <div className="d-flex align-items-center justify-content-center mt-5">
-                <Loading />
-              </div>
-            ) : (
-              <Followers
-                currentUserId={Number(params.id)}
-                users={usersFollower}
-              />
-            )}
-          </>
-        ) : (
-          <h1>User doesn&apos;t exist</h1>
-        )}
-      </LayoutWithNews>
-    </MainLayout>
+    <section>
+      <BackLink user={user} />
+      <TabsFollow id={Number(params.id)} />
+      {loadingGetAllUser ? (
+        <div className="d-flex align-items-center justify-content-center mt-5">
+          <Loading />
+        </div>
+      ) : (
+        <Followers currentUserId={Number(params.id)} users={usersFollower} />
+      )}
+    </section>
   );
 };
 

@@ -6,4 +6,5 @@ export enum ETypeTabTweetList {
 export interface ITabTweetList {
   id: string;
   type: ETypeTabTweetList;
+  link: string;
 }

@@ -6,6 +6,7 @@ import {
   getAll as getAllTweet,
   uploadFile,
 } from "@/features/tweet/tweetAction";
+import { createTweetSuccess } from "@/features/tweet/tweetSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { RootState } from "@/redux/store";
 import { useFormik } from "formik";
@@ -84,8 +85,8 @@ const CreateTweetForm = React.memo(({ show, handleClose }: Props) => {
             uploadFile({ id: newTweet.id, file: formData })
           ).unwrap();
         }
-        await dispatch(getAllTweet()).unwrap();
-
+        await dispatch(getAllTweet({ page: 1, limit: 10 })).unwrap();
+        dispatch(createTweetSuccess());
         setLoadingCreateTweet(false);
         resetForm();
         setIsFileChange(false);

@@ -18,6 +18,17 @@ const MainLayout = ({ children }: Props) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    async function fetchUser() {
+      try {
+        await dispatch(getUser()).unwrap();
+      } catch (error) {
+        console.log({ error });
+      }
+    }
+    fetchUser();
+  }, [dispatch]);
+
+  useEffect(() => {
     const timer = setTimeout(() => {
       if (isAuthenticated) {
         setLoading(false);
@@ -27,13 +38,6 @@ const MainLayout = ({ children }: Props) => {
       clearTimeout(timer);
     };
   }, [isAuthenticated]);
-
-  useEffect(() => {
-    async function fetchUser() {
-      await dispatch(getUser()).unwrap();
-    }
-    fetchUser();
-  }, []);
 
   return (
     <div>

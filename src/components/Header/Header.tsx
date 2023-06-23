@@ -50,7 +50,7 @@ const Header = React.memo(function Header(props: Props) {
       id: nanoid(),
       title: "Bookmarks",
       icon: <BiBookmark className={styles.icon} />,
-      link: PATHS.Bookmarks,
+      link: `${PATHS.Profile}/${user?.id}${PATHS.ProfileTweetsSaved}`,
     },
     {
       id: nanoid(),
@@ -83,7 +83,7 @@ const Header = React.memo(function Header(props: Props) {
       id: nanoid(),
       title: "Bookmarks",
       icon: <BiBookmark className={styles.icon} />,
-      link: PATHS.Bookmarks,
+      link: `${PATHS.Profile}/${user?.id}${PATHS.ProfileTweetsSaved}`,
     },
     {
       id: nanoid(),

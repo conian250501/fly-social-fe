@@ -20,6 +20,10 @@
   align-items: center;
   position: relative;
   cursor: pointer;
+  text-decoration: none;
+  &:hover {
+    color: var(--dark-color-900);
+  }
   &.active {
     font-weight: 800;
     color: var(--dark-color-900);
