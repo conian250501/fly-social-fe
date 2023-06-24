@@ -40,15 +40,6 @@ const tweetSlice = createSlice({
     },
   },
   extraReducers(builder) {
-    // ====== CREATE ======
-    builder.addCase(
-      create.fulfilled,
-      (state, action: PayloadAction<ITweet>) => {
-        state.tweet = action.payload;
-        state.tweets?.unshift(action.payload);
-      }
-    );
-
     // ====== GET ALL ======
     builder.addCase(
       getAll.fulfilled,

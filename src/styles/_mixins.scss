@@ -58,6 +58,10 @@
   margin-bottom: 0;
 }
 
+@mixin ratioStandardFormat {
+  aspect-ratio: 56.25%;
+}
+
 @mixin transition($timeout, $animation) {
   transition: all $timeout $animation;
 }

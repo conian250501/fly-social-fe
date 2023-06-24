@@ -13,32 +13,6 @@ type Props = {
 };
 
 const CommentList = React.memo(({ comments }: Props) => {
-  const dispatch = useAppDispatch();
-  // const { commentsForTweet: comments } = useAppSelector(
-  //   (state: RootState) => state.comment
-  // );
-
-  // const [loadingGetAll, setLoadingGetAll] = useState<boolean>(false);
-
-  // useEffect(() => {
-  //   async function getData() {
-  //     try {
-  //       dispatch(getAllByTweet(tweet.id))
-  //     } catch (error) {
-  //       setLoadingGetAll(false);
-  //     }
-  //   }
-  //   getData();
-  // }, []);
-
-  // if (loadingGetAll) {
-  //   return (
-  //     <div className="d-flex align-items-center justify-content-center w-100 h-100">
-  //       <Loading />
-  //     </div>
-  //   );
-  // }
-
   return (
     <div className={styles.container}>
       {comments &&

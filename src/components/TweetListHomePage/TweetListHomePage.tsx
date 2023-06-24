@@ -58,6 +58,7 @@ const TweetListHomePage = ({}: Props) => {
       const tweets = await dispatch(
         getAllTweets({ page: page, limit: 10 })
       ).unwrap();
+      setLoadingForTweets(false);
 
       if (tweets.length === 0) {
         setLastPage(true);
@@ -72,7 +73,6 @@ const TweetListHomePage = ({}: Props) => {
         return [...prevTweets, ...uniqueTweets];
       });
       setLoading(false);
-      setLoadingForTweets(false);
     } catch (error) {
       setLoading(false);
       setLoadingForTweets(false);

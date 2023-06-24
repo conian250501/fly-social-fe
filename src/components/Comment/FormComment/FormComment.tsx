@@ -27,6 +27,7 @@ import {
   uploadFileComment,
 } from "@/features/comment/commentAction";
 import { getById } from "@/features/tweet/tweetAction";
+import { commentTweetSuccess } from "@/features/comment/commentSlice";
 type Props = {
   tweet: ITweet;
 };
@@ -75,14 +76,20 @@ const FormComment = React.memo(({ tweet }: Props) => {
             file: null,
           })
         ).unwrap();
+        let url: string = "";
         if (isFileChange) {
-          await dispatch(
+          const _url = await dispatch(
             uploadFileComment({ id: newComment.id, file: formData })
           ).unwrap();
+          url = _url;
         }
 
-        await dispatch(getById(tweet.id)).unwrap();
-        await dispatch(getAllByTweet(tweet.id)).unwrap();
+        dispatch(
+          commentTweetSuccess({
+            ...newComment,
+            image: url,
+          })
+        );
 
         setLoadingComment(false);
         resetForm();
@@ -159,7 +166,7 @@ const FormComment = React.memo(({ tweet }: Props) => {
                 className={styles.formInput}
                 maxLength={100}
               />
-              <div className="d-flex align-items-center justify-content-end w-100 mt-4">
+              <div className="d-flex align-items-center justify-content-end w-100 mt-2 mt-md-4">
                 <div
                   className={styles.progressLimitContent}
                   style={{

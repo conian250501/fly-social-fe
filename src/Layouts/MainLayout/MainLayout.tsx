@@ -30,17 +30,6 @@ const MainLayout = ({ children }: Props) => {
     fetchUser();
   }, []);
 
-  // useEffect(() => {
-  //   const timer = setTimeout(() => {
-  //     if (isAuthenticated) {
-  //       setLoading(false);
-  //     }
-  //   }, 0);
-  //   return () => {
-  //     clearTimeout(timer);
-  //   };
-  // }, [isAuthenticated]);
-
   if (loading) {
     return (
       <div className="d-flex align-items-center justify-content-center w-100 vh-100">

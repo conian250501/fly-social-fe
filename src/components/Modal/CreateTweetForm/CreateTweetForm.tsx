@@ -59,11 +59,26 @@ const CreateTweetForm = React.memo(({ show, handleClose }: Props) => {
     };
   }, []);
 
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (isCreateSuccess) {
+        setIsCreateSuccess(false);
+      }
+    }, 1000);
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [isCreateSuccess]);
+
   const validate = (values: IPayloadTweet) => {
     const errors: { content: string; file: string } = {
       content: "",
       file: "",
     };
+
+    if (!values.content && !values.file) {
+      return (errors.content = `Required content or file`);
+    }
     if (!errors.content && !errors.file) {
       return {};
     }
@@ -86,13 +101,13 @@ const CreateTweetForm = React.memo(({ show, handleClose }: Props) => {
           ).unwrap();
         }
 
+        handleClose();
         setNewTweet(_newTweet);
         setLoadingCreateTweet(false);
         resetForm();
         setIsFileChange(false);
         setFilePreview("");
         setIsCreateSuccess(true);
-        handleClose();
       } catch (error) {
         setLoadingCreateTweet(false);
         setError(error as IError);

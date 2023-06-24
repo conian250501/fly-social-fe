@@ -131,7 +131,7 @@ const ButtonsAction = React.memo(({ tweet }: Props) => {
       </div>
       <div className={styles.lineDivide}></div>
       <div className={styles.buttonItemWrapper}>
-        <div className="d-flex align-items-center justify-content-start gap-4">
+        <div className="d-flex align-items-center justify-content-start gap-2 gap-md-4">
           <div className={styles.btnItem}>
             <div
               className={`${styles.stage}`}

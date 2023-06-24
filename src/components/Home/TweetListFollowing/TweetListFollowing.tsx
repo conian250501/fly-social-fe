@@ -48,6 +48,7 @@ const TweetListFollowing = React.memo((props: Props) => {
       const tweets = await dispatch(
         getAllTweetsFollowing({ page: page, limit: 10 })
       ).unwrap();
+      setLoadingForTweets(false);
 
       if (tweets.length === 0) {
         setLastPage(true);
@@ -62,7 +63,6 @@ const TweetListFollowing = React.memo((props: Props) => {
         return [...prevTweets, ...uniqueTweets];
       });
       setLoadingScroll(false);
-      setLoadingForTweets(false);
     } catch (error) {
       setLoadingScroll(false);
       setLoadingForTweets(false);
