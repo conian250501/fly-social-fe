@@ -1,8 +1,8 @@
 /* eslint-disable @next/next/no-img-element */
 import { IError, ITweet } from "@/features/interface";
-import { deleteTweet } from "@/features/tweet/tweetAction";
+import { deleteTweet, getById } from "@/features/tweet/tweetAction";
 import { deleteTweetSuccess } from "@/features/tweet/tweetSlice";
-import { useAppDispatch } from "@/redux/hooks";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { useCheckAuthor } from "@/hooks/useCheckAuthor";
 import { nanoid } from "@reduxjs/toolkit";
 import moment from "moment";
@@ -21,12 +21,20 @@ import ModalError from "../Modal/ModalError/ModalError";
 import ActionModal from "../shared/ActionModal/ActionModal";
 import FormEditTweet from "./components/FormEditTweet/FormEditTweet";
 import styles from "./tweetDetail.module.scss";
+import { RootState } from "@/redux/store";
+import Loading from "../Loading";
+import { getAllByTweet } from "@/features/comment/commentAction";
 
-type Props = { tweet: ITweet | null };
+type Props = { id: number };
 
-const TweetDetail = ({ tweet }: Props) => {
+const TweetDetail = ({ id }: Props) => {
+  const { tweet } = useAppSelector((state: RootState) => state.tweet);
+  const { commentsForTweet: comments } = useAppSelector(
+    (state: RootState) => state.comment
+  );
   const { isAuthor } = useCheckAuthor(Number(tweet?.user.id));
   const dispatch = useAppDispatch();
+
   const router = useRouter();
 
   const [openTweetSettings, setOpenTweetSettings] = useState<boolean>(false);
@@ -34,7 +42,7 @@ const TweetDetail = ({ tweet }: Props) => {
   const [openConfirmDelete, setOpenConfirmDelete] = useState<boolean>(false);
   const [error, setError] = useState<IError | null>(null);
   const [loadingDelete, setLoadingDelete] = useState<boolean>(false);
-
+  const [loadingGetTweet, setLoadingGetTweet] = useState<boolean>(false);
   const [tweetSettings, setTweetSettings] = useState<
     { id: string; type: ETypeTweetSetting; title: string; icon: ReactNode }[]
   >([
@@ -51,6 +59,21 @@ const TweetDetail = ({ tweet }: Props) => {
       icon: <TbGitBranchDeleted className={styles.icon} />,
     },
   ]);
+
+  useEffect(() => {
+    async function getData() {
+      try {
+        setLoadingGetTweet(true);
+        await dispatch(getById(Number(id))).unwrap();
+        await dispatch(getAllByTweet(Number(id))).unwrap();
+        setLoadingGetTweet(false);
+      } catch (error) {
+        setLoadingGetTweet(false);
+        return error;
+      }
+    }
+    getData();
+  }, []);
 
   useEffect(() => {
     async function handleCloseTweetSettings() {
@@ -116,6 +139,14 @@ const TweetDetail = ({ tweet }: Props) => {
       </React.Fragment>
     );
   };
+
+  if (loadingGetTweet) {
+    return (
+      <div className="d-flex align-items-center justify-content-center mt-4">
+        <Loading />
+      </div>
+    );
+  }
 
   if (!tweet)
     return (
@@ -195,7 +226,7 @@ const TweetDetail = ({ tweet }: Props) => {
 
       {/* COMMENT LIST */}
       <div className="mt-4">
-        <CommentList tweet={tweet} />
+        <CommentList comments={comments} />
       </div>
 
       {/* ====== MODALS ====== */}

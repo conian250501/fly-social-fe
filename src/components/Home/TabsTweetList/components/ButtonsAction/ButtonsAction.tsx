@@ -35,6 +35,9 @@ const ButtonsAction = React.memo(({ tweet }: Props) => {
   const [isLiked, setIsLiked] = useState<boolean>(userIsLiked);
   const [tweetIsSaved, setTweetIsSaved] = useState<boolean>(_tweetIsSaved);
   const [countLike, setCountLike] = useState<number>(tweet.likes.length);
+  const [countSaved, setCountSaved] = useState<number>(
+    tweet.storageTweets.length
+  );
 
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
 
@@ -84,6 +87,7 @@ const ButtonsAction = React.memo(({ tweet }: Props) => {
         return;
       }
       await dispatch(saveTweet({ tweetId: tweet.id })).unwrap();
+      setCountSaved((prev) => prev + 1);
       setTweetIsSaved(true);
     } catch (error) {
       setError(error as IError);
@@ -94,6 +98,7 @@ const ButtonsAction = React.memo(({ tweet }: Props) => {
     try {
       await dispatch(unSaveTweet({ tweetId: tweet.id })).unwrap();
       setTweetIsSaved(false);
+      setCountSaved((prev) => prev - 1);
     } catch (error) {
       setError(error as IError);
     }
@@ -120,12 +125,12 @@ const ButtonsAction = React.memo(({ tweet }: Props) => {
           <div className={styles.text}>Comments</div>
         </div>
         <div className={styles.listInfoItem}>
-          <p className={styles.number}>{tweet.storageTweets.length}</p>
+          <p className={styles.number}>{countSaved}</p>
           <div className={styles.text}>Bookmark</div>
         </div>
       </div>
       <div className={styles.lineDivide}></div>
-      <div className="d-flex align-items-center justify-content-between">
+      <div className={styles.buttonItemWrapper}>
         <div className="d-flex align-items-center justify-content-start gap-4">
           <div className={styles.btnItem}>
             <div

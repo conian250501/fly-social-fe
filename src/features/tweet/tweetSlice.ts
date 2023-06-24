@@ -3,8 +3,8 @@ import { IError, ITweet } from "../interface";
 import { create, getAll, getAllTweetByUser, getById } from "./tweetAction";
 
 export interface IInitialState {
-  tweets: ITweet[];
-  tweetsOfUser: ITweet[];
+  tweets: ITweet[] | null;
+  tweetsOfUser: ITweet[] | null;
   tweet: ITweet | null;
   error: IError | null;
   isDeleted: boolean;
@@ -13,8 +13,8 @@ export interface IInitialState {
 }
 
 const initialState: IInitialState = {
-  tweets: [],
-  tweetsOfUser: [],
+  tweets: null,
+  tweetsOfUser: null,
   tweet: null,
   error: null,
   isDeleted: false,
@@ -45,7 +45,7 @@ const tweetSlice = createSlice({
       create.fulfilled,
       (state, action: PayloadAction<ITweet>) => {
         state.tweet = action.payload;
-        state.tweets.unshift(action.payload);
+        state.tweets?.unshift(action.payload);
       }
     );
 

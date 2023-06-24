@@ -3,6 +3,7 @@ import { getAll as getAllTweets } from "@/features/tweet/tweetAction";
 import { useAppDispatch } from "@/redux/hooks";
 import { useEffect, useState } from "react";
 import TweetList from "../Home/TweetList";
+import Loading from "../Loading";
 import LoadingDots from "../LoadingDots";
 import styles from "./tweetListHomePage.module.scss";
 
@@ -13,6 +14,7 @@ const TweetListHomePage = ({}: Props) => {
 
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
+  const [loadingForTweets, setLoadingForTweets] = useState<boolean>(true);
   const [tweets, setTweets] = useState<ITweet[]>([]);
   const [page, setPage] = useState<number>(1);
   const [lastPage, setLastPage] = useState<boolean>(false);
@@ -61,7 +63,6 @@ const TweetListHomePage = ({}: Props) => {
         setLastPage(true);
         return;
       }
-      setLoading(false);
 
       setTweets((prevTweets) => {
         const uniqueTweets = tweets.filter(
@@ -70,8 +71,12 @@ const TweetListHomePage = ({}: Props) => {
         );
         return [...prevTweets, ...uniqueTweets];
       });
+      setLoading(false);
+      setLoadingForTweets(false);
     } catch (error) {
       setLoading(false);
+      setLoadingForTweets(false);
+
       console.log(error);
     }
   };
@@ -82,8 +87,14 @@ const TweetListHomePage = ({}: Props) => {
         !isAuthenticated ? styles.loggedIn : ""
       }`}
     >
-      <TweetList tweets={tweets} />
-      {loading && tweets.length > 0 && (
+      {loadingForTweets ? (
+        <div className="d-flex align-items-center justify-content-center mt-4 mb-4">
+          <Loading />
+        </div>
+      ) : (
+        <TweetList tweets={tweets} />
+      )}
+      {loading && tweets && tweets.length > 0 && (
         <div className="d-flex align-items-center justify-content-center mt-4 mb-4">
           <LoadingDots />
         </div>

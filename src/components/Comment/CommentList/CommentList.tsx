@@ -1,47 +1,43 @@
 /* eslint-disable react/display-name */
 /* eslint-disable @next/next/no-img-element */
-import React, { FC, useEffect, useState } from "react";
-import styles from "./commentList.module.scss";
-import { IComment, ITweet } from "@/features/interface";
-import moment from "moment";
-import { useCheckAuthor } from "@/hooks/useCheckAuthor";
-import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import CommentItem from "../CommentItem";
-import { getAllByTweet } from "@/features/comment/commentAction";
-import { RootState } from "@/redux/store";
 import Loading from "@/components/Loading";
+import { getAllByTweet } from "@/features/comment/commentAction";
+import { IComment, ITweet } from "@/features/interface";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { RootState } from "@/redux/store";
+import React, { useEffect, useState } from "react";
+import CommentItem from "../CommentItem";
+import styles from "./commentList.module.scss";
 type Props = {
-  tweet: ITweet;
+  comments: IComment[];
 };
 
-const CommentList = React.memo(({ tweet }: Props) => {
+const CommentList = React.memo(({ comments }: Props) => {
   const dispatch = useAppDispatch();
-  const { commentsForTweet: comments } = useAppSelector(
-    (state: RootState) => state.comment
-  );
+  // const { commentsForTweet: comments } = useAppSelector(
+  //   (state: RootState) => state.comment
+  // );
 
-  const [loadingGetAll, setLoadingGetAll] = useState<boolean>(false);
+  // const [loadingGetAll, setLoadingGetAll] = useState<boolean>(false);
 
-  useEffect(() => {
-    async function getData() {
-      try {
-        setLoadingGetAll(true);
-        await dispatch(getAllByTweet(tweet.id)).unwrap();
-        setLoadingGetAll(false);
-      } catch (error) {
-        setLoadingGetAll(false);
-      }
-    }
-    getData();
-  }, []);
+  // useEffect(() => {
+  //   async function getData() {
+  //     try {
+  //       dispatch(getAllByTweet(tweet.id))
+  //     } catch (error) {
+  //       setLoadingGetAll(false);
+  //     }
+  //   }
+  //   getData();
+  // }, []);
 
-  if (loadingGetAll) {
-    return (
-      <div className="d-flex align-items-center justify-content-center w-100 h-100">
-        <Loading />
-      </div>
-    );
-  }
+  // if (loadingGetAll) {
+  //   return (
+  //     <div className="d-flex align-items-center justify-content-center w-100 h-100">
+  //       <Loading />
+  //     </div>
+  //   );
+  // }
 
   return (
     <div className={styles.container}>

@@ -21,38 +21,40 @@ const MainLayout = ({ children }: Props) => {
     async function fetchUser() {
       try {
         await dispatch(getUser()).unwrap();
+        setLoading(false);
       } catch (error) {
+        setLoading(false);
         console.log({ error });
       }
     }
     fetchUser();
-  }, [dispatch]);
+  }, []);
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      if (isAuthenticated) {
-        setLoading(false);
-      }
-    }, 0);
-    return () => {
-      clearTimeout(timer);
-    };
-  }, [isAuthenticated]);
+  // useEffect(() => {
+  //   const timer = setTimeout(() => {
+  //     if (isAuthenticated) {
+  //       setLoading(false);
+  //     }
+  //   }, 0);
+  //   return () => {
+  //     clearTimeout(timer);
+  //   };
+  // }, [isAuthenticated]);
+
+  if (loading) {
+    return (
+      <div className="d-flex align-items-center justify-content-center w-100 vh-100">
+        <Loading />
+      </div>
+    );
+  }
 
   return (
-    <div>
-      {loading ? (
-        <div className="d-flex align-items-center justify-content-center w-100 vh-100">
-          <Loading />
-        </div>
-      ) : (
-        <div className={styles.mainLayout}>
-          <div className={styles.container}>
-            <Header />
-            <div className={styles.children}> {children}</div>
-          </div>
-        </div>
-      )}
+    <div className={styles.mainLayout}>
+      <div className={styles.container}>
+        <Header />
+        <div className={styles.children}> {children}</div>
+      </div>
     </div>
   );
 };

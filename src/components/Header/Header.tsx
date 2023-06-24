@@ -23,36 +23,10 @@ const Header = React.memo(function Header(props: Props) {
   const path = usePathname();
   const { user } = useAppSelector((state: RootState) => state.auth);
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
-  console.log({ user });
 
   const [menuList, setMenuList] = useState<IMenu[]>([]);
 
-  const [menuMobileList, setMenuMobileList] = useState<IMenu[]>([
-    {
-      id: nanoid(),
-      title: "Home",
-      icon: <RiHomeGearLine className={styles.icon} />,
-      link: PATHS.Home,
-    },
-    {
-      id: nanoid(),
-      title: "Connect",
-      icon: <SiHey className={styles.icon} />,
-      link: PATHS.Connect,
-    },
-    {
-      id: nanoid(),
-      title: "Bookmarks",
-      icon: <BiBookmark className={styles.icon} />,
-      link: `${PATHS.Profile}/${user?.id}${PATHS.ProfileTweetsSaved}`,
-    },
-    {
-      id: nanoid(),
-      title: "Profile",
-      icon: <FaRegUser className={styles.icon} />,
-      link: `${PATHS.Profile}/${user?.id}`,
-    },
-  ]);
+  const [menuMobileList, setMenuMobileList] = useState<IMenu[]>([]);
 
   useEffect(() => {
     if (user) {
@@ -95,12 +69,37 @@ const Header = React.memo(function Header(props: Props) {
           link: `${PATHS.Profile}/${user.id}`,
         },
       ]);
+
+      setMenuMobileList([
+        {
+          id: nanoid(),
+          title: "Home",
+          icon: <RiHomeGearLine className={styles.icon} />,
+          link: PATHS.Home,
+        },
+        {
+          id: nanoid(),
+          title: "Connect",
+          icon: <SiHey className={styles.icon} />,
+          link: PATHS.Connect,
+        },
+        {
+          id: nanoid(),
+          title: "Bookmarks",
+          icon: <BiBookmark className={styles.icon} />,
+          link: `${PATHS.Profile}/${user?.id}${PATHS.ProfileTweetsSaved}`,
+        },
+        {
+          id: nanoid(),
+          title: "Profile",
+          icon: <FaRegUser className={styles.icon} />,
+          link: `${PATHS.Profile}/${user?.id}`,
+        },
+      ]);
     } else {
       setIsAuthenticated(false);
     }
   }, [user]);
-
-  console.log({ path });
 
   const HeaderMobile: FC = () => {
     return (

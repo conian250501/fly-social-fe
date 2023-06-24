@@ -15,7 +15,7 @@ import Loading from "../../Loading";
 import ButtonsAction from "../TabsTweetList/components/ButtonsAction";
 import styles from "./tweetList.module.scss";
 
-type Props = { tweets: ITweet[] };
+type Props = { tweets: ITweet[] | null };
 
 const TweetList = ({ tweets }: Props) => {
   const router = useRouter();
@@ -28,16 +28,17 @@ const TweetList = ({ tweets }: Props) => {
   const handleCloseModalSuccessDeletedTweet = useCallback(() => {
     dispatch(clearIsDeleted());
   }, []);
+  console.log({ tweets });
 
   return (
     <div className={styles.tweetList}>
-      {tweets.length <= 0 ? (
+      {tweets && tweets.length <= 0 ? (
         <div>
           <h1 className={styles.noneText}>App does&apos;t anything tweet</h1>
         </div>
       ) : (
         <>
-          {tweets.map((tweet) => (
+          {tweets?.map((tweet) => (
             <div key={tweet.id} className={styles.tweetItem}>
               <Link
                 href={`${PATHS.Profile}/${tweet.user.id}`}
