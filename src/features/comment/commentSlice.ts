@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { IComment, IError } from "../interface";
-import { getAllByTweet } from "./commentAction";
+import { commentTweet, getAllByTweet } from "./commentAction";
 
 export interface IInitialState {
   commentsForTweet: IComment[];
@@ -24,6 +24,9 @@ const commentSlice = createSlice({
     clearError: (state) => {
       state.error = null;
     },
+    commentTweetSuccess: (state, action: PayloadAction<IComment>) => {
+      state.commentsForTweet.unshift(action.payload);
+    },
   },
   extraReducers(builder) {
     builder.addCase(
@@ -34,4 +37,5 @@ const commentSlice = createSlice({
     );
   },
 });
+export const { commentTweetSuccess } = commentSlice.actions;
 export default commentSlice.reducer;

@@ -132,7 +132,7 @@ const CommentItem = ({ comment }: Props) => {
       </div>
       <div className={styles.commentInfo}>
         <div className={styles.authorInfo}>
-          <div className="d-flex align-items-center justify-content-start gap-2">
+          <div className="d-flex align-items-start align-items-md-center justify-content-start flex-column flex-md-row ju gap-1 gap-md-2">
             <h5 className={styles.name}>{comment.user.name}</h5>
             {comment.user.nickname && (
               <p className={styles.nickname}>{comment.user.nickname}</p>

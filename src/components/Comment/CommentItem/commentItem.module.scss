@@ -15,6 +15,12 @@
   &:not(:first-child) {
     margin-top: 24px;
   }
+  @include mobile {
+    padding: 8px;
+    &:not(:first-child) {
+      margin-top: 14px;
+    }
+  }
 }
 .avatarAuthor {
   width: 40px;
@@ -30,8 +36,8 @@
     border-radius: 100rem;
   }
   @include mobile {
-    width: 40px;
-    height: 40px;
+    width: 30px;
+    height: 30px;
     border-radius: 100rem;
   }
 }
@@ -55,6 +61,15 @@
       color: var(--dark-color-700);
       margin-bottom: 0;
     }
+
+    @include mobile {
+      .name {
+        font-size: 14px;
+      }
+      .nickname {
+        font-size: 10px;
+      }
+    }
   }
   .createdAt {
     font-size: 14px;
@@ -72,10 +87,28 @@
   .image {
     border-radius: 20px;
     cursor: pointer;
-    width: 100%;
+    width: 50%;
+    aspect-ratio: 56.25%;
     object-fit: cover;
     margin-bottom: 16px;
     margin-top: 16px;
+  }
+  @include mobile {
+    .content {
+      word-break: break-all;
+      font-size: 12px;
+      font-weight: 400;
+      margin-top: 8px;
+      margin-bottom: 4px;
+    }
+    .createdAt {
+      font-size: 8px;
+      font-weight: 500;
+    }
+    .image {
+      width: 100%;
+      border-radius: 10px;
+    }
   }
 }
 .btnDot {
@@ -85,10 +118,16 @@
 .dotIcon {
   font-size: 20px;
   color: var(--dark-color-700);
+  @include mobile {
+    font-size: 16px;
+  }
 }
 .popover {
-  border: none;
-  border-radius: 20px;
+  border: none !important;
+  border-radius: 20px !important;
+  @include mobile {
+    border-radius: 10px !important;
+  }
 }
 .menuSettingList {
   @include resetList;
@@ -97,6 +136,9 @@
   background-color: var(--white-color);
   box-shadow: var(--shadow-popover);
   border-radius: 20px;
+  @include mobile {
+    padding: 10px;
+  }
 }
 .menuSettingItem {
   display: flex;
@@ -139,5 +181,15 @@
     color: var(--dark-color-900);
     white-space: nowrap;
     flex: 1;
+  }
+
+  @include mobile {
+    padding: 8px 10px;
+    .icon {
+      font-size: 14px;
+    }
+    span {
+      font-size: 10px;
+    }
   }
 }

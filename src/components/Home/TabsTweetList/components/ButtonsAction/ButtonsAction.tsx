@@ -5,7 +5,7 @@ import {
   unSaveTweet,
 } from "@/features/storageTweet/storageTweetAction";
 import { disLikeTweet, likeTweet } from "@/features/tweet/tweetAction";
-import { useAppDispatch } from "@/redux/hooks";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import ModalError from "@/components/Modal/ModalError";
 import { PATHS } from "@/contanst/paths";
 import { useCheckLiked } from "@/hooks/useCheckLiked";
@@ -15,23 +15,46 @@ import React, { useEffect, useState } from "react";
 import { BiBookmark, BiMessageSquare } from "react-icons/bi";
 import { BsBookmark, BsBookmarkFill } from "react-icons/bs";
 import styles from "./buttonsAction.module.scss";
+import { useRouter } from "next/navigation";
+import { RootState } from "@/redux/store";
 type Props = {
   tweet: ITweet;
 };
 
 const ButtonsAction = React.memo(({ tweet }: Props) => {
   const dispatch = useAppDispatch();
+  const router = useRouter();
+
   const { userIsLiked } = useCheckLiked(tweet.likes);
   const { tweetIsSaved: _tweetIsSaved } = useCheckSavedTweet(
     tweet.storageTweets
   );
+  const { user } = useAppSelector((state: RootState) => state.auth);
+
   const [error, setError] = useState<IError | null>(null);
   const [isLiked, setIsLiked] = useState<boolean>(userIsLiked);
   const [tweetIsSaved, setTweetIsSaved] = useState<boolean>(_tweetIsSaved);
   const [countLike, setCountLike] = useState<number>(tweet.likes.length);
+  const [countSaved, setCountSaved] = useState<number>(
+    tweet.storageTweets.length
+  );
+
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (user) {
+      setIsAuthenticated(true);
+    } else {
+      setIsAuthenticated(false);
+    }
+  }, [user]);
 
   const handleLike = async () => {
     try {
+      if (!isAuthenticated) {
+        router.replace(PATHS.LoginPage);
+        return;
+      }
       await dispatch(likeTweet(tweet.id)).unwrap();
       setIsLiked(true);
       setCountLike(countLike + 1);
@@ -42,6 +65,10 @@ const ButtonsAction = React.memo(({ tweet }: Props) => {
 
   const handleDisLike = async () => {
     try {
+      if (!isAuthenticated) {
+        router.replace(PATHS.LoginPage);
+        return;
+      }
       await dispatch(disLikeTweet(tweet.id)).unwrap();
       setIsLiked(false);
 
@@ -55,7 +82,12 @@ const ButtonsAction = React.memo(({ tweet }: Props) => {
 
   const handleSaveTweet = async () => {
     try {
+      if (!isAuthenticated) {
+        router.replace(PATHS.LoginPage);
+        return;
+      }
       await dispatch(saveTweet({ tweetId: tweet.id })).unwrap();
+      setCountSaved((prev) => prev + 1);
       setTweetIsSaved(true);
     } catch (error) {
       setError(error as IError);
@@ -66,6 +98,7 @@ const ButtonsAction = React.memo(({ tweet }: Props) => {
     try {
       await dispatch(unSaveTweet({ tweetId: tweet.id })).unwrap();
       setTweetIsSaved(false);
+      setCountSaved((prev) => prev - 1);
     } catch (error) {
       setError(error as IError);
     }
@@ -92,13 +125,13 @@ const ButtonsAction = React.memo(({ tweet }: Props) => {
           <div className={styles.text}>Comments</div>
         </div>
         <div className={styles.listInfoItem}>
-          <p className={styles.number}>{tweet.storageTweets.length}</p>
+          <p className={styles.number}>{countSaved}</p>
           <div className={styles.text}>Bookmark</div>
         </div>
       </div>
       <div className={styles.lineDivide}></div>
-      <div className="d-flex align-items-center justify-content-between">
-        <div className="d-flex align-items-center justify-content-start gap-4">
+      <div className={styles.buttonItemWrapper}>
+        <div className="d-flex align-items-center justify-content-start gap-2 gap-md-4">
           <div className={styles.btnItem}>
             <div
               className={`${styles.stage}`}

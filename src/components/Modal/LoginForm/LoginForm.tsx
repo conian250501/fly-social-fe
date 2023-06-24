@@ -10,7 +10,11 @@ import { setError } from "@/features/auth/authSlice";
 import Link from "next/link";
 import { login } from "@/features/auth/authAction";
 import styles from "./loginForm.module.scss";
-import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
+import {
+  AiOutlineEye,
+  AiOutlineEyeInvisible,
+  AiOutlineLoading,
+} from "react-icons/ai";
 
 type Props = {
   show: boolean;
@@ -59,69 +63,65 @@ const LoginForm = React.memo(({ show, close, loading, setLoading }: Props) => {
       centered
       contentClassName={styles.modalContent}
     >
-      {loading ? (
-        <div className={styles.loadingLogin}>
-          <Loading />
-        </div>
-      ) : (
-        <Form className={styles.formLogin} onSubmit={handleLogin}>
-          <div className={styles.heading}>Create Account</div>
-          <Form.Group className={styles.formGroup}>
-            <Form.Label className={styles.formLabel}>Email</Form.Label>
+      <Form className={styles.formLogin} onSubmit={handleLogin}>
+        <div className={styles.heading}>Create Account</div>
+        <Form.Group className={styles.formGroup}>
+          <Form.Label className={styles.formLabel}>Email</Form.Label>
+          <Form.Control
+            type="text"
+            className={styles.formInput}
+            placeholder="enter your email"
+            value={payloadLogin.email}
+            required
+            name="email"
+            onChange={(e) =>
+              handleChangePayloadLogin(e as React.ChangeEvent<HTMLInputElement>)
+            }
+          />
+        </Form.Group>
+        <Form.Group className={styles.formGroup}>
+          <Form.Label className={styles.formLabel}>Password</Form.Label>
+          <div className={styles.inputGroupPassword}>
             <Form.Control
-              type="text"
+              type={showPassword ? "text" : "password"}
               className={styles.formInput}
-              placeholder="enter your email"
-              value={payloadLogin.email}
+              placeholder="********"
+              value={payloadLogin.password}
               required
-              name="email"
+              name="password"
               onChange={(e) =>
                 handleChangePayloadLogin(
                   e as React.ChangeEvent<HTMLInputElement>
                 )
               }
             />
-          </Form.Group>
-          <Form.Group className={styles.formGroup}>
-            <Form.Label className={styles.formLabel}>Password</Form.Label>
-            <div className={styles.inputGroupPassword}>
-              <Form.Control
-                type={showPassword ? "text" : "password"}
-                className={styles.formInput}
-                placeholder="********"
-                value={payloadLogin.password}
-                required
-                name="password"
-                onChange={(e) =>
-                  handleChangePayloadLogin(
-                    e as React.ChangeEvent<HTMLInputElement>
-                  )
-                }
-              />
 
-              <div
-                className={styles.iconEye}
-                onClick={() => setShowPassword(!showPassword)}
-              >
-                {showPassword ? (
-                  <AiOutlineEyeInvisible className={styles.icon} />
-                ) : (
-                  <AiOutlineEye className={styles.icon} />
-                )}
-              </div>
+            <div
+              className={styles.iconEye}
+              onClick={() => setShowPassword(!showPassword)}
+            >
+              {showPassword ? (
+                <AiOutlineEyeInvisible className={styles.icon} />
+              ) : (
+                <AiOutlineEye className={styles.icon} />
+              )}
             </div>
-            <Form.Text className={styles.descriptionInput}>
-              Password must have 8 character
-            </Form.Text>
-          </Form.Group>
-          <button type="submit" className={styles.btnSignIn}>
-            Sign in
-          </button>
-          <Link href={PATHS.ForgotPassword} className={styles.forgotPassLink}>
-            Forgot password
-          </Link>
-        </Form>
-      )}
+          </div>
+          <Form.Text className={styles.descriptionInput}>
+            Password must have 8 character
+          </Form.Text>
+        </Form.Group>
+        <button type="submit" className={styles.btnSignIn} disabled={loading}>
+          {loading ? (
+            <AiOutlineLoading className={styles.iconLoading} />
+          ) : (
+            "Sign in"
+          )}
+        </button>
+        <Link href={PATHS.ForgotPassword} className={styles.forgotPassLink}>
+          Forgot password
+        </Link>
+      </Form>
     </Modal>
   );
 });

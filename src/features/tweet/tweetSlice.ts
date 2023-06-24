@@ -3,25 +3,23 @@ import { IError, ITweet } from "../interface";
 import { create, getAll, getAllTweetByUser, getById } from "./tweetAction";
 
 export interface IInitialState {
-  tweets: ITweet[];
-  tweetsOfUser: ITweet[];
+  tweets: ITweet[] | null;
+  tweetsOfUser: ITweet[] | null;
   tweet: ITweet | null;
   error: IError | null;
   isDeleted: boolean;
   page: number;
   totalPage: number;
-  isCreated: boolean;
 }
 
 const initialState: IInitialState = {
-  tweets: [],
-  tweetsOfUser: [],
+  tweets: null,
+  tweetsOfUser: null,
   tweet: null,
   error: null,
   isDeleted: false,
   page: 0,
   totalPage: 0,
-  isCreated: false,
 };
 
 const tweetSlice = createSlice({
@@ -40,22 +38,8 @@ const tweetSlice = createSlice({
     clearIsDeleted: (state) => {
       state.isDeleted = false;
     },
-    createTweetSuccess: (state) => {
-      state.isCreated = true;
-    },
-    clearIsCreated: (state) => {
-      state.isCreated = false;
-    },
   },
   extraReducers(builder) {
-    // ====== CREATE ======
-    builder.addCase(
-      create.fulfilled,
-      (state, action: PayloadAction<ITweet>) => {
-        state.tweet = action.payload;
-      }
-    );
-
     // ====== GET ALL ======
     builder.addCase(
       getAll.fulfilled,
@@ -91,13 +75,7 @@ const tweetSlice = createSlice({
   },
 });
 
-export const {
-  setError,
-  clearError,
-  deleteTweetSuccess,
-  clearIsDeleted,
-  createTweetSuccess,
-  clearIsCreated,
-} = tweetSlice.actions;
+export const { setError, clearError, deleteTweetSuccess, clearIsDeleted } =
+  tweetSlice.actions;
 
 export default tweetSlice.reducer;

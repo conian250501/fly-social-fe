@@ -1,3 +1,5 @@
+@import "../../styles/_mixins.scss";
+@import "../../styles/responsive";
 .mainPage {
   --bs-gutter-x: 0 !important;
 }
@@ -6,4 +8,10 @@
   padding: 0 !important;
   height: fit-content;
   min-height: 100vh;
+  @include mobile {
+    border-right: 0px solid;
+  }
+  @include tablet {
+    border-right: 0px solid;
+  }
 }

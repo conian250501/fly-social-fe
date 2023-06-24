@@ -1,4 +1,5 @@
 /* eslint-disable react/display-name */
+import Loading from "@/components/Loading";
 import LoadingDots from "@/components/LoadingDots";
 import { ITweet } from "@/features/interface";
 import { getAllTweetsFollowing } from "@/features/tweet/tweetAction";
@@ -11,14 +12,15 @@ type Props = {};
 const TweetListFollowing = React.memo((props: Props) => {
   const dispatch = useAppDispatch();
 
-  const [loadingGetTweets, setLoadingGetTweets] = useState<boolean>(false);
+  const [loadingScroll, setLoadingScroll] = useState<boolean>(false);
+  const [loadingForTweets, setLoadingForTweets] = useState<boolean>(true);
   const [tweets, setTweets] = useState<ITweet[]>([]);
   const [page, setPage] = useState<number>(1);
   const [lastPage, setLastPage] = useState<boolean>(false);
 
   useEffect(() => {
     if (lastPage) {
-      setLoadingGetTweets(false);
+      setLoadingScroll(false);
       return;
     }
     getTweets();
@@ -42,16 +44,16 @@ const TweetListFollowing = React.memo((props: Props) => {
 
   const getTweets = async () => {
     try {
-      setLoadingGetTweets(true);
+      setLoadingScroll(true);
       const tweets = await dispatch(
         getAllTweetsFollowing({ page: page, limit: 10 })
       ).unwrap();
+      setLoadingForTweets(false);
 
       if (tweets.length === 0) {
         setLastPage(true);
         return;
       }
-      setLoadingGetTweets(false);
 
       setTweets((prevTweets) => {
         const uniqueTweets = tweets.filter(
@@ -60,16 +62,25 @@ const TweetListFollowing = React.memo((props: Props) => {
         );
         return [...prevTweets, ...uniqueTweets];
       });
+      setLoadingScroll(false);
     } catch (error) {
-      setLoadingGetTweets(false);
+      setLoadingScroll(false);
+      setLoadingForTweets(false);
+
       console.log(error);
     }
   };
 
   return (
     <div>
-      <TweetList tweets={tweets} />
-      {loadingGetTweets && (
+      {loadingForTweets ? (
+        <div className="d-flex align-items-center justify-content-center mt-4">
+          <Loading />
+        </div>
+      ) : (
+        <TweetList tweets={tweets} />
+      )}
+      {loadingScroll && tweets.length > 0 && (
         <div className="d-flex align-items-center justify-content-center mt-4 mb-4">
           <LoadingDots />
         </div>

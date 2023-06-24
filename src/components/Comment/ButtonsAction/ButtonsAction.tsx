@@ -56,7 +56,7 @@ const ButtonsAction = React.memo(({ comment }: Props) => {
 
   return (
     <div className={styles.btnList}>
-      <div className="d-flex align-items-center justify-content-between">
+      <div className={styles.buttonItemWrapper}>
         <div className="d-flex align-items-center justify-content-start gap-4">
           <div className={styles.btnItem}>
             <div

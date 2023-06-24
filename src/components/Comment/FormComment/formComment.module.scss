@@ -11,6 +11,10 @@
     object-fit: cover;
     border-radius: 100rem;
   }
+  @include mobile {
+    width: 45px;
+    height: 45px;
+  }
 }
 .form {
   .textReplyFor {
@@ -19,6 +23,9 @@
     color: var(--dark-color-700);
     span {
       color: var(--primary-color);
+    }
+    @include mobile {
+      font-size: 12px;
     }
   }
   .formInput {
@@ -30,6 +37,9 @@
     &:focus {
       border: none;
       box-shadow: none;
+    }
+    @include mobile {
+      font-size: 12px;
     }
   }
 
@@ -52,6 +62,14 @@
       height: 20px;
       border-radius: 100rem;
       background-color: var(--white-color);
+    }
+    @include mobile {
+      width: 20px;
+      height: 20px;
+      .circle {
+        width: 14px;
+        height: 14px;
+      }
     }
   }
   .inputFileItem {
@@ -76,12 +94,26 @@
       font-size: 14px;
       color: var(--white-color);
     }
+    @include mobile {
+      top: 8px;
+      left: 8px;
+      width: 20px;
+      height: 20px;
+      .icon {
+        font-size: 10px;
+      }
+    }
   }
   .filePreview {
-    width: 100%;
+    width: 70%;
+    aspect-ratio: 56.25%;
     object-fit: cover;
     border-radius: 20px;
     margin-top: 16px;
+    @include mobile {
+      width: 100%;
+      border-radius: 10px;
+    }
   }
   .labelInputFile {
     display: block;
@@ -89,6 +121,12 @@
     cursor: pointer;
     .icon {
       font-size: 18px;
+    }
+
+    @include mobile {
+      .icon {
+        font-size: 12px;
+      }
     }
   }
 
@@ -102,6 +140,12 @@
     border: 2px solid var(--primary-color);
     &:hover {
       background-color: rgba($color: #3f9cf0, $alpha: 0.6);
+    }
+
+    @include mobile {
+      padding: 6px 20px;
+      font-size: 10px;
+      border-width: 1px;
     }
   }
 }

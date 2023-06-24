@@ -35,7 +35,7 @@
       border-radius: 100rem;
     }
     .icon {
-      font-size: 16px;
+      font-size: 20px;
     }
     span {
       font-size: 12px;
@@ -75,7 +75,6 @@
   justify-content: flex-start;
   align-items: center;
   gap: 24px;
-  margin-left: 20px;
 }
 .listInfoItem {
   display: flex;
@@ -93,6 +92,12 @@
     font-weight: 500;
     color: var(--dark-color-700);
   }
+}
+.buttonItemWrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-left: -20px;
 }
 @keyframes LikedAnimation {
   0% {

@@ -43,7 +43,7 @@
     padding: 16px 12px;
     border-radius: 10px;
     font-size: 16px;
-    font-weight: 700;
+    font-weight: 500;
     &:focus {
       box-shadow: none;
       border: 2px solid var(--primary-color);
@@ -89,6 +89,9 @@
     width: 100%;
     border: none;
     border-radius: 100rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
   .forgotPassLink {
     display: block;
@@ -110,6 +113,10 @@
       @include transition(0.25s, linear);
     }
   }
+}
+.iconLoading {
+  font-size: 24px;
+  animation: Rotate 0.5s linear infinite;
 }
 
 @media screen and (min-width: 768px) and (max-width: 1023px) {
