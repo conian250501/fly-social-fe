@@ -79,14 +79,14 @@ const CreateTweetForm = React.memo(({ show, handleClose }: Props) => {
       formData.append("file", values.file as string);
       try {
         setLoadingCreateTweet(true);
-        const newTweet = await dispatch(createTweet(values)).unwrap();
+        const _newTweet = await dispatch(createTweet(values)).unwrap();
         if (isFileChange) {
           await dispatch(
-            uploadFile({ id: newTweet.id, file: formData })
+            uploadFile({ id: _newTweet.id, file: formData })
           ).unwrap();
         }
 
-        setNewTweet(newTweet);
+        setNewTweet(_newTweet);
         setLoadingCreateTweet(false);
         resetForm();
         setIsFileChange(false);
