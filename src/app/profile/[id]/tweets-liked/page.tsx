@@ -90,7 +90,7 @@ const Page = ({ params }: Props) => {
       <TopInfo user={user} />
       <TabsProfile userId={Number(params.id)} />
       <TweetList tweets={tweets} />
-      {loading && (
+      {loading && tweets.length > 0 && (
         <div className="d-flex align-items-center justify-content-center mt-4 mb-4">
           <LoadingDots />
         </div>

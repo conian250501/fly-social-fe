@@ -1,42 +1,89 @@
-import { getUser } from "@/features/auth/authAction";
 import { ITweet } from "@/features/interface";
 import { getAll as getAllTweets } from "@/features/tweet/tweetAction";
-import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import { RootState } from "@/redux/store";
+import { useAppDispatch } from "@/redux/hooks";
 import { useEffect, useState } from "react";
 import TweetList from "../Home/TweetList";
 import LoadingDots from "../LoadingDots";
+import styles from "./tweetListHomePage.module.scss";
+
 type Props = {};
 
 const TweetListHomePage = ({}: Props) => {
   const dispatch = useAppDispatch();
-  const { tweets } = useAppSelector((state: RootState) => state.tweet);
 
-  const [loading, setLoading] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [tweets, setTweets] = useState<ITweet[]>([]);
+  const [page, setPage] = useState<number>(1);
+  const [lastPage, setLastPage] = useState<boolean>(false);
 
   useEffect(() => {
-    const getTweets = async () => {
-      try {
-        setLoading(true);
-        await dispatch(
-          getAllTweets({
-            page: 1,
-          })
-        ).unwrap();
-
-        setLoading(false);
-      } catch (error) {
-        setLoading(false);
-        console.log(error);
-      }
-    };
-    getTweets();
+    const token = localStorage.getItem("token");
+    if (token) {
+      setIsAuthenticated(true);
+    } else {
+      setIsAuthenticated(false);
+    }
   }, []);
 
+  useEffect(() => {
+    if (lastPage) {
+      setLoading(false);
+      return;
+    }
+    getTweets();
+  }, [page]);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (
+        window.innerHeight + document.documentElement.scrollTop + 1 >=
+        document.documentElement.scrollHeight
+      ) {
+        setPage((prevPage) => prevPage + 1);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
+  const getTweets = async () => {
+    try {
+      setLoading(true);
+      const tweets = await dispatch(
+        getAllTweets({ page: page, limit: 10 })
+      ).unwrap();
+
+      if (tweets.length === 0) {
+        setLastPage(true);
+        return;
+      }
+      setLoading(false);
+
+      setTweets((prevTweets) => {
+        const uniqueTweets = tweets.filter(
+          (newTweet: ITweet) =>
+            !prevTweets.some((prevTweet) => prevTweet.id === newTweet.id)
+        );
+        return [...prevTweets, ...uniqueTweets];
+      });
+    } catch (error) {
+      setLoading(false);
+      console.log(error);
+    }
+  };
+
   return (
-    <div>
+    <div
+      className={`${styles.tweetListWrapper} ${
+        !isAuthenticated ? styles.loggedIn : ""
+      }`}
+    >
       <TweetList tweets={tweets} />
-      {loading && (
+      {loading && tweets.length > 0 && (
         <div className="d-flex align-items-center justify-content-center mt-4 mb-4">
           <LoadingDots />
         </div>

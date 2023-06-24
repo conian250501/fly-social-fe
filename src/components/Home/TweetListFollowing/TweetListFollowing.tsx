@@ -69,7 +69,7 @@ const TweetListFollowing = React.memo((props: Props) => {
   return (
     <div>
       <TweetList tweets={tweets} />
-      {loadingGetTweets && (
+      {loadingGetTweets && tweets.length > 0 && (
         <div className="d-flex align-items-center justify-content-center mt-4 mb-4">
           <LoadingDots />
         </div>

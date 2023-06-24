@@ -14,7 +14,7 @@ const ModalError = ({ isOpen, handleClose, message }: Props) => {
       contentClassName={styles.modalContent}
     >
       <div className={styles.container}>
-        <div className="d-flex align-items-center justify-content-start gap-3">
+        <div className={styles.sectionLeft}>
           <div className={styles.iconError}>
             <SiFacepunch className={styles.icon} />
           </div>

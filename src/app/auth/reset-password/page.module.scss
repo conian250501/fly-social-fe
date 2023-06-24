@@ -48,6 +48,9 @@
       font-size: 12px;
       width: 100%;
     }
+    @include tablet {
+      width: 80%;
+    }
   }
   .formGroup {
     &:not(:first-child) {
@@ -88,6 +91,11 @@
     font-weight: 500;
     color: var(--text-color-light);
     width: 90%;
+    @include mobile {
+      font-size: 10px;
+      width: 100%;
+      display: block;
+    }
   }
 
   .btnSubmit {
@@ -104,14 +112,16 @@
     justify-content: center;
     align-items: center;
   }
-}
-
-.textErrorValidate {
-  font-size: 14px;
-  font-weight: 500;
-  margin-top: 10px;
-  color: var(--error-color);
-  display: block;
+  .textErrorValidate {
+    font-size: 14px;
+    font-weight: 500;
+    margin-top: 10px;
+    color: var(--error-color);
+    display: block;
+    @include mobile {
+      font-size: 10px;
+    }
+  }
 }
 
 .errorToken {
@@ -132,7 +142,10 @@
     animation: ColorFlicker 1s ease-out infinite;
   }
 }
-
+.iconLoading {
+  font-size: 24px;
+  animation: Rotate 0.5s linear infinite;
+}
 @keyframes ColorFlicker {
   from {
     color: var(--error-color);

@@ -1,15 +1,15 @@
 /* eslint-disable @next/next/no-img-element */
 /* eslint-disable react/display-name */
-import { IError, IPayloadTweet } from "@/features/interface";
+import { PATHS } from "@/contanst/paths";
+import { IError, IPayloadTweet, ITweet } from "@/features/interface";
 import {
   create as createTweet,
-  getAll as getAllTweet,
   uploadFile,
 } from "@/features/tweet/tweetAction";
-import { createTweetSuccess } from "@/features/tweet/tweetSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { RootState } from "@/redux/store";
 import { useFormik } from "formik";
+import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { Button, Form, Modal } from "react-bootstrap";
 import {
@@ -23,7 +23,6 @@ import { FaAngleDown, FaUserSecret } from "react-icons/fa";
 import { GiWorld } from "react-icons/gi";
 import { RiEmotionHappyLine } from "react-icons/ri";
 import ModalError from "../ModalError";
-import ModalSuccess from "../ModalSuccess/ModalSuccess";
 import styles from "./createTweetForm.module.scss";
 type Props = {
   show: boolean;
@@ -47,6 +46,7 @@ const CreateTweetForm = React.memo(({ show, handleClose }: Props) => {
   const [isCreateSuccess, setIsCreateSuccess] = useState<boolean>(false);
   const [error, setError] = useState<IError | null>(null);
   const [progressPercentage, setProgressPercentage] = useState<number>(0);
+  const [newTweet, setNewTweet] = useState<ITweet | null>(null);
 
   useEffect(() => {
     const handleCloseAudienceList = () => {
@@ -85,8 +85,8 @@ const CreateTweetForm = React.memo(({ show, handleClose }: Props) => {
             uploadFile({ id: newTweet.id, file: formData })
           ).unwrap();
         }
-        await dispatch(getAllTweet({ page: 1, limit: 10 })).unwrap();
-        dispatch(createTweetSuccess());
+
+        setNewTweet(newTweet);
         setLoadingCreateTweet(false);
         resetForm();
         setIsFileChange(false);
@@ -114,11 +114,10 @@ const CreateTweetForm = React.memo(({ show, handleClose }: Props) => {
 
   if (isCreateSuccess) {
     return (
-      <ModalSuccess
-        isOpen={isCreateSuccess}
-        handleClose={() => setIsCreateSuccess(false)}
-        message="Created new tweet successfully"
-      />
+      <div className={styles.toastCreateSuccess}>
+        <p className={styles.text}>Your tweet was sent</p>
+        <Link href={`${PATHS.Tweets}/${newTweet?.id}`}>View</Link>
+      </div>
     );
   }
 

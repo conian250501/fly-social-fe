@@ -7,7 +7,12 @@ import { register } from "@/features/auth/authAction";
 import { setError } from "@/features/auth/authSlice";
 import { regexPassword } from "@/contanst/regexs";
 import Loading from "@/components/Loading";
-import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
+import {
+  AiOutlineEye,
+  AiOutlineEyeInvisible,
+  AiOutlineLoading,
+} from "react-icons/ai";
+import { PATHS } from "@/contanst/paths";
 type Props = {
   show: boolean;
   close: () => void;
@@ -55,13 +60,14 @@ const SignUpForm = ({ show, close, loading, setLoading }: Props) => {
       await dispatch(register(payloadRegister)).unwrap();
 
       close();
-      setLoading(false);
+      router.replace(PATHS.LoginPage);
       setPayloadRegister({
         email: "",
         name: "",
         password: "",
         passwordConfirm: "",
       });
+      setLoading(false);
     } catch (error) {
       setLoading(false);
       dispatch(setError(error));
@@ -75,112 +81,108 @@ const SignUpForm = ({ show, close, loading, setLoading }: Props) => {
       centered
       contentClassName={styles.modalContent}
     >
-      {loading ? (
-        <div className={styles.loadingRegister}>
-          <Loading />
-        </div>
-      ) : (
-        <Form className={styles.formLogin} onSubmit={handleRegister}>
-          <div className={styles.heading}>Create Account</div>
-          <Form.Group className={styles.formGroup}>
-            <Form.Label className={styles.formLabel}>Name</Form.Label>
+      <Form className={styles.formLogin} onSubmit={handleRegister}>
+        <div className={styles.heading}>Create Account</div>
+        <Form.Group className={styles.formGroup}>
+          <Form.Label className={styles.formLabel}>Name</Form.Label>
+          <Form.Control
+            type="text"
+            className={styles.formInput}
+            placeholder="enter your name"
+            value={payloadRegister.name}
+            name="name"
+            onChange={(e) =>
+              handleChangePayloadRegister(
+                e as React.ChangeEvent<HTMLInputElement>
+              )
+            }
+            required
+          />
+        </Form.Group>
+        <Form.Group className={styles.formGroup}>
+          <Form.Label className={styles.formLabel}>Email</Form.Label>
+          <Form.Control
+            type="email"
+            className={styles.formInput}
+            placeholder="enter your email"
+            value={payloadRegister.email}
+            required
+            name="email"
+            onChange={(e) =>
+              handleChangePayloadRegister(
+                e as React.ChangeEvent<HTMLInputElement>
+              )
+            }
+          />
+        </Form.Group>
+        <Form.Group className={styles.formGroup}>
+          <Form.Label className={styles.formLabel}>Password</Form.Label>
+          <div className={styles.inputGroupPassword}>
             <Form.Control
-              type="text"
+              type={showPassword ? "text" : "password"}
               className={styles.formInput}
-              placeholder="enter your name"
-              value={payloadRegister.name}
-              name="name"
+              placeholder="********"
+              value={payloadRegister.password}
+              required
+              name="password"
               onChange={(e) =>
                 handleChangePayloadRegister(
                   e as React.ChangeEvent<HTMLInputElement>
                 )
               }
-              required
             />
-          </Form.Group>
-          <Form.Group className={styles.formGroup}>
-            <Form.Label className={styles.formLabel}>Email</Form.Label>
+            <div
+              className={styles.iconEye}
+              onClick={() => setShowPassword(!showPassword)}
+            >
+              {showPassword ? (
+                <AiOutlineEyeInvisible className={styles.icon} />
+              ) : (
+                <AiOutlineEye className={styles.icon} />
+              )}
+            </div>
+          </div>
+          <Form.Text className={styles.descriptionInput}>
+            Password must have 8 character, include number and Uppercase
+            character
+          </Form.Text>
+        </Form.Group>
+        <Form.Group className={styles.formGroup}>
+          <Form.Label className={styles.formLabel}>Password Confirm</Form.Label>
+          <div className={styles.inputGroupPassword}>
             <Form.Control
-              type="email"
+              type={showConfirmPassword ? "text" : "password"}
               className={styles.formInput}
-              placeholder="enter your email"
-              value={payloadRegister.email}
+              placeholder="********"
+              value={payloadRegister.passwordConfirm}
               required
-              name="email"
+              name="passwordConfirm"
               onChange={(e) =>
                 handleChangePayloadRegister(
                   e as React.ChangeEvent<HTMLInputElement>
                 )
               }
             />
-          </Form.Group>
-          <Form.Group className={styles.formGroup}>
-            <Form.Label className={styles.formLabel}>Password</Form.Label>
-            <div className={styles.inputGroupPassword}>
-              <Form.Control
-                type={showPassword ? "text" : "password"}
-                className={styles.formInput}
-                placeholder="********"
-                value={payloadRegister.password}
-                required
-                name="password"
-                onChange={(e) =>
-                  handleChangePayloadRegister(
-                    e as React.ChangeEvent<HTMLInputElement>
-                  )
-                }
-              />
-              <div
-                className={styles.iconEye}
-                onClick={() => setShowPassword(!showPassword)}
-              >
-                {showPassword ? (
-                  <AiOutlineEyeInvisible className={styles.icon} />
-                ) : (
-                  <AiOutlineEye className={styles.icon} />
-                )}
-              </div>
+            <div
+              className={styles.iconEye}
+              onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+            >
+              {showConfirmPassword ? (
+                <AiOutlineEyeInvisible className={styles.icon} />
+              ) : (
+                <AiOutlineEye className={styles.icon} />
+              )}
             </div>
-            <Form.Text className={styles.descriptionInput}>
-              Password must have 8 character, include number and Uppercase
-              character
-            </Form.Text>
-          </Form.Group>
-          <Form.Group className={styles.formGroup}>
-            <Form.Label className={styles.formLabel}>
-              Password Confirm
-            </Form.Label>
-            <div className={styles.inputGroupPassword}>
-              <Form.Control
-                type={showConfirmPassword ? "text" : "password"}
-                className={styles.formInput}
-                placeholder="********"
-                value={payloadRegister.passwordConfirm}
-                required
-                name="passwordConfirm"
-                onChange={(e) =>
-                  handleChangePayloadRegister(
-                    e as React.ChangeEvent<HTMLInputElement>
-                  )
-                }
-              />
-              <div
-                className={styles.iconEye}
-                onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-              >
-                {showConfirmPassword ? (
-                  <AiOutlineEyeInvisible className={styles.icon} />
-                ) : (
-                  <AiOutlineEye className={styles.icon} />
-                )}
-              </div>
-            </div>
-          </Form.Group>
-          <button type="submit" className={styles.btnSignIn}>
-            Sign up
-          </button>
-        </Form>
-      )}
+          </div>
+        </Form.Group>
+        <button type="submit" className={styles.btnSignIn} disabled={loading}>
+          {loading ? (
+            <AiOutlineLoading className={styles.iconLoading} />
+          ) : (
+            "Sign up"
+          )}
+        </button>
+      </Form>
     </Modal>
   );
 };

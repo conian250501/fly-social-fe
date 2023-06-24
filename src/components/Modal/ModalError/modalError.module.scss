@@ -1,7 +1,11 @@
 @import "../../../styles/mixins";
+@import "../../../styles/responsive";
 
 .modalContent {
   border-radius: 30px !important;
+  @include mobile {
+    border-radius: 14px !important;
+  }
 }
 .container {
   display: flex;
@@ -9,11 +13,17 @@
   align-items: center;
   padding: 20px;
   gap: 10px;
+  @include mobile {
+    padding: 10px;
+  }
 }
 .iconError {
   font-size: 40px;
   color: var(--error-color);
   animation: ErrorColor 0.5s linear infinite;
+  @include mobile {
+    font-size: 24px;
+  }
 }
 
 .dialogContainer {
@@ -21,6 +31,13 @@
   align-items: flex-end;
   justify-content: flex-end;
   height: calc(100vh - 100px);
+}
+.sectionLeft {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 12px;
+  flex: 1;
 }
 .content {
   flex: 1;
@@ -37,6 +54,14 @@
     margin-bottom: 0;
     animation: ErrorColor 0.5s linear infinite;
   }
+  @include mobile {
+    .title {
+      font-size: 10px;
+    }
+    .description {
+      font-size: 12px;
+    }
+  }
 }
 .iconClose {
   cursor: pointer;
@@ -49,6 +74,14 @@
   border: 2px solid var(--dark-color-900);
   .icon {
     font-size: 20px;
+  }
+
+  @include mobile {
+    width: 20px;
+    height: 20px;
+    .icon {
+      font-size: 12px;
+    }
   }
 }
 
