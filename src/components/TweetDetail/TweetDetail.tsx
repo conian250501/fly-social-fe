@@ -156,7 +156,7 @@ const TweetDetail = ({ id }: Props) => {
     );
   return (
     <div className={styles.tweetDetailContainer}>
-      <div onClick={handleBackPage} className={styles.backLink}>
+      <div onClick={handleBackPage} role="button" className={styles.backLink}>
         <div className={styles.iconBack}>
           <BsArrowLeft className={styles.icon} />
         </div>

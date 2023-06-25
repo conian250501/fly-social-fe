@@ -4,6 +4,7 @@ export const PATHS = {
   SignUpPage: "/auth?sign-up=true",
   ForgotPassword: "/auth/forgot-password",
   ResetPassword: "/auth/reset-password",
+  Logout: "/logout",
   Home: "/",
   Following: "/following",
   Explore: "/explore",

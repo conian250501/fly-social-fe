@@ -28,7 +28,6 @@ const TweetList = ({ tweets }: Props) => {
   const handleCloseModalSuccessDeletedTweet = useCallback(() => {
     dispatch(clearIsDeleted());
   }, []);
-  console.log({ tweets });
 
   return (
     <div className={styles.tweetList}>

@@ -1,6 +1,5 @@
-/* eslint-disable @next/next/no-img-element */
-/* eslint-disable react/display-name */
 import AudienceFormTweet from "@/components/AudienceFormTweet";
+import ModalError from "@/components/Modal/ModalError";
 import { PATHS } from "@/contanst/paths";
 import { IError, IPayloadTweet, ITweet } from "@/features/interface";
 import {
@@ -12,7 +11,7 @@ import { RootState } from "@/redux/store";
 import { useFormik } from "formik";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
-import { Button, Form, Modal } from "react-bootstrap";
+import { Button, Form } from "react-bootstrap";
 import {
   AiOutlineGif,
   AiOutlineLoading,
@@ -20,19 +19,12 @@ import {
 } from "react-icons/ai";
 import { BsFillImageFill } from "react-icons/bs";
 import { CgClose } from "react-icons/cg";
-import { FaAngleDown, FaUserSecret } from "react-icons/fa";
-import { GiWorld } from "react-icons/gi";
 import { RiEmotionHappyLine } from "react-icons/ri";
-import ModalError from "../ModalError";
-import styles from "./createTweetForm.module.scss";
-type Props = {
-  show: boolean;
-  handleClose: () => void;
-};
+import styles from "./formNewTweet.module.scss";
+type Props = {};
 
-const CreateTweetForm = React.memo(({ show, handleClose }: Props) => {
+const FormNewTweet = (props: Props) => {
   const dispatch = useAppDispatch();
-
   const { user } = useAppSelector((state: RootState) => state.auth);
 
   const [showAudienceList, setShowAudienceList] = useState<boolean>(false);
@@ -48,17 +40,7 @@ const CreateTweetForm = React.memo(({ show, handleClose }: Props) => {
   const [error, setError] = useState<IError | null>(null);
   const [progressPercentage, setProgressPercentage] = useState<number>(0);
   const [newTweet, setNewTweet] = useState<ITweet | null>(null);
-
-  useEffect(() => {
-    const handleCloseAudienceList = () => {
-      setShowAudienceList(false);
-    };
-    window.addEventListener("click", handleCloseAudienceList);
-
-    return () => {
-      window.removeEventListener("click", handleCloseAudienceList);
-    };
-  }, []);
+  const [limitLengthContent, setLimitLengthContent] = useState<number>(100);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -102,7 +84,6 @@ const CreateTweetForm = React.memo(({ show, handleClose }: Props) => {
           ).unwrap();
         }
 
-        handleClose();
         setNewTweet(_newTweet);
         setLoadingCreateTweet(false);
         resetForm();
@@ -133,47 +114,19 @@ const CreateTweetForm = React.memo(({ show, handleClose }: Props) => {
     setShowAudienceList(false);
   };
 
-  if (isCreateSuccess) {
-    return (
-      <div className={styles.toastCreateSuccess}>
-        <p className={styles.text}>Your tweet was sent</p>
-        <Link href={`${PATHS.Tweets}/${newTweet?.id}`}>View</Link>
-      </div>
-    );
-  }
-
-  if (error) {
-    return (
-      <ModalError
-        isOpen={Boolean(error)}
-        handleClose={() => setError(null)}
-        message={error.message}
-      />
-    );
-  }
   return (
-    <Modal
-      show={show}
-      onHide={handleClose}
-      centered
-      className={styles.modalContainer}
-      contentClassName={styles.contentModal}
+    <Form
+      className={`${styles.form} ${!user ? "d-none" : "d-flex"}`}
+      onSubmit={form.handleSubmit}
     >
-      <div className={styles.iconCloseWrapper}>
-        <div className={styles.iconClose} onClick={handleClose}>
-          <CgClose className={styles.icon} />
-        </div>
+      <div className={styles.avatarCurrentUser}>
+        <img
+          src={user?.avatar ? user.avatar : "/images/avatar-placeholder.png"}
+          alt=""
+        />
       </div>
-      <Form className={styles.form} onSubmit={form.handleSubmit}>
-        <div className={styles.userInfo}>
-          <div className={styles.avatar}>
-            <img
-              src={
-                user?.avatar ? user.avatar : "/images/avatar-placeholder.png"
-              }
-              alt=""
-            />
-          </div>
+      <div className={styles.formGroupWrapper}>
+        <div className={styles.audienceWrapper}>
           <AudienceFormTweet
             data={form.values}
             showAudienceList={showAudienceList}
@@ -181,28 +134,21 @@ const CreateTweetForm = React.memo(({ show, handleClose }: Props) => {
             handleChangeAudience={handleChangeAudience}
           />
         </div>
-        <Form.Group className={`${styles.formGroup} position-relative`}>
+        <Form.Group className={styles.formInputGroup}>
           <Form.Control
             as="textarea"
-            placeholder="What is happening?"
-            className={styles.formInput}
             value={form.values.content}
-            maxLength={100}
             name="content"
-            onChange={(e) => {
-              setProgressPercentage((form.values.content.length / 100) * 100);
-              form.setFieldValue("content", e.target.value);
-            }}
+            onChange={form.handleChange}
+            placeholder="What is happening?!"
+            className={styles.formInput}
+            maxLength={100}
           />
-          <div
-            className={styles.progressLimitContent}
-            style={{
-              backgroundImage: `conic-gradient(#3f9cf0 ${progressPercentage}%, lightgray 0)`,
-            }}
-          >
-            <div className={styles.circle}></div>
-          </div>
+          <p className={styles.textLimit}>
+            {form.values.content.length}/{limitLengthContent}
+          </p>
         </Form.Group>
+
         {filePreview && (
           <div className="position-relative">
             <div className={styles.deleteFile} onClick={handleDeleteFile}>
@@ -211,7 +157,7 @@ const CreateTweetForm = React.memo(({ show, handleClose }: Props) => {
             <img src={filePreview} alt="" className={styles.filePreview} />
           </div>
         )}
-        <div className="d-flex align-items-center justify-content-between">
+        <div className={styles.fileWrapper}>
           <div className="d-flex align-items-center justify-content-center gap-4">
             <div className={styles.inputFileItem}>
               <Form.Label
@@ -256,9 +202,24 @@ const CreateTweetForm = React.memo(({ show, handleClose }: Props) => {
             )}
           </Button>
         </div>
-      </Form>
-    </Modal>
-  );
-});
+      </div>
 
-export default CreateTweetForm;
+      {isCreateSuccess && (
+        <div className={styles.toastCreateSuccess}>
+          <p className={styles.text}>Your tweet was sent</p>
+          <Link href={`${PATHS.Tweets}/${newTweet?.id}`}>View</Link>
+        </div>
+      )}
+
+      {error && (
+        <ModalError
+          isOpen={Boolean(error)}
+          handleClose={() => setError(null)}
+          message={error.message}
+        />
+      )}
+    </Form>
+  );
+};
+
+export default FormNewTweet;

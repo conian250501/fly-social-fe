@@ -27,8 +27,7 @@ const UserInfo = React.memo((props: Props) => {
   }, []);
 
   const handleLogout = () => {
-    localStorage.removeItem("token");
-    router.push(PATHS.Auth);
+    router.replace(PATHS.Logout);
   };
   return (
     <React.Fragment>
