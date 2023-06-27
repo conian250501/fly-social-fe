@@ -1,3 +1,6 @@
+@import "../../../styles/mixins";
+@import "../../../styles/responsive";
+
 .tabList {
   display: flex;
   justify-content: center;
@@ -7,6 +10,13 @@
   top: 0;
   background-color: rgba($color: #fff, $alpha: 0.8);
   filter: blur(0.5);
+  z-index: 2;
+  @include mobile {
+    top: 72px;
+    &.withoutUser {
+      top: 57px;
+    }
+  }
 }
 .tabItem {
   width: 50%;

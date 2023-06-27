@@ -5,6 +5,9 @@ import { store } from "../redux/store";
 import "../styles/global.scss";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "react-datepicker/dist/react-datepicker.css";
+import "primereact/resources/themes/lara-light-indigo/theme.css";
+import "primereact/resources/primereact.min.css";
+import "primeicons/primeicons.css";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 
 const montserrat = Montserrat({

@@ -18,4 +18,5 @@ export const PATHS = {
   ProfileFollower: "/followers",
   ProfileTweetsLike: "/tweets-liked",
   ProfileTweetsSaved: "/tweets-saved",
+  Settings: "/settings",
 };

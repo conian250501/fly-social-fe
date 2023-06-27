@@ -116,7 +116,9 @@ const FormNewTweet = (props: Props) => {
 
   return (
     <Form
-      className={`${styles.form} ${!user ? "d-none" : "d-flex"}`}
+      className={`${styles.form} ${
+        !user ? "d-none" : "d-xs-none d-sm-none d-md-flex"
+      } `}
       onSubmit={form.handleSubmit}
     >
       <div className={styles.avatarCurrentUser}>

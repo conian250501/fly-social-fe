@@ -21,7 +21,7 @@
   padding: 12px;
   border-bottom: 1px solid var(--border-color-weight);
   @include mobile {
-    display: none;
+    display: none !important;
   }
   .formInput {
     border: none;
@@ -105,12 +105,13 @@
   }
 }
 .inputFileItem {
-  width: 30px;
-  height: 30px;
+  width: 40px;
+  height: 40px;
   border-radius: 100rem;
   display: flex;
   justify-content: center;
   align-items: center;
+  cursor: pointer;
   &:hover {
     background-color: rgba($color: #3f9cf0, $alpha: 0.3);
   }
@@ -119,7 +120,7 @@
     cursor: pointer;
 
     .icon {
-      font-size: 16px;
+      font-size: 20px;
       color: var(--primary-color);
     }
   }

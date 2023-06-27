@@ -1,0 +1,162 @@
+@import "../../styles/mixins";
+@import "../../styles/responsive";
+
+.topBarWrapper {
+  display: none;
+  padding: 16px;
+  position: sticky;
+  height: 100%;
+  width: 100%;
+  background-color: rgba($color: #fff, $alpha: 0.8);
+  top: 0;
+  z-index: 4;
+  @include mobile {
+    display: block;
+  }
+}
+.topSection {
+  &.withoutUser {
+    justify-content: center;
+  }
+}
+.avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 100rem;
+  object-fit: cover;
+  cursor: pointer;
+}
+.logo {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  img {
+    width: 25px;
+    height: 25px;
+    object-fit: contain;
+  }
+}
+.btnLogout {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--error-color);
+  padding: 8px 16px;
+  border-radius: 10px;
+  transition: all 0.2s linear;
+  &:hover {
+    background-color: var(--error-color);
+    color: var(--white-color);
+    transition: all 0.2s linear;
+  }
+}
+.followItem {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 6px;
+  text-decoration: none;
+  &:hover {
+    text-decoration: underline;
+  }
+  .count {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--dark-color-900);
+    margin-bottom: 0;
+  }
+  span {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--dark-color-700);
+  }
+}
+.sideBarWrapper {
+  width: 70% !important;
+  .userInfo {
+    text-decoration: none;
+    color: var(--dark-color-900);
+    .avatar {
+      width: 50px;
+      height: 50px;
+      border-radius: 100rem;
+    }
+    .name {
+      font-size: 16px;
+      font-weight: 700;
+      margin-top: 10px;
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+    .nickname {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--dark-color-700);
+    }
+  }
+}
+.menuList {
+  @include resetList;
+  margin-top: 16px;
+}
+.menuItemLink {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 12px;
+  text-decoration: none;
+  border-radius: 10px;
+  &.active {
+    .title {
+      font-weight: 800;
+    }
+  }
+  &:hover {
+    background-color: var(--border-color-light);
+  }
+  .menuIcon {
+    .icon {
+      font-size: 24px;
+      color: var(--dark-color-900);
+    }
+  }
+  .title {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--dark-color-900);
+    margin-bottom: 0;
+  }
+}
+
+.sideMenuWrapper {
+  height: fit-content;
+  width: 100% !important;
+  font-size: 18px !important;
+  border: none !important;
+  .iconBack {
+    font-size: 20px;
+    color: var(--dark-color-900);
+  }
+}
+.menuSettingItem {
+  width: 100% !important;
+  a {
+    gap: 12px;
+    font-size: 18px !important;
+    font-weight: 700;
+    padding: 16px !important;
+    border-radius: 10px !important;
+    span {
+      color: var(--dark-color-900) !important;
+    }
+  }
+  .icon {
+    font-size: 20px;
+  }
+}
+.subMenuSettingItem {
+  @extend .menuSettingItem;
+}

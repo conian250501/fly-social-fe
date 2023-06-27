@@ -1,14 +1,13 @@
 /* eslint-disable react/display-name */
-import React, { useState } from "react";
-import styles from "./tabsTweetList.module.scss";
 import { ETypeTabTweetList, ITabTweetList } from "@/components/interfaces";
-import { nanoid } from "@reduxjs/toolkit";
+import { PATHS } from "@/contanst/paths";
 import { useAppSelector } from "@/redux/hooks";
 import { RootState } from "@/redux/store";
-import ButtonsAction from "./components/ButtonsAction";
-import { PATHS } from "@/contanst/paths";
-import { usePathname } from "next/navigation";
+import { nanoid } from "@reduxjs/toolkit";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
+import React, { useState } from "react";
+import styles from "./tabsTweetList.module.scss";
 
 type Props = {};
 
@@ -31,7 +30,7 @@ const TabsTweetList = React.memo(({}: Props) => {
 
   if (!user) {
     return (
-      <div className={styles.tabList}>
+      <div className={`${styles.tabList} ${styles.withoutUser}`}>
         <div className={`${styles.tabItem} ${styles.active}`}>For you</div>
       </div>
     );
