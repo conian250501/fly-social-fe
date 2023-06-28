@@ -1,7 +1,8 @@
 import axiosConfig from "@/config/axiosConfig";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { AxiosError } from "axios";
-import { IPayloadEditProfile } from "../interface";
+import queryString from "query-string";
+import { IBaseFilter, IPayloadEditProfile } from "../interface";
 
 export const getUserById = createAsyncThunk(
   "user/get-by-id",
@@ -65,6 +66,28 @@ export const uploadFilesProfile = createAsyncThunk(
   ) => {
     try {
       const { data } = await axiosConfig.post(`/users/upload/${id}`, files);
+      return data.data;
+    } catch (error) {
+      const err = error as AxiosError;
+      return rejectWithValue(err.response?.data);
+    }
+  }
+);
+
+export const getAllUserDontFollowing = createAsyncThunk(
+  "user/get-all-dont-following",
+  async (
+    { userId, filter }: { userId: number; filter: IBaseFilter },
+    { rejectWithValue }
+  ) => {
+    try {
+      const query = queryString.stringify({
+        page: filter.page || 1,
+        limit: filter.limit || 4,
+      });
+      const { data } = await axiosConfig.get(
+        `/users/followed-yet/${userId}?${query}`
+      );
       return data.data;
     } catch (error) {
       const err = error as AxiosError;

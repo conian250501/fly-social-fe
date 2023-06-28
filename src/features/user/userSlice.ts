@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { IUser } from "../interface";
 import {
+  getAllUserDontFollowing,
   getAllUserFollowers,
   getAllUserFollowing,
   getUserById,
@@ -11,6 +12,9 @@ export interface IInitialState {
   user: IUser | null;
   usersFollowing: IUser[];
   usersFollower: IUser[];
+  usersFollowedYet: IUser[];
+  page: number;
+  totalPage: number;
 }
 
 const initialState: IInitialState = {
@@ -18,6 +22,9 @@ const initialState: IInitialState = {
   users: [],
   usersFollower: [],
   usersFollowing: [],
+  usersFollowedYet: [],
+  page: 0,
+  totalPage: 0,
 };
 
 const userSlice = createSlice({
@@ -42,6 +49,21 @@ const userSlice = createSlice({
       getAllUserFollowers.fulfilled,
       (state, action: PayloadAction<IUser[]>) => {
         state.usersFollower = action.payload;
+      }
+    );
+    builder.addCase(
+      getAllUserDontFollowing.fulfilled,
+      (
+        state,
+        action: PayloadAction<{
+          users: IUser[];
+          totalPage: number;
+          page: number;
+        }>
+      ) => {
+        state.usersFollowedYet = action.payload.users;
+        state.page = action.payload.page;
+        state.totalPage = action.payload.totalPage;
       }
     );
   },

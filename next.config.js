@@ -11,14 +11,6 @@ const nextConfig = {
     // your project has ESLint errors.
     ignoreDuringBuilds: true,
   },
-  images: {
-    remotePatterns: [
-      {
-        protocol: "https",
-        hostname: "slaysi.s3.us-west-1.amazonaws.com",
-      },
-    ],
-  },
 };
 
 module.exports = nextConfig;
