@@ -11,10 +11,6 @@ import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../../redux/hooks";
 
-const ProfileLayout = dynamic(() => import("@/Layouts/ProfileLayout"), {
-  ssr: false,
-});
-
 const TweetList = dynamic(() => import("@/components/Home/TweetList"), {
   ssr: false,
 });

@@ -1,0 +1,54 @@
+.formSearch {
+  padding: 16px;
+}
+.inputGroup {
+  position: relative;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 10px;
+  border-radius: 100rem;
+  padding: 12px 14px;
+  background-color: var(--bg-color-light);
+  border: 2px solid var(--bg-color-light);
+
+  &.focus {
+    border: 2px solid var(--primary-color);
+    background-color: var(--bg-color-light);
+
+    .iconSearch {
+      color: var(--primary-color);
+    }
+  }
+  .iconSearch {
+    font-size: 16px;
+    color: var(--dark-color-900);
+  }
+  .formInput {
+    background-color: var(--bg-color-light);
+    height: 100%;
+    width: 100%;
+    border: none;
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--dark-color-900);
+    flex: 1;
+    &:focus {
+      box-shadow: none;
+    }
+  }
+  .iconClear {
+    width: 25px;
+    height: 25px;
+    border-radius: 100rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--primary-color);
+    cursor: pointer;
+    i {
+      font-size: 12px;
+      color: var(--white-color);
+    }
+  }
+}

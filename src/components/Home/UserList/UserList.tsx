@@ -1,4 +1,5 @@
 /* eslint-disable react/display-name */
+import InputSearchUser from "@/components/InputSearchUser";
 import Loading from "@/components/Loading";
 import { PATHS } from "@/contanst/paths";
 import { IUser } from "@/features/interface";
@@ -47,11 +48,8 @@ const UserList = React.memo((props: Props) => {
   useEffect(() => {
     if (page > 0 && page === totalPage) {
       setLastPage(true);
-      console.log(123);
     }
   }, [page]);
-
-  console.log({ page, totalPage });
 
   const handleLoadMore = async () => {
     try {
@@ -72,56 +70,61 @@ const UserList = React.memo((props: Props) => {
   };
 
   return (
-    <div className={styles.userListWrapper}>
-      <h1 className={styles.heading}>Who to follow</h1>
-      {loading ? (
-        <div className="d-flex align-items-center justify-content-center w-100 mt-4 pb-4">
-          <Loading />
-        </div>
-      ) : (
-        <div className={styles.userList}>
-          {users.map((user) => (
-            <div className={styles.userItem} key={user.id}>
-              <Link
-                href={`${PATHS.Profile}/${user.id}`}
-                className="d-flex align-items-center justify-content-start gap-3 text-decoration-none"
-              >
-                <img
-                  src={
-                    user.avatar ? user.avatar : "/images/avatar-placeholder.png"
-                  }
-                  alt=""
-                  className={styles.avatar}
-                />
-                <div className={styles.info}>
-                  <h4 className={styles.name}>{user.name}</h4>
-                  {user.nickname && (
-                    <p className={styles.nickname}>@{user.nickname}</p>
-                  )}
-                </div>
-              </Link>
-              <button type="button" className={styles.btnFollow}>
-                Follow
-              </button>
-            </div>
-          ))}
+    <div>
+      <InputSearchUser />
+      <div className={styles.userListWrapper}>
+        <h1 className={styles.heading}>Who to follow</h1>
+        {loading ? (
+          <div className="d-flex align-items-center justify-content-center w-100 mt-4 pb-4">
+            <Loading />
+          </div>
+        ) : (
+          <div className={styles.userList}>
+            {users.map((user) => (
+              <div className={styles.userItem} key={user.id}>
+                <Link
+                  href={`${PATHS.Profile}/${user.id}`}
+                  className="d-flex align-items-center justify-content-start gap-3 text-decoration-none"
+                >
+                  <img
+                    src={
+                      user.avatar
+                        ? user.avatar
+                        : "/images/avatar-placeholder.png"
+                    }
+                    alt=""
+                    className={styles.avatar}
+                  />
+                  <div className={styles.info}>
+                    <h4 className={styles.name}>{user.name}</h4>
+                    {user.nickname && (
+                      <p className={styles.nickname}>@{user.nickname}</p>
+                    )}
+                  </div>
+                </Link>
+                <button type="button" className={styles.btnFollow}>
+                  Follow
+                </button>
+              </div>
+            ))}
 
-          {!lastPage && (
-            <button
-              type="button"
-              onClick={handleLoadMore}
-              className={styles.btnLoadMore}
-              disabled={loadingLoadMore}
-            >
-              {loadingLoadMore ? (
-                <AiOutlineLoading className={styles.iconLoading} />
-              ) : (
-                "Show more"
-              )}
-            </button>
-          )}
-        </div>
-      )}
+            {!lastPage && (
+              <button
+                type="button"
+                onClick={handleLoadMore}
+                className={styles.btnLoadMore}
+                disabled={loadingLoadMore}
+              >
+                {loadingLoadMore ? (
+                  <AiOutlineLoading className={styles.iconLoading} />
+                ) : (
+                  "Show more"
+                )}
+              </button>
+            )}
+          </div>
+        )}
+      </div>
     </div>
   );
 });

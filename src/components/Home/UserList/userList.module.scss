@@ -1,7 +1,7 @@
 @import "../../../styles/mixins";
 @import "../../../styles/responsive";
 .userListWrapper {
-  background-color: rgba($color: #3f9cf0, $alpha: 0.06);
+  background-color: var(--bg-color-light);
   border-radius: 20px;
   margin: 20px;
 
