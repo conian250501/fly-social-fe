@@ -39,6 +39,7 @@ const Header = React.memo(function Header(props: Props) {
     if (user) {
       setIsAuthenticated(true);
       setMenuList([
+        ...menuList,
         {
           id: nanoid(),
           title: "Notifications",
