@@ -19,4 +19,10 @@ export const PATHS = {
   ProfileTweetsLike: "/tweets-liked",
   ProfileTweetsSaved: "/tweets-saved",
   Settings: "/settings",
+
+  TermsOfService: "/tos",
+  Privacy: "/privacy",
+  CookiesPolicy: "/policy",
+  Accessibility: "/accessibility",
+  AdsInfo: "/ads-info",
 };

@@ -31,7 +31,9 @@ const FollowerItem = React.memo(({ currentUserId, user }: Props) => {
           </div>
           <div className={styles.info}>
             <h6 className={styles.name}>{user.name}</h6>
-            <p className={styles.nickname}>@{user.nickname}</p>
+            {user.nickname && (
+              <p className={styles.nickname}>@{user.nickname}</p>
+            )}
           </div>
         </Link>
         {!isMe && (

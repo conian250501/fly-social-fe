@@ -24,7 +24,14 @@ const Header = React.memo(function Header(props: Props) {
   const { user } = useAppSelector((state: RootState) => state.auth);
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
 
-  const [menuList, setMenuList] = useState<IMenu[]>([]);
+  const [menuList, setMenuList] = useState<IMenu[]>([
+    {
+      id: nanoid(),
+      title: "Home",
+      icon: <RiHomeGearLine className={styles.icon} />,
+      link: PATHS.Home,
+    },
+  ]);
 
   const [menuMobileList, setMenuMobileList] = useState<IMenu[]>([]);
 
@@ -32,12 +39,6 @@ const Header = React.memo(function Header(props: Props) {
     if (user) {
       setIsAuthenticated(true);
       setMenuList([
-        {
-          id: nanoid(),
-          title: "Home",
-          icon: <RiHomeGearLine className={styles.icon} />,
-          link: PATHS.Home,
-        },
         {
           id: nanoid(),
           title: "Notifications",

@@ -1,0 +1,16 @@
+.wrapper {
+  padding: 20px;
+  padding-top: 0;
+}
+.privacyItem {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--dark-color-700);
+  text-decoration: none;
+  text-align: center;
+  width: 100%;
+  display: block;
+  &:hover {
+    text-decoration: underline;
+  }
+}

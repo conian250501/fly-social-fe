@@ -31,6 +31,7 @@ export interface IUser extends IBaseTypes {
   birthDate: string;
   followers: IFollow[];
   followings: IFollow[];
+  verified: boolean;
 }
 
 export interface IPayloadResetPass {
