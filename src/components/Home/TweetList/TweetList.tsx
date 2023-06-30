@@ -58,7 +58,16 @@ const TweetList = ({ tweets }: Props) => {
                   href={`${PATHS.Profile}/${tweet.user.id}`}
                   className={styles.authorInfo}
                 >
-                  <h5 className={styles.name}>{tweet.user.name}</h5>
+                  <div className="d-flex align-items-center justify-content-start gap-2">
+                    <h4 className={styles.name}>{tweet.user.name}</h4>
+                    {tweet.user.verified && (
+                      <img
+                        src="/icons/twitter-verified-badge.svg"
+                        alt=""
+                        className={styles.iconVerified}
+                      />
+                    )}
+                  </div>
                   {tweet.user.nickname && (
                     <p className={styles.nickname}>{tweet.user.nickname}</p>
                   )}

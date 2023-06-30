@@ -126,7 +126,7 @@ const UserList = React.memo((props: Props) => {
                       <div className={styles.info}>
                         <div className="d-flex align-items-center justify-content-start gap-2">
                           <h4 className={styles.name}>{user.name}</h4>
-                          {!user.verified && (
+                          {user.verified && (
                             <img
                               src="/icons/twitter-verified-badge.svg"
                               alt=""

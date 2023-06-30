@@ -28,6 +28,21 @@
   display: flex;
   justify-content: flex-start;
   align-items: center;
+  margin-bottom: 12px;
+
+  .appName {
+    font-size: 28px;
+    font-weight: 500;
+    color: var(--dark-color-900);
+    margin-bottom: 0;
+    text-transform: capitalize;
+  }
+
+  @include tablet {
+    .appName {
+      display: none;
+    }
+  }
 }
 .logo {
   width: 50px;
@@ -38,7 +53,6 @@
   align-items: center;
   cursor: pointer;
   transition: 0.25s linear;
-  margin-bottom: 12px;
   &:hover {
     background-color: #ddd;
     transition: 0.2s ease-out;

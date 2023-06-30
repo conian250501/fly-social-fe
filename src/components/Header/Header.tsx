@@ -3,6 +3,7 @@ import { PATHS } from "@/contanst/paths";
 import { useAppSelector } from "@/redux/hooks";
 import { RootState } from "@/redux/store";
 import { nanoid } from "@reduxjs/toolkit";
+import { Pacifico } from "next/font/google";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import React, { FC, useEffect, useState } from "react";
@@ -16,6 +17,11 @@ import ButtonNewTweetMobile from "./components/ButtonNewTweetMobile/ButtonNewTwe
 import UserInfo from "./components/UserInfo/UserInfo";
 import styles from "./header.module.scss";
 
+const pacifico = Pacifico({
+  weight: ["400"],
+  style: ["normal"],
+  subsets: ["latin"],
+});
 type Props = {};
 
 const Header = React.memo(function Header(props: Props) {
@@ -193,6 +199,9 @@ const Header = React.memo(function Header(props: Props) {
             <div className={styles.logo}>
               <img src="/images/logo-twitter.png" alt="logo" />
             </div>
+            <h1 className={`${styles.appName} ${pacifico.className}`}>
+              Fly social
+            </h1>
           </div>
           {user ? (
             <ul className={styles.menuList}>

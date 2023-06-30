@@ -137,7 +137,17 @@ const TopInfo = React.memo(({ user }: Props) => {
       </div>
 
       <div className={styles.generalInfo}>
-        <h1 className={styles.name}>{user?.name}</h1>
+        <div className="d-flex align-items-center justify-content-start gap-2">
+          <h1 className={styles.name}>{user?.name}</h1>
+
+          {user?.verified && (
+            <img
+              src="/icons/twitter-verified-badge.svg"
+              alt=""
+              className={styles.iconVerified}
+            />
+          )}
+        </div>
         {user?.nickname && <p className={styles.nickname}>@{user?.nickname}</p>}
         {user?.bio && <p className={styles.bio}>{user?.bio}</p>}
 
