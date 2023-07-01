@@ -50,7 +50,7 @@ const ModalLogout = (props: Props) => {
       contentClassName={styles.modalContent}
     >
       <div className={styles.logo}>
-        <img src="/images/logo-twitter.png" alt="" />
+        <img src="/images/logo-app.png" alt="" />
       </div>
       <h1 className={styles.heading}>Log out of Fly social?</h1>
       <p className={styles.description}>

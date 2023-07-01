@@ -148,7 +148,7 @@ const Page = (props: Props) => {
               <IoMdClose className={styles.icon} />
             </Link>
             <div className={styles.logo}>
-              <img src="/images/logo-twitter.png" alt="" />
+              <img src="/images/logo-app.png" alt="" />
             </div>
             <h1 className={styles.heading}>Find your Flyer account</h1>
             <p className={styles.description}>

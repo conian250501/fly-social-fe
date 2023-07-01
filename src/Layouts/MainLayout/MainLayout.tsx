@@ -8,6 +8,7 @@ import Loading from "@/components/Loading/Loading";
 import { Col, Container, Row } from "react-bootstrap";
 import { useAppDispatch } from "@/redux/hooks";
 import { getUser } from "@/features/auth/authAction";
+import LoadingApp from "@/components/LoadingApp";
 type Props = {
   children: React.ReactNode;
 };
@@ -33,7 +34,7 @@ const MainLayout = ({ children }: Props) => {
   if (loading) {
     return (
       <div className="d-flex align-items-center justify-content-center w-100 vh-100">
-        <Loading />
+        <LoadingApp />
       </div>
     );
   }

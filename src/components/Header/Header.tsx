@@ -197,7 +197,7 @@ const Header = React.memo(function Header(props: Props) {
         <div className="w-100">
           <div className={styles.logoWrapper}>
             <div className={styles.logo}>
-              <img src="/images/logo-twitter.png" alt="logo" />
+              <img src="/images/logo-app.png" alt="logo" />
             </div>
             <h1 className={`${styles.appName} ${pacifico.className}`}>
               Fly social

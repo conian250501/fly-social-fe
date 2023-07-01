@@ -158,7 +158,7 @@ const SideBar = React.memo((props: Props) => {
           </Col>
           <Col>
             <div className={styles.logo}>
-              <img src="/images/logo-twitter.png" alt="" />
+              <img src="/images/logo-app.png" alt="" />
             </div>
           </Col>
           <Col> {user && <div className=""></div>}</Col>

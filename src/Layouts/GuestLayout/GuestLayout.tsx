@@ -5,6 +5,7 @@ import Header from "@/components/Header";
 import { useAppDispatch } from "@/redux/hooks";
 import { getUser } from "@/features/auth/authAction";
 import Loading from "@/components/Loading";
+import LoadingApp from "@/components/LoadingApp";
 type Props = {
   children: ReactNode;
 };
@@ -38,7 +39,7 @@ const GuestLayout = ({ children }: Props) => {
   if (loading) {
     return (
       <div className="d-flex align-items-center justify-content-center vw-100 vh-100">
-        <Loading />
+        <LoadingApp />
       </div>
     );
   }

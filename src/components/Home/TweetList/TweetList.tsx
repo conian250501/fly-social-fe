@@ -43,6 +43,8 @@ const TweetList = ({ tweets }: Props) => {
 
   // ====== TWEET ITEM ======
   const TweetItem: FC<{ tweet: ITweet }> = ({ tweet }) => {
+    const { isAuthor } = useCheckAuthor(Number(tweet?.user.id));
+
     const [openTweetSettings, setOpenTweetSettings] = useState<boolean>(false);
     const [openFormEdit, setOpenFormEdit] = useState<boolean>(false);
     const [openConfirmDelete, setOpenConfirmDelete] = useState<boolean>(false);
@@ -66,7 +68,6 @@ const TweetList = ({ tweets }: Props) => {
         icon: <TbGitBranchDeleted className={styles.icon} />,
       },
     ]);
-    const { isAuthor } = useCheckAuthor(Number(tweet?.user.id));
 
     const handleActionTweetSetting = (
       e: React.MouseEvent<HTMLLIElement>,
