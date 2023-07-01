@@ -3,12 +3,14 @@ import styles from "./generalInfoAction.module.scss";
 import QRCode from "qrcode";
 import { PATHS } from "@/contanst/paths";
 import QrCode from "../Modal/QrCode";
+import { useCheckIsMe } from "@/hooks/useCheckIsMe";
 
 type Props = {
   userId: number;
 };
 
 const GeneralInfoAction = ({ userId }: Props) => {
+  const { isMe } = useCheckIsMe(userId);
   const [qrCodeUrl, setQrCodeUrl] = useState<string>("");
   const [loadingQrCode, setLoadingQrCode] = useState<boolean>(false);
   const [openModalQrCode, setOpenQrCode] = useState<boolean>(false);
@@ -28,9 +30,11 @@ const GeneralInfoAction = ({ userId }: Props) => {
   };
   return (
     <div className={styles.wrapper}>
-      <div className={`${styles.btn} ${styles.verifyRequest}`}>
-        Request verified
-      </div>
+      {isMe && (
+        <div className={`${styles.btn} ${styles.verifyRequest}`}>
+          Request verified
+        </div>
+      )}
       <div
         className={`${styles.btn} ${styles.shareProfile}`}
         onClick={() => handleGeneralQrCode(urlProfile)}

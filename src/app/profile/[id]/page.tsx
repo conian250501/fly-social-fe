@@ -89,7 +89,7 @@ const Page = ({ params }: Props) => {
     <section>
       <BackLink user={user} />
       <TopInfo user={user} />
-      {isMe && <GeneralInfoAction userId={Number(params.id)} />}
+      <GeneralInfoAction userId={Number(params.id)} />
       <TabsProfile userId={Number(params.id)} />
       {loadingForTweets ? (
         <div className="d-flex align-items-center justify-content-center mt-4">

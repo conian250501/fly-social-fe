@@ -35,7 +35,6 @@ const QrCode = ({ url, isOpen, handleClose, qrCodeUrl }: Props) => {
       setIsCopied(false);
     }
   }, [isCopied]);
-  console.log({ isCopied, value });
 
   return (
     <Modal
