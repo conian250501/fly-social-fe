@@ -38,13 +38,6 @@ const ButtonAction: FC<{
       setLoadingFollow(true);
 
       await dispatch(followUser(Number(userId))).unwrap();
-
-      if (type === ETypeFollowUserList.Followers) {
-        await dispatch(getAllUserFollowers(currentUserId)).unwrap();
-      }
-      if (type === ETypeFollowUserList.Following) {
-        await dispatch(getAllUserFollowing(currentUserId)).unwrap();
-      }
       setLoadingFollow(false);
       setIsFollowed(true);
     } catch (error) {
@@ -58,13 +51,6 @@ const ButtonAction: FC<{
       setLoadingFollow(true);
 
       await dispatch(unFollowUser(Number(userId))).unwrap();
-
-      if (type === ETypeFollowUserList.Followers) {
-        await dispatch(getAllUserFollowers(currentUserId)).unwrap();
-      }
-      if (type === ETypeFollowUserList.Following) {
-        await dispatch(getAllUserFollowing(currentUserId)).unwrap();
-      }
 
       setIsFollowed(false);
       setLoadingFollow(false);

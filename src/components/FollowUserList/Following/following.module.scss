@@ -68,6 +68,11 @@
       color: var(--dark-color-900);
       margin-bottom: 0;
     }
+    .iconVerified {
+      width: 20px;
+      height: 20px;
+      object-fit: cover;
+    }
     .nickname {
       font-size: 12px;
       font-weight: 500;

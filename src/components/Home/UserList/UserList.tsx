@@ -15,7 +15,7 @@ import PrivacyList from "./components/PrivacyList";
 import styles from "./userList.module.scss";
 type Props = {};
 
-const UserList = React.memo((props: Props) => {
+const UserList = (props: Props) => {
   const dispatch = useAppDispatch();
   const { user } = useAppSelector((state: RootState) => state.auth);
   const { page: page, totalPage } = useAppSelector(
@@ -32,24 +32,28 @@ const UserList = React.memo((props: Props) => {
 
   useEffect(() => {
     async function getData() {
-      setLoading(true);
+      try {
+        setLoading(true);
 
-      const res = await dispatch(
-        getAllUserDontFollowing({
-          userId: Number(user?.id),
-          filter: { page: 1, limit: 4 },
-        })
-      ).unwrap();
+        const res = await dispatch(
+          getAllUserDontFollowing({
+            userId: Number(user?.id),
+            filter: { page: 1, limit: 4 },
+          })
+        ).unwrap();
 
-      setUsers(res.users);
+        setUsers(res.users);
 
-      setLoading(false);
+        setLoading(false);
+      } catch (error) {
+        setLoading(false);
+      }
     }
 
     if (user) {
       getData();
     }
-  }, [dispatch]);
+  }, []);
 
   useEffect(() => {
     if (page > 0 && page === totalPage) {
@@ -183,6 +187,6 @@ const UserList = React.memo((props: Props) => {
       )}
     </div>
   );
-});
+};
 
 export default UserList;

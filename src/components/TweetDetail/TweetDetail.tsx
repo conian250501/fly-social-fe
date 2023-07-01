@@ -24,6 +24,8 @@ import styles from "./tweetDetail.module.scss";
 import { RootState } from "@/redux/store";
 import Loading from "../Loading";
 import { getAllByTweet } from "@/features/comment/commentAction";
+import Link from "next/link";
+import { PATHS } from "@/contanst/paths";
 
 type Props = { id: number };
 
@@ -164,21 +166,26 @@ const TweetDetail = ({ id }: Props) => {
       </div>
       <div className={styles.userInfo}>
         <div className="d-flex align-items-center justify-content-start gap-3">
-          <img
-            src={
-              tweet.user.avatar
-                ? tweet.user.avatar
-                : "/images/avatar-placeholder.png"
-            }
-            alt=""
-            className={styles.avatar}
-          />
-          <div className={styles.info}>
-            <h6 className={styles.name}>{tweet.user.name}</h6>
-            <p className={styles.nickname}>
-              {tweet.user.nickname ? tweet.user.nickname : ""}
-            </p>
-          </div>
+          <Link
+            href={`${PATHS.Profile}/${tweet.user.id}`}
+            className={styles.profileLink}
+          >
+            <img
+              src={
+                tweet.user.avatar
+                  ? tweet.user.avatar
+                  : "/images/avatar-placeholder.png"
+              }
+              alt=""
+              className={styles.avatar}
+            />
+            <div className={styles.info}>
+              <h6 className={styles.name}>{tweet.user.name}</h6>
+              <p className={styles.nickname}>
+                {tweet.user.nickname ? tweet.user.nickname : ""}
+              </p>
+            </div>
+          </Link>
           <div className={styles.dateCreated}>
             {moment(tweet.createdAt).fromNow()}
           </div>

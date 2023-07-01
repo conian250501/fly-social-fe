@@ -1,0 +1,153 @@
+@import "../../../styles/responsive";
+@import "../../../styles/mixins";
+
+.dialogContent {
+}
+.modalContent {
+  background-color: rgba($color: #000000, $alpha: 0.5) !important ;
+}
+.tweetDetailWrapper {
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  height: inherit;
+  width: inherit;
+
+  @include tablet {
+    flex-direction: column;
+    height: auto;
+  }
+  @include mobile {
+    flex-direction: column;
+    height: auto;
+  }
+}
+.filePreview {
+  position: relative;
+  width: 60%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  .iconClose {
+    position: absolute;
+    top: 16px;
+    left: 16px;
+    width: 40px;
+    height: 40px;
+    border-radius: 100rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba($color: #000000, $alpha: 0.4);
+    cursor: pointer;
+    .icon {
+      font-size: 18px;
+      color: var(--white-color);
+    }
+  }
+  .image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  @include tablet {
+    width: 100%;
+  }
+
+  @include mobile {
+    width: 100%;
+  }
+}
+.tweetContent {
+  width: 40%;
+  flex: 1;
+  background-color: var(--white-color);
+  padding: 16px;
+  @include tablet {
+    width: 100%;
+  }
+
+  @include mobile {
+    width: 100%;
+  }
+}
+
+.userInfo {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  .profileLink {
+    text-decoration: none;
+    color: var(--dark-color-900);
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 10px;
+  }
+  .avatar {
+    width: 45px;
+    height: 45px;
+    border-radius: 100rem;
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 100rem;
+    }
+  }
+  .name {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--dark-color-900);
+    margin-bottom: 0;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+  .nickname {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--dark-color-700);
+    margin-bottom: 0;
+  }
+  .dotIcon {
+    font-size: 20px;
+    cursor: pointer;
+    color: var(--dark-color-700);
+  }
+
+  .dateCreated {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--dark-color-700);
+  }
+}
+.audienceIcon {
+  .icon {
+    font-size: 18px;
+    color: var(--black-color);
+    margin-left: 4px;
+  }
+}
+
+.content {
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--dark-color-900);
+  margin: 14px 0;
+}
+
+.lineDivide {
+  width: 100%;
+  height: 0.6px;
+  background-color: var(--border-color-weight);
+  margin: 14px 0;
+}
+.commentListWrapper {
+  height: calc(100% - 400px);
+  overflow-y: scroll;
+  overflow-x: hidden;
+}

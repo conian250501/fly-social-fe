@@ -123,9 +123,7 @@ const SideBar = React.memo((props: Props) => {
           label: "Logout",
           icon: <FiLogOut className={styles.icon} />,
           className: styles.subMenuSettingItem,
-          command(event) {
-            handleLogout();
-          },
+          url: PATHS.Logout,
         },
       ],
     },

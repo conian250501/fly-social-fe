@@ -19,24 +19,26 @@ import React, { FC, useEffect, useState } from "react";
 import { AiOutlineLink } from "react-icons/ai";
 import { MdOutlineLocationOn } from "react-icons/md";
 import styles from "./topInfo.module.scss";
+import { Modal } from "react-bootstrap";
+import AvatarUser from "@/components/Modal/AvatarUser";
 
 type Props = {
   user: IUser | null;
 };
 
 const TopInfo = React.memo(({ user }: Props) => {
-  const { isMe } = useCheckIsMe(Number(user?.id));
-
   const dispatch = useAppDispatch();
   const { usersFollower, usersFollowing } = useAppSelector(
     (state: RootState) => state.user
   );
+  const { isMe } = useCheckIsMe(Number(user?.id));
   const { isFollowed: _isFollowed } = useCheckFollowed(usersFollower);
 
   const [openFormEdit, setOpenFormEdit] = useState<boolean>(false);
   const [loadingFollow, setLoadingFollow] = useState<boolean>(false);
   const [isFollowed, setIsFollowed] = useState<boolean>(false);
   const [error, setError] = useState<IError | null>(null);
+  const [showAvatar, setShowAvatar] = useState<boolean>(false);
 
   useEffect(() => {
     setIsFollowed(_isFollowed);
@@ -127,7 +129,7 @@ const TopInfo = React.memo(({ user }: Props) => {
         )}
       </div>
       <div className={styles.actionInfo}>
-        <div className={styles.avatar}>
+        <div className={styles.avatar} onClick={() => setShowAvatar(true)}>
           <img
             src={user?.avatar ? user?.avatar : "/images/avatar-placeholder.png"}
             alt=""
@@ -188,10 +190,20 @@ const TopInfo = React.memo(({ user }: Props) => {
         </div>
       </div>
 
+      {/*====== MODALS ======*/}
+
       <FormEditProfile
         isOpen={openFormEdit}
         handleClose={() => setOpenFormEdit(false)}
         user={user as IUser}
+      />
+
+      <AvatarUser
+        isOpen={showAvatar}
+        handleClose={() => setShowAvatar(false)}
+        avatarPath={
+          user?.avatar ? user.avatar : "/images/avatar-placeholder.png"
+        }
       />
 
       {error && (

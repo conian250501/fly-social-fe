@@ -29,6 +29,8 @@
   position: absolute;
   top: -70px;
   left: 16px;
+  cursor: pointer;
+  z-index: 2;
   img {
     width: 140px;
     height: 140px;
@@ -64,6 +66,7 @@
 
   &.editProfile {
     border: 1px solid var(--border-color-weight);
+    color: var(--dark-color-900);
   }
   .textUnFollow {
     display: none;

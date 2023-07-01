@@ -119,8 +119,20 @@
     display: block;
     margin-bottom: 0;
     cursor: pointer;
+    width: 40px;
+    height: 40px;
+    border-radius: 100rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    &:hover {
+      background-color: rgba($color: #3f9cf0, $alpha: 0.5);
+      .icon {
+        color: var(--white-color);
+      }
+    }
     .icon {
-      font-size: 18px;
+      font-size: 20px;
     }
 
     @include mobile {

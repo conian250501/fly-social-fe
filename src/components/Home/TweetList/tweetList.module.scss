@@ -49,16 +49,22 @@
 }
 .authorInfo {
   display: flex;
-  justify-content: flex-start;
+  justify-content: space-between;
   align-items: center;
   gap: 6px;
   text-decoration: none;
-  width: fit-content;
+  width: 100%;
+  a {
+    text-decoration: none;
+  }
   .name {
     font-size: 18px;
     font-weight: 600;
     color: var(--dark-color-900);
     margin-bottom: 0;
+    &:hover {
+      text-decoration: underline;
+    }
   }
   .iconVerified {
     width: 20px;
@@ -87,7 +93,9 @@
 }
 .tweetInfo {
   flex: 1;
-
+  a {
+    text-decoration: none;
+  }
   .content {
     font-size: 16px;
     font-weight: 500;
@@ -102,5 +110,65 @@
     object-fit: cover;
     margin-top: 16px;
     margin-bottom: 16px;
+  }
+}
+
+.dotIcon {
+  font-size: 20px;
+  cursor: pointer;
+  color: var(--dark-color-700);
+}
+.tweetSettingList {
+  position: absolute;
+  top: 20px;
+  right: 0;
+  @include resetList;
+  padding: 16px;
+  width: fit-content;
+  background-color: var(--white-color);
+  box-shadow: var(--shadow-popover);
+  border-radius: 20px;
+}
+.tweetSettingItem {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px 12px;
+  gap: 8px;
+  cursor: pointer;
+  border-radius: 10px;
+  @include transition(0.2s, linear);
+  &:hover {
+    @include transition(0.2s, linear);
+    background-color: var(--border-color-light);
+  }
+  &.update {
+    &:hover {
+      span,
+      .icon {
+        color: var(--primary-color);
+      }
+    }
+  }
+  &.delete {
+    &:hover {
+      span,
+      .icon {
+        color: var(--error-color);
+      }
+    }
+  }
+  .settingIcon {
+    width: 16px;
+  }
+  .icon {
+    font-size: 16px;
+  }
+  span {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--dark-color-900);
+    white-space: nowrap;
+    flex: 1;
   }
 }

@@ -216,13 +216,13 @@ const CreateTweetForm = React.memo(({ show, handleClose }: Props) => {
             <div className={styles.inputFileItem}>
               <Form.Label
                 className={styles.labelInputFile}
-                htmlFor="input-image-tweet"
+                htmlFor="input-image-tweet-modal"
               >
                 <BsFillImageFill className={styles.icon} />
               </Form.Label>
               <Form.Control
                 type="file"
-                id="input-image-tweet"
+                id="input-image-tweet-modal"
                 accept="image/*"
                 hidden
                 onChange={handleChangeFile}
