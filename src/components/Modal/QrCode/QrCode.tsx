@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Modal } from "react-bootstrap";
 import { AiOutlineLink, AiOutlineShareAlt } from "react-icons/ai";
 import { BsCheckLg } from "react-icons/bs";
+import { CgClose } from "react-icons/cg";
 import styles from "./qrCode.module.scss";
 type Props = {
   url: string;
@@ -31,8 +32,6 @@ const QrCode = ({ url, isOpen, handleClose, qrCodeUrl }: Props) => {
       setTimeout(() => {
         setIsCopied(false);
       }, 1000);
-    } else {
-      setIsCopied(false);
     }
   }, [isCopied]);
 
@@ -44,6 +43,9 @@ const QrCode = ({ url, isOpen, handleClose, qrCodeUrl }: Props) => {
       contentClassName={styles.contentModal}
     >
       <div className={styles.wrapper}>
+        <div className={styles.closeIcon} onClick={handleClose}>
+          <CgClose className={styles.icon} />
+        </div>
         <div className={styles.qrCodeImg}>
           <img src={qrCodeUrl} alt="" />
         </div>

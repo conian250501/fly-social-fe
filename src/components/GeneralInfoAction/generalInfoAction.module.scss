@@ -1,19 +1,21 @@
+@import "../../styles/mixins";
+@import "../../styles/responsive";
+
 .wrapper {
-  display: flex;
-  justify-content: center;
-  align-items: center;
   padding: 0 16px;
   gap: 10px;
   margin-bottom: 16px;
+  @include mobile {
+    padding: 0 8px;
+    flex-wrap: wrap;
+  }
 }
 .btn {
-  flex: 0 1 33.33%;
   padding: 14px;
   display: flex;
   justify-content: center;
   align-items: center;
   background-color: var(--dark-color-900);
-
   border: none;
   font-size: 14px;
   font-weight: 600;
@@ -28,5 +30,8 @@
   &.shareProfile {
   }
   &.contact {
+  }
+  @include mobile {
+    padding: 12px;
   }
 }

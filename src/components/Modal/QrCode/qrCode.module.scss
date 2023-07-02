@@ -1,21 +1,77 @@
+@import "../../../styles/mixins";
+@import "../../../styles/responsive";
+
 .contentModal {
   border-radius: 20px !important;
+  @include mobile {
+    border-radius: 10px !important;
+  }
 }
 .wrapper {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  position: relative;
+  padding: 20px;
+  @include mobile {
+    flex-direction: column;
+    justify-content: center;
+    padding: 16px;
+  }
+}
+.closeIcon {
+  position: absolute;
+  right: 14px;
+  top: 14px;
+  width: 30px;
+  height: 30px;
+  border-radius: 100rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid var(--dark-color-900);
+  cursor: pointer;
+  &:hover {
+    border: 1px solid var(--error-color);
+    .icon {
+      color: var(--error-color);
+    }
+  }
+  .icon {
+    font-size: 18px;
+  }
+  @include mobile {
+    top: 10px;
+    right: 10px;
+    width: 25px;
+    height: 25px;
+    .icon {
+      font-size: 16px;
+    }
+  }
 }
 .qrCodeImg {
   img {
     width: 200px;
     height: 200px;
     border-radius: 20px;
+    object-fit: cover;
+  }
+  @include mobile {
+    width: 80%;
+    margin-bottom: 14px;
+    img {
+      width: 100%;
+      aspect-ratio: 1;
+      height: auto;
+    }
   }
 }
 .btnList {
   flex: 1;
-  padding-right: 20px;
+  @include mobile {
+    width: 100%;
+  }
 }
 .btnItem {
   display: flex;
@@ -31,7 +87,7 @@
     margin-top: 14px;
   }
   .icon {
-    font-size: 20px;
+    font-size: 18px;
   }
   .shareProfile {
     background-color: transparent;
@@ -41,5 +97,9 @@
   &.copyClipBoard {
     background-color: var(--dark-color-900);
     color: var(--white-color);
+  }
+
+  @include mobile {
+    width: 100%;
   }
 }

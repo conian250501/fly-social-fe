@@ -5,7 +5,7 @@ import LoadingDots from "@/components/LoadingDots";
 import BackLink from "@/components/shared/Profile/BackLink";
 import TabsProfile from "@/components/shared/Profile/TabsProfile";
 import TopInfo from "@/components/shared/Profile/TopInfo";
-import { ITweet } from "@/features/interface";
+import { ITweet, IUser } from "@/features/interface";
 import { getAllTweetByUser } from "@/features/tweet/tweetAction";
 import { useCheckIsMe } from "@/hooks/useCheckIsMe";
 import { RootState } from "@/redux/store";
@@ -89,7 +89,7 @@ const Page = ({ params }: Props) => {
     <section>
       <BackLink user={user} />
       <TopInfo user={user} />
-      <GeneralInfoAction userId={Number(params.id)} />
+      <GeneralInfoAction user={user as IUser} />
       <TabsProfile userId={Number(params.id)} />
       {loadingForTweets ? (
         <div className="d-flex align-items-center justify-content-center mt-4">

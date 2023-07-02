@@ -1,0 +1,106 @@
+@import "../../../styles/mixins";
+@import "../../../styles/responsive";
+
+.heading {
+  font-size: 24px;
+  font-weight: 600;
+  color: var(--dark-color-900);
+  margin-bottom: 0;
+}
+.wrapper {
+  position: relative;
+  border-radius: 20px;
+  .header {
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+  }
+  .contactWrapper {
+    border-bottom-left-radius: 20px !important;
+    border-bottom-right-radius: 20px !important;
+  }
+  @include mobile {
+    border-radius: 10px;
+    .header {
+      border-top-left-radius: 10px;
+      border-top-right-radius: 10px;
+    }
+    .contactWrapper {
+      border-bottom-left-radius: 10px !important;
+      border-bottom-right-radius: 10px !important;
+    }
+  }
+}
+.iconClose {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  width: 30px;
+  height: 30px;
+  border-radius: 100rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid var(--dark-color-900);
+  cursor: pointer;
+  .icon {
+    font-size: 16px;
+  }
+}
+.contactItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px;
+  cursor: pointer;
+  transition: all 0.2s linear;
+  border-radius: 8px;
+  &:hover {
+    background-color: var(--border-color-light);
+    transition: all 0.2s linear;
+
+    .iconWrapper {
+      .icon {
+        color: var(--primary-color);
+        animation: Rotate 0.75s linear infinite;
+        transition: all 0.2s linear;
+      }
+    }
+    .content {
+      color: var(--primary-color);
+      font-weight: 700;
+      transition: all 0.2s linear;
+    }
+  }
+  &:not(:first-child) {
+  }
+  .iconWrapper {
+    width: 45px;
+    height: 45px;
+    border-radius: 100rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .icon {
+      font-size: 24px;
+      color: var(--dark-color-900);
+      transition: all 0.2s linear;
+    }
+  }
+  .content {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--dark-color-900);
+    margin-bottom: 0;
+    transition: all 0.2s linear;
+    font-style: italic;
+  }
+}
+.btnEdit {
+  padding: 8px 28px;
+  border-radius: 100rem;
+  background-color: var(--dark-color-900);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--white-color);
+}
