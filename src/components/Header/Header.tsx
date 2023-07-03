@@ -9,6 +9,7 @@ import { usePathname, useRouter } from "next/navigation";
 import React, { FC, useEffect, useState } from "react";
 import { BiBookmark, BiMessageSquare, BiNotification } from "react-icons/bi";
 import { FaRegUser } from "react-icons/fa";
+import { FiSettings } from "react-icons/fi";
 import { RiHomeGearLine } from "react-icons/ri";
 import { SiHey } from "react-icons/si";
 import { IMenu } from "../interfaces/header.interface";
@@ -72,6 +73,14 @@ const Header = React.memo(function Header(props: Props) {
         },
         {
           id: nanoid(),
+          title: "Settings",
+          icon: (
+            <FiSettings className={`${styles.icon} ${styles.withRotate}`} />
+          ),
+          link: PATHS.Settings,
+        },
+        {
+          id: nanoid(),
           title: "Profile",
           icon: <FaRegUser className={styles.icon} />,
           link: `${PATHS.Profile}/${user.id}`,
@@ -97,6 +106,7 @@ const Header = React.memo(function Header(props: Props) {
           icon: <BiBookmark className={styles.icon} />,
           link: `${PATHS.Profile}/${user?.id}${PATHS.ProfileTweetsSaved}`,
         },
+
         {
           id: nanoid(),
           title: "Profile",

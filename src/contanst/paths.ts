@@ -19,6 +19,12 @@ export const PATHS = {
   ProfileTweetsLike: "/tweets-liked",
   ProfileTweetsSaved: "/tweets-saved",
   Settings: "/settings",
+  SettingAccount: "/settings/account",
+  SettingPrivacy: "/settings/privacy_and_safety",
+  SettingDeactivateAccount: "/settings/deactivate_account",
+  SettingFlySocialBlue: "/settings/fly_social_blue",
+  SettingChangePwd: "/settings/change_password",
+  SettingArchived: "/settings/archived",
 
   TermsOfService: "/tos",
   Privacy: "/privacy",

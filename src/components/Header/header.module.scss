@@ -292,6 +292,10 @@
   }
 }
 
+.withRotate {
+  animation: Rotate 2s linear infinite;
+}
+
 .authLinkList {
   position: fixed;
   bottom: 0;
@@ -387,6 +391,7 @@
     align-items: center;
   }
   .menuItemLink {
+    position: relative;
     padding: 0;
     width: 50px;
     aspect-ratio: 1;

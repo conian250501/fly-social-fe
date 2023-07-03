@@ -142,7 +142,7 @@ const TweetList = ({ tweets }: Props) => {
         </Link>
         <div className={styles.tweetInfoWrapper}>
           <div className={styles.authorInfo}>
-            <div className="d-flex align-items-center justify-content-start gap-2">
+            <div className="d-flex align-items-start justify-content-start gap-3">
               <Link href={`${PATHS.Profile}/${tweet.user.id}`}>
                 <div className="d-flex align-items-center justify-content-start gap-2">
                   <h4 className={styles.name}>{tweet.user.name}</h4>
