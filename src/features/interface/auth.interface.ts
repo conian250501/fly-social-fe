@@ -2,6 +2,7 @@ import { IBaseTypes } from "../interface/IBaseTypes";
 import { IFollow } from "./follow.interface";
 import { IStorageTweet } from "./storageTweet.interface";
 import { ITweet } from "./tweet.interface";
+import { EGender } from "./user.interface";
 
 export interface IPayloadLogin {
   email: string;
@@ -22,6 +23,7 @@ export interface IUser extends IBaseTypes {
   email: string;
   name: string;
   address: string;
+  gender: EGender;
   phone: string;
   nickname: string;
   token: string;

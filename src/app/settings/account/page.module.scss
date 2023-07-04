@@ -1,0 +1,16 @@
+.btnChange {
+  margin-right: 16px;
+  margin-top: 16px;
+  margin-bottom: 16px;
+  padding: 10px 24px;
+  border-radius: 100rem;
+  background-color: var(--dark-color-900);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--white-color);
+  border: none;
+  text-decoration: none;
+  &:hover {
+    color: var(--white-color);
+  }
+}

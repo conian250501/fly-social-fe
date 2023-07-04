@@ -1,0 +1,39 @@
+@import "../../../../../styles/mixins";
+@import "../../../../../styles/responsive";
+
+.infoUserList {
+}
+.infoItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px;
+  cursor: pointer;
+  &:hover {
+    background-color: var(--border-color-light);
+  }
+  .text {
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--dark-color-900);
+    margin-bottom: 0;
+  }
+  .value {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--dark-color-700);
+    margin-bottom: 0;
+    margin-top: 6px;
+  }
+
+  .iconStart {
+    width: 50px;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .icon {
+      font-size: 32px;
+    }
+  }
+}

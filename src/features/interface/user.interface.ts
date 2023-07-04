@@ -13,3 +13,9 @@ export interface IPayloadEditProfile {
 export interface IFilterGetUsers extends IBaseFilter {
   name?: string;
 }
+
+export enum EGender {
+  Male = "Male",
+  Female = "Female",
+  Other = "Other",
+}

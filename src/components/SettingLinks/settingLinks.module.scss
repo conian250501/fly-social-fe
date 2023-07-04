@@ -1,5 +1,7 @@
+@import "../../styles/mixins";
+@import "../../styles/responsive";
+
 .wrapper {
-  padding: 16px;
 }
 .linkItem {
   text-decoration: none;
@@ -12,10 +14,14 @@
     background-color: var(--border-color-light);
     color: var(--dark-color-900);
   }
+
   .iconWrapper {
     .icon {
       font-size: 28px;
     }
+  }
+  .content {
+    flex: 1;
   }
   .title {
     font-size: 18px;
@@ -31,8 +37,20 @@
     margin-top: 6px;
   }
   .iconRight {
+    width: 30px;
     .icon {
       font-size: 24px;
+    }
+  }
+
+  @include mobile {
+    .title {
+      font-size: 16px;
+    }
+    .subtitle {
+      font-size: 12px;
+      width: 100%;
+      margin-top: 4px;
     }
   }
 }

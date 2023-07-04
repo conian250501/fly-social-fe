@@ -25,6 +25,7 @@ export const PATHS = {
   SettingFlySocialBlue: "/settings/fly_social_blue",
   SettingChangePwd: "/settings/change_password",
   SettingArchived: "/settings/archived",
+  EditProfile: "/settings/account/edit_information",
 
   TermsOfService: "/tos",
   Privacy: "/privacy",
