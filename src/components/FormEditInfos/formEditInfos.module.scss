@@ -1,0 +1,90 @@
+@import "../../styles/mixins";
+@import "../../styles/responsive";
+
+.formWrapper {
+  padding: 16px;
+  .formGroup {
+    height: 100%;
+    width: 100%;
+    margin-bottom: 12px;
+    position: relative;
+
+    @include mobile {
+    }
+  }
+  .formLabel {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--dark-color-900);
+  }
+  .formInput {
+    width: 100%;
+    border-radius: 6px;
+    border: 1px solid var(--border-color-light);
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--dark-color-900);
+    padding: 14px;
+    &:focus {
+      border: 2px solid var(--primary-color);
+      box-shadow: none;
+    }
+  }
+  .phoneInputWrapper {
+    @extend .formInput;
+    padding: 14px 0;
+    &.focus {
+      border: 2px solid var(--primary-color);
+      box-shadow: none;
+    }
+    input {
+      box-shadow: none;
+      border: none;
+      height: 100%;
+      width: 100%;
+    }
+  }
+  .countValueInput {
+    position: absolute;
+    top: 60%;
+    right: 14px;
+    transform: translate(0, -50%);
+    font-size: 14px;
+    font-weight: 400;
+    color: var(--dark-color-700);
+  }
+  .inputGender {
+    cursor: pointer;
+    input {
+      cursor: pointer;
+    }
+    label {
+      font-size: 16px;
+      font-weight: 500;
+      color: var(--dark-color-900);
+    }
+  }
+}
+
+.btn {
+  padding: 10px 32px;
+  font-size: 14px;
+  font-weight: 600;
+  border-radius: 100rem;
+  &.cancel {
+    border: 2px solid var(--dark-color-900);
+    color: var(--dark-color-900);
+  }
+  &.save {
+    background-color: var(--dark-color-900);
+    color: var(--white-color);
+  }
+  .iconLoading {
+    font-size: 20px;
+    animation: Rotate 0.5s linear infinite;
+  }
+  @include mobile {
+    font-size: 14px;
+    padding: 10px 24px;
+  }
+}
