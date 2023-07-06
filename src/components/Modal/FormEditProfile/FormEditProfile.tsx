@@ -96,8 +96,8 @@ const FormEditProfile = React.memo(({ isOpen, handleClose, user }: Props) => {
     validate,
     async onSubmit(values, { resetForm }) {
       const formData = new FormData();
-      formData.append("avatar", values.avatar);
-      formData.append("cover", values.cover);
+      formData.append("avatar", values.avatar as string);
+      formData.append("cover", values.cover as string);
       try {
         setLoadingSave(true);
         await dispatch(
@@ -273,7 +273,8 @@ const FormEditProfile = React.memo(({ isOpen, handleClose, user }: Props) => {
           />
           {focusInput.type === ETypeInputProfile.Bio && (
             <p className={styles.countValueInput}>
-              {form.values.bio.length} / {maxLengthInputs.bio}
+              {form.values.bio && form.values.bio.length} /{" "}
+              {maxLengthInputs.bio}
             </p>
           )}
         </Form.Group>
@@ -312,7 +313,7 @@ const FormEditProfile = React.memo(({ isOpen, handleClose, user }: Props) => {
           />
           {focusInput.type === ETypeInputProfile.Website && (
             <p className={styles.countValueInput}>
-              {form.values.website.length} / {maxLengthInputs.website}
+              {form.values.website?.length} / {maxLengthInputs.website}
             </p>
           )}
           {form.errors.website && (
