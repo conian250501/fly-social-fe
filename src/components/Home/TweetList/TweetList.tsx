@@ -11,7 +11,7 @@ import { PATHS } from "@/contanst/paths";
 import moment from "moment";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import React, { FC, ReactNode, useCallback, useState } from "react";
+import React, { FC, ReactNode, useCallback, useEffect, useState } from "react";
 import { FiLock } from "react-icons/fi";
 import { GiWorld } from "react-icons/gi";
 import Loading from "../../Loading";
@@ -36,6 +36,10 @@ const TweetList = ({ tweets }: Props) => {
   const dispatch = useAppDispatch();
   const { isDeleted } = useAppSelector((state: RootState) => state.tweet);
   const [tweetList, setTweetList] = useState<ITweet[]>(tweets);
+
+  useEffect(() => {
+    setTweetList(tweets);
+  }, [tweets]);
 
   const handleCloseModalSuccessDeletedTweet = useCallback(() => {
     dispatch(clearIsDeleted());

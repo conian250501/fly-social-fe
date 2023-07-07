@@ -39,7 +39,7 @@ const TweetListHomePage = ({}: Props) => {
   useEffect(() => {
     const handleScroll = () => {
       if (
-        window.innerHeight + document.documentElement.scrollTop + 1 >=
+        window.innerHeight + document.documentElement.scrollTop + 2 >=
         document.documentElement.scrollHeight
       ) {
         setPage((prevPage) => prevPage + 1);
