@@ -11,5 +11,9 @@ export default function SettingLayout({
 }: {
   children: React.ReactNode;
 }) {
-  return <MainLayout>{children}</MainLayout>;
+  return (
+    <MainLayout>
+      <LayoutWithNews>{children}</LayoutWithNews>
+    </MainLayout>
+  );
 }

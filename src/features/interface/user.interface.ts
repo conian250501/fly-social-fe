@@ -16,6 +16,12 @@ export interface IFilterGetUsers extends IBaseFilter {
   name?: string;
 }
 
+export interface IPayloadUpdatePassword {
+  currentPassword: string;
+  newPassword: string;
+  confirmPassword: string;
+}
+
 export enum EGender {
   Male = "Male",
   Female = "Female",

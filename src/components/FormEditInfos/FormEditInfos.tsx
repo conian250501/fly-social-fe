@@ -76,7 +76,7 @@ const FormEditInfos = ({ user }: Props) => {
 
   return (
     <Form className={styles.formWrapper} onSubmit={form.handleSubmit}>
-      <div className="d-flex align-items-center justify-content-between">
+      <div className={styles.header}>
         <BackLink title="Edit Information" />
         <button
           type="submit"

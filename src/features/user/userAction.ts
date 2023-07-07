@@ -6,6 +6,7 @@ import {
   IBaseFilter,
   IFilterGetUsers,
   IPayloadEditProfile,
+  IPayloadUpdatePassword,
 } from "../interface";
 
 export const getAllUsers = createAsyncThunk(
@@ -109,6 +110,25 @@ export const getAllUserDontFollowing = createAsyncThunk(
       });
       const { data } = await axiosConfig.get(
         `/users/followed-yet/${userId}?${query}`
+      );
+      return data.data;
+    } catch (error) {
+      const err = error as AxiosError;
+      return rejectWithValue(err.response?.data);
+    }
+  }
+);
+
+export const updatePassword = createAsyncThunk(
+  "user/update-password",
+  async (
+    { userId, payload }: { userId: number; payload: IPayloadUpdatePassword },
+    { rejectWithValue }
+  ) => {
+    try {
+      const { data } = await axiosConfig.put(
+        `/users/update-password/${userId}`,
+        payload
       );
       return data.data;
     } catch (error) {
