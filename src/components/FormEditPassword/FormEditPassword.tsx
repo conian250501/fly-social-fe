@@ -100,11 +100,11 @@ const FormEditPassword = (props: Props) => {
           value={form.values.currentPassword}
           onChange={form.handleChange}
           className={`${styles.formInput} ${
-            error?.message.includes("Password incorrect") ? styles.error : ""
+            error?.message ? styles.error : ""
           }`}
           placeholder="New password"
         />
-        {error?.message.includes("Password incorrect") && (
+        {error?.message && (
           <p className={styles.textErrorValidate}>{error.message}</p>
         )}
         <Link href={PATHS.ForgotPassword} className={styles.linkForgotPwd}>
