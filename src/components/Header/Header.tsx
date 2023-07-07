@@ -46,7 +46,12 @@ const Header = React.memo(function Header(props: Props) {
     if (user) {
       setIsAuthenticated(true);
       setMenuList([
-        ...menuList,
+        {
+          id: nanoid(),
+          title: "Home",
+          icon: <RiHomeGearLine className={styles.icon} />,
+          link: PATHS.Home,
+        },
         {
           id: nanoid(),
           title: "Notifications",
