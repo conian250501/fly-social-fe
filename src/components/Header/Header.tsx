@@ -9,7 +9,7 @@ import { usePathname, useRouter } from "next/navigation";
 import React, { FC, useEffect, useState } from "react";
 import { BiBookmark, BiMessageSquare, BiNotification } from "react-icons/bi";
 import { FaRegUser } from "react-icons/fa";
-import { FiSettings } from "react-icons/fi";
+import { FiSearch, FiSettings } from "react-icons/fi";
 import { RiHomeGearLine } from "react-icons/ri";
 import { SiHey } from "react-icons/si";
 import { IMenu } from "../interfaces/header.interface";
@@ -51,6 +51,12 @@ const Header = React.memo(function Header(props: Props) {
           title: "Home",
           icon: <RiHomeGearLine className={styles.icon} />,
           link: PATHS.Home,
+        },
+        {
+          id: nanoid(),
+          title: "Explore",
+          icon: <FiSearch className={styles.icon} />,
+          link: PATHS.Explore,
         },
         {
           id: nanoid(),
@@ -98,6 +104,12 @@ const Header = React.memo(function Header(props: Props) {
           title: "Home",
           icon: <RiHomeGearLine className={styles.icon} />,
           link: PATHS.Home,
+        },
+        {
+          id: nanoid(),
+          title: "Explore",
+          icon: <FiSearch className={styles.icon} />,
+          link: PATHS.Explore,
         },
         {
           id: nanoid(),

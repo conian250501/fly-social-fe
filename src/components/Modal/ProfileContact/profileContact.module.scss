@@ -103,4 +103,41 @@
   font-size: 14px;
   font-weight: 600;
   color: var(--white-color);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  .iconLoading {
+    font-size: 20px;
+    animation: Rotate 0.5s ease-in-out infinite;
+  }
+}
+.form {
+  .formInput {
+    padding: 12px;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--dark-color-900);
+    border: 1px solid var(--border-color-light);
+    &:focus {
+      border: 1px solid var(--primary-color);
+      box-shadow: none;
+    }
+  }
+
+  .phoneInputWrapper {
+    @extend .formInput;
+    padding: 12px 0;
+    border-radius: 6px;
+    &.focus {
+      border: 2px solid var(--primary-color);
+      box-shadow: none;
+    }
+    input {
+      box-shadow: none;
+      border: none;
+      height: 100%;
+      width: 100%;
+      background-color: transparent !important;
+    }
+  }
 }

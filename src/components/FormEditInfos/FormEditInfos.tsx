@@ -149,7 +149,9 @@ const FormEditInfos = ({ user }: Props) => {
               country="vn"
               onFocus={() => setIsPhoneFocus(true)}
               onBlur={() => setIsPhoneFocus(false)}
-              onChange={form.handleChange}
+              onChange={(value, data) => {
+                form.setFieldValue("phone", `+${value}`);
+              }}
               containerClass={`${styles.phoneInputWrapper} ${styles.phone} ${
                 isPhoneFocus ? styles.focus : ""
               }`}

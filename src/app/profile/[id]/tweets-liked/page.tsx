@@ -1,10 +1,11 @@
 "use client";
+import GeneralInfoAction from "@/components/GeneralInfoAction";
 import Loading from "@/components/Loading";
 import LoadingDots from "@/components/LoadingDots";
 import BackLink from "@/components/shared/Profile/BackLink";
 import TabsProfile from "@/components/shared/Profile/TabsProfile";
 import TopInfo from "@/components/shared/Profile/TopInfo";
-import { ITweet } from "@/features/interface";
+import { ITweet, IUser } from "@/features/interface";
 import { getAllTweetsLiked } from "@/features/tweet/tweetAction";
 import { getUserById } from "@/features/user/userAction";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
@@ -91,6 +92,7 @@ const Page = ({ params }: Props) => {
     <section>
       <BackLink user={user} />
       <TopInfo user={user} />
+      <GeneralInfoAction user={user as IUser} />
       <TabsProfile userId={Number(params.id)} />
       {loadingForTweets ? (
         <div className="d-flex align-items-center justify-content-center mt-4">

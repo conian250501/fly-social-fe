@@ -72,7 +72,7 @@ const GeneralInfoAction = React.memo(({ user }: Props) => {
       <ProfileContact
         isOpen={openContact}
         handleClose={() => setOpenContact(false)}
-        data={{ phone: user.phone, email: user.email }}
+        data={{ phone: user.phone, email: user.email, userId: user.id }}
       />
     </div>
   );
