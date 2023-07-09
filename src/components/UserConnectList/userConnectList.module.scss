@@ -1,0 +1,99 @@
+@import "../../styles/mixins";
+@import "../../styles/responsive";
+
+.userListWrapper {
+}
+
+.heading {
+  padding: 14px;
+  font-size: 24px;
+  font-weight: 600;
+  color: var(--dark-color-900);
+}
+.userList {
+}
+.userItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px;
+  &:hover {
+    background-color: var(--border-color-light);
+  }
+  &:not(:first-child) {
+    margin-top: 14px;
+  }
+  .avatar {
+    width: 60px;
+    height: 60px;
+    border-radius: 100rem;
+    object-fit: cover;
+  }
+}
+.info {
+  .name {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--dark-color-900);
+    margin-bottom: 0;
+  }
+  .nickname {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--dark-color-700);
+    margin-bottom: 0;
+  }
+  .bio {
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--dark-color-900);
+    margin-bottom: 0;
+    @include textLineBreak;
+  }
+}
+.btnFollow {
+  width: 100px;
+  height: 42px;
+  border-radius: 100rem;
+  background-color: var(--dark-color-900);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--white-color);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  .iconLoading {
+    font-size: 20px;
+    animation: Rotate 0.5s ease-in-out infinite;
+  }
+}
+.btnLoadMore {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--primary-color);
+  &:hover {
+    text-decoration: underline;
+  }
+  padding: 14px;
+  .iconLoading {
+    font-size: 20px;
+    animation: Rotate 0.5s ease-in-out infinite;
+  }
+}
+.noneDataWrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  .banner {
+    width: 60%;
+    aspect-ratio: 56.25%;
+  }
+  .title {
+    text-align: center;
+    font-size: 24px;
+    font-weight: 600;
+    color: var(--dark-color-900);
+    margin-bottom: 0;
+  }
+}

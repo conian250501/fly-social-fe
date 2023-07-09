@@ -6,17 +6,22 @@ import { PATHS } from "@/contanst/paths";
 import { followUser } from "@/features/follow/followAction";
 import { IError, IUser } from "@/features/interface";
 import { getAllUserDontFollowing } from "@/features/user/userAction";
+import { useDebounce } from "@/hooks/useDebounce";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { RootState } from "@/redux/store";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { AiOutlineLoading } from "react-icons/ai";
+import ButtonAction from "../FollowUserList/ButtonAction";
+import FormSearchUser from "./components/FormSearchUser";
 import styles from "./userConnectList.module.scss";
 type Props = {};
 
 const UserList = (props: Props) => {
   const dispatch = useAppDispatch();
-  const { user } = useAppSelector((state: RootState) => state.auth);
+  const { user: currentUser } = useAppSelector(
+    (state: RootState) => state.auth
+  );
   const { page: page, totalPage } = useAppSelector(
     (state: RootState) => state.user
   );
@@ -25,9 +30,10 @@ const UserList = (props: Props) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [loadingLoadMore, setLoadingLoadMore] = useState<boolean>(false);
   const [lastPage, setLastPage] = useState<boolean>(false);
-  const [loadingFollow, setLoadingFollow] = useState<boolean>(false);
   const [error, setError] = useState<IError | null>(null);
-  const [userFollowActive, setUserFollowActive] = useState<number>(0);
+  const [searchValue, setSearchValue] = useState<string>("");
+
+  const debounceValue = useDebounce(searchValue, 500);
 
   useEffect(() => {
     async function getData() {
@@ -36,8 +42,8 @@ const UserList = (props: Props) => {
 
         const res = await dispatch(
           getAllUserDontFollowing({
-            userId: Number(user?.id),
-            filter: { page: 1, limit: 4 },
+            userId: Number(currentUser?.id),
+            filter: { page: 1, limit: 4, name: searchValue },
           })
         ).unwrap();
 
@@ -49,10 +55,11 @@ const UserList = (props: Props) => {
       }
     }
 
-    if (user) {
+    if (currentUser) {
       getData();
+      setLastPage(false);
     }
-  }, []);
+  }, [debounceValue]);
 
   useEffect(() => {
     if (page > 0 && page === totalPage) {
@@ -65,7 +72,7 @@ const UserList = (props: Props) => {
       setLoadingLoadMore(true);
       const res = await dispatch(
         getAllUserDontFollowing({
-          userId: Number(user?.id),
+          userId: Number(currentUser?.id),
           filter: { page: Number(page) + 1, limit: 4 },
         })
       ).unwrap();
@@ -77,100 +84,80 @@ const UserList = (props: Props) => {
     }
   };
 
-  const handleFollow = async (userId: number) => {
-    try {
-      setLoadingFollow(true);
-      setUserFollowActive(userId);
-
-      await dispatch(followUser(Number(userId))).unwrap();
-
-      const newUsers = users.filter((user) => user.id !== userId);
-      setUsers(newUsers);
-
-      setLoadingFollow(false);
-    } catch (error) {
-      setError(error as IError);
-      setLoadingFollow(false);
-    }
-  };
-
   return (
     <div>
       <div className={styles.userListWrapper}>
-        <InputSearchUser />
+        <h1 className={styles.heading}>Suggested for you</h1>
+        <FormSearchUser
+          searchValue={searchValue}
+          setSearchValue={setSearchValue}
+        />
         {loading ? (
           <div className="d-flex align-items-center justify-content-center w-100 mt-4 pb-4">
             <Loading />
           </div>
         ) : (
           <div className={styles.userList}>
-            <h1 className={styles.heading}>Who to follow</h1>
-            {!user ? (
-              <h1 className={styles.textWithoutUser}>
-                <Link href={PATHS.LoginPage}>Login</Link> to find more friend
-              </h1>
+            {users.length <= 0 ? (
+              <div className={styles.noneDataWrapper}>
+                <img src="/images/birds.png" className={styles.banner} alt="" />
+                <h1 className={styles.title}>
+                  Name of user you want search correct?
+                </h1>
+              </div>
             ) : (
-              <>
-                {users.map((user) => (
-                  <div className={styles.userItem} key={user.id}>
-                    <Link
-                      href={`${PATHS.Profile}/${user.id}`}
-                      className="d-flex align-items-center justify-content-start gap-3 text-decoration-none"
-                    >
-                      <img
-                        src={
-                          user.avatar
-                            ? user.avatar
-                            : "/images/avatar-placeholder.png"
-                        }
-                        alt=""
-                        className={styles.avatar}
-                      />
-                      <div className={styles.info}>
-                        <div className="d-flex align-items-center justify-content-start gap-2">
-                          <h4 className={styles.name}>{user.name}</h4>
-                          {user.verified && (
-                            <img
-                              src="/icons/twitter-verified-badge.svg"
-                              alt=""
-                              className={styles.iconVerified}
-                            />
-                          )}
-                        </div>
-                        {user.nickname && (
-                          <p className={styles.nickname}>@{user.nickname}</p>
+              users.map((user) => (
+                <div className={styles.userItem} key={user.id}>
+                  <Link
+                    href={`${PATHS.Profile}/${user.id}`}
+                    className="d-flex align-items-center justify-content-start gap-3 text-decoration-none"
+                  >
+                    <img
+                      src={
+                        user.avatar
+                          ? user.avatar
+                          : "/images/avatar-placeholder.png"
+                      }
+                      alt=""
+                      className={styles.avatar}
+                    />
+                    <div className={styles.info}>
+                      <div className="d-flex align-items-center justify-content-start gap-2">
+                        <h4 className={styles.name}>{user.name}</h4>
+                        {user.verified && (
+                          <img
+                            src="/icons/twitter-verified-badge.svg"
+                            alt=""
+                            className={styles.iconVerified}
+                          />
                         )}
                       </div>
-                    </Link>
-                    <button
-                      type="button"
-                      className={styles.btnFollow}
-                      disabled={loadingFollow}
-                      onClick={() => handleFollow(user.id)}
-                    >
-                      {loadingFollow && userFollowActive === user.id ? (
-                        <AiOutlineLoading className={styles.iconLoading} />
-                      ) : (
-                        "Follow"
+                      {user.nickname && (
+                        <p className={styles.nickname}>@{user.nickname}</p>
                       )}
-                    </button>
-                  </div>
-                ))}
-                {!lastPage && (
-                  <button
-                    type="button"
-                    onClick={handleLoadMore}
-                    className={styles.btnLoadMore}
-                    disabled={loadingLoadMore}
-                  >
-                    {loadingLoadMore ? (
-                      <AiOutlineLoading className={styles.iconLoading} />
-                    ) : (
-                      "Show more"
-                    )}
-                  </button>
+                      {user.bio && <p className={styles.bio}>{user.bio}</p>}
+                    </div>
+                  </Link>
+                  <ButtonAction
+                    user={user}
+                    currentUserId={Number(currentUser?.id)}
+                  />
+                </div>
+              ))
+            )}
+            {!lastPage && users.length > 0 && (
+              <button
+                type="button"
+                onClick={handleLoadMore}
+                className={styles.btnLoadMore}
+                disabled={loadingLoadMore}
+              >
+                {loadingLoadMore ? (
+                  <AiOutlineLoading className={styles.iconLoading} />
+                ) : (
+                  "Show more"
                 )}
-              </>
+              </button>
             )}
           </div>
         )}

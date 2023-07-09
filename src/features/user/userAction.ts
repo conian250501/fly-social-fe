@@ -100,13 +100,14 @@ export const uploadFilesProfile = createAsyncThunk(
 export const getAllUserDontFollowing = createAsyncThunk(
   "user/get-all-dont-following",
   async (
-    { userId, filter }: { userId: number; filter: IBaseFilter },
+    { userId, filter }: { userId: number; filter: IFilterGetUsers },
     { rejectWithValue }
   ) => {
     try {
       const query = queryString.stringify({
         page: filter.page || 1,
         limit: filter.limit || 4,
+        name: filter.name || "",
       });
       const { data } = await axiosConfig.get(
         `/users/followed-yet/${userId}?${query}`

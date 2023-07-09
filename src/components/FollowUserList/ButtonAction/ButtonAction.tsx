@@ -14,7 +14,7 @@ import styles from "./buttonAction.module.scss";
 const ButtonAction: FC<{
   user: IUser;
   currentUserId: number;
-  type: ETypeFollowUserList;
+  type?: ETypeFollowUserList;
 }> = ({ currentUserId, user, type }) => {
   const dispatch = useAppDispatch();
 

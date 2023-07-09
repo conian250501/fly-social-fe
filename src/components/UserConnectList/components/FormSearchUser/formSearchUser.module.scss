@@ -1,0 +1,57 @@
+.form {
+  padding-top: 0;
+  padding: 14px;
+
+  .formGroup {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 14px;
+    padding: 10px;
+    border: 2px solid var(--border-color-light);
+    border-radius: 100rem;
+    transition: 0.1s linear;
+
+    &.focus {
+      border: 2px solid var(--primary-color);
+      transition: 0.1s linear;
+      .iconSearch {
+        background-color: var(--primary-color);
+        border: 2px solid var(--primary-color);
+
+        .icon {
+          color: var(--white-color);
+        }
+      }
+    }
+  }
+
+  .iconSearch {
+    width: 30px;
+    height: 30px;
+    border-radius: 100rem;
+    border: 2px solid var(--border-color-light);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .icon {
+      font-size: 18px;
+      color: var(--dark-color-900);
+    }
+  }
+
+  .formInput {
+    flex: 1;
+    height: 100%;
+    width: 100%;
+    background-color: transparent;
+    border: none;
+    font-size: 16px;
+    font-weight: 500;
+    padding: 0;
+    color: var(--dark-color-900);
+    &:focus {
+      box-shadow: none;
+    }
+  }
+}
