@@ -38,6 +38,8 @@ const ButtonsAction = React.memo(({ tweet }: Props) => {
   const [countSaved, setCountSaved] = useState<number>(
     tweet.storageTweets.length
   );
+  const [loadingLike, setLoadingLike] = useState<boolean>(false);
+  const [loadingStorage, setLoadingStorage] = useState<boolean>(false);
 
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
 
@@ -55,10 +57,15 @@ const ButtonsAction = React.memo(({ tweet }: Props) => {
         router.replace(PATHS.LoginPage);
         return;
       }
+      setLoadingLike(true);
+
       await dispatch(likeTweet(tweet.id)).unwrap();
+
       setIsLiked(true);
       setCountLike(countLike + 1);
+      setLoadingLike(false);
     } catch (error) {
+      setLoadingLike(false);
       setError(error as IError);
     }
   };
@@ -69,13 +76,18 @@ const ButtonsAction = React.memo(({ tweet }: Props) => {
         router.replace(PATHS.LoginPage);
         return;
       }
-      await dispatch(disLikeTweet(tweet.id)).unwrap();
-      setIsLiked(false);
+      setLoadingLike(true);
 
+      await dispatch(disLikeTweet(tweet.id)).unwrap();
+
+      setIsLiked(false);
+      setLoadingLike(false);
       if (countLike > 0) {
         setCountLike(countLike - 1);
       }
     } catch (error) {
+      setLoadingLike(false);
+
       setError(error as IError);
     }
   };
@@ -86,19 +98,29 @@ const ButtonsAction = React.memo(({ tweet }: Props) => {
         router.replace(PATHS.LoginPage);
         return;
       }
+      setLoadingStorage(true);
+
       await dispatch(saveTweet({ tweetId: tweet.id })).unwrap();
+
       setCountSaved((prev) => prev + 1);
       setTweetIsSaved(true);
+      setLoadingStorage(false);
     } catch (error) {
+      setLoadingStorage(false);
       setError(error as IError);
     }
   };
 
   const handleUnSavedTweet = async () => {
     try {
+      setLoadingStorage(true);
+
       await dispatch(unSaveTweet({ tweetId: tweet.id })).unwrap();
       setTweetIsSaved(false);
+
+      setLoadingStorage(false);
       setCountSaved((prev) => prev - 1);
+      setLoadingStorage(false);
     } catch (error) {
       setError(error as IError);
     }
@@ -135,7 +157,10 @@ const ButtonsAction = React.memo(({ tweet }: Props) => {
           <div className={styles.btnItem}>
             <div
               className={`${styles.stage}`}
-              onClick={isLiked ? handleDisLike : handleLike}
+              onClick={() => {
+                if (loadingLike) return;
+                isLiked ? handleDisLike() : handleLike();
+              }}
             >
               <div
                 className={` ${styles.heart} ${isLiked ? styles.liked : ""}`}
@@ -153,11 +178,23 @@ const ButtonsAction = React.memo(({ tweet }: Props) => {
         </div>
         <div className={styles.btnItem}>
           {tweetIsSaved ? (
-            <div className={styles.iconItem} onClick={handleUnSavedTweet}>
+            <div
+              className={styles.iconItem}
+              onClick={() => {
+                if (loadingStorage) return;
+                handleUnSavedTweet();
+              }}
+            >
               <BsBookmarkFill className={`${styles.icon} ${styles.saved}`} />
             </div>
           ) : (
-            <div className={styles.iconItem} onClick={handleSaveTweet}>
+            <div
+              className={styles.iconItem}
+              onClick={() => {
+                if (loadingStorage) return;
+                handleSaveTweet();
+              }}
+            >
               <BsBookmark className={`${styles.icon} ${styles.unsaved}`} />
             </div>
           )}
