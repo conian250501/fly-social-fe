@@ -68,12 +68,6 @@ const SideBar = React.memo((props: Props) => {
       setMenuList([
         {
           id: nanoid(),
-          title: "Profile",
-          icon: <FaRegUser className={styles.icon} />,
-          link: `${PATHS.Profile}/${user.id}`,
-        },
-        {
-          id: nanoid(),
           title: "Home",
           icon: <RiHomeGearLine className={styles.icon} />,
           link: PATHS.Home,
@@ -101,6 +95,12 @@ const SideBar = React.memo((props: Props) => {
           title: "Connect",
           icon: <SiHey className={styles.icon} />,
           link: PATHS.Connect,
+        },
+        {
+          id: nanoid(),
+          title: "Profile",
+          icon: <FaRegUser className={styles.icon} />,
+          link: `${PATHS.Profile}/${user.id}`,
         },
       ]);
       setUserId(user.id);
