@@ -1,5 +1,10 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { IBaseFilter, IPayloadTweet } from "../interface";
+import {
+  ETweetStatus,
+  IBaseFilter,
+  IFilterGetTweets,
+  IPayloadTweet,
+} from "../interface";
 import { AxiosError } from "axios";
 import axiosConfig from "@/config/axiosConfig";
 import queryString from "query-string";
@@ -118,13 +123,14 @@ export const disLikeTweet = createAsyncThunk(
 export const getAllTweetByUser = createAsyncThunk(
   "tweet/get-all-by-user",
   async (
-    { userId, filter }: { userId: number; filter: IBaseFilter },
+    { userId, filter }: { userId: number; filter: IFilterGetTweets },
     { rejectWithValue }
   ) => {
     try {
       const query = queryString.stringify({
         limit: filter.limit || 2,
         page: filter.page || 1,
+        status: filter.status ? filter.status : ETweetStatus.New,
       });
       const { data } = await axiosConfig.get(
         `/tweets/get-by-user/${userId}?${query}`

@@ -29,7 +29,7 @@ const Header = React.memo(function Header(props: Props) {
   const router = useRouter();
   const path = usePathname();
   const { user } = useAppSelector((state: RootState) => state.auth);
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(true);
 
   const [menuList, setMenuList] = useState<IMenu[]>([
     {

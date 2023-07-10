@@ -14,6 +14,7 @@ export const PATHS = {
   Connect: "/connect",
   Profile: "/profile",
   Tweets: "/tweets",
+  TweetsArchived: "/tweets/archived",
   ProfileFollowing: "/following",
   ProfileFollower: "/followers",
   ProfileTweetsLike: "/tweets-liked",

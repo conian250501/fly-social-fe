@@ -1,3 +1,6 @@
+@import "../../../../styles/mixins";
+@import "../../../../styles/responsive";
+
 .tweetListContainer {
 }
 .tweetItem {
@@ -6,4 +9,20 @@
   width: 100%;
   aspect-ratio: 1;
   object-fit: cover;
+}
+
+.skeleton {
+  width: 100% !important;
+  height: 300px !important;
+  aspect-ratio: 1 !important;
+
+  @include desktop {
+    height: 181px !important;
+  }
+  @include tablet {
+    height: 229px !important;
+  }
+  @include mobile {
+    height: 125px !important;
+  }
 }

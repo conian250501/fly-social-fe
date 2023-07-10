@@ -25,10 +25,6 @@ const Google = ({ setLoadingLoginLibrary }: Props) => {
 
         localStorage.setItem("token", user.token);
         router.replace("/");
-
-        setTimeout(() => {
-          setLoadingLoginLibrary(false);
-        }, 1000);
       } catch (error) {
         setLoadingLoginLibrary(false);
         dispatch(setError(error));

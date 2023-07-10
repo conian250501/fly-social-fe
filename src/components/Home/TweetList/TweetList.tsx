@@ -1,5 +1,10 @@
 /* eslint-disable @next/next/no-img-element */
-import { IError, ITweet } from "@/features/interface";
+import {
+  ETweetStatus,
+  IError,
+  IPayloadTweet,
+  ITweet,
+} from "@/features/interface";
 import {
   clearIsDeleted,
   deleteTweetSuccess,
@@ -26,7 +31,7 @@ import { useCheckAuthor } from "@/hooks/useCheckAuthor";
 import FormEditTweet from "@/components/TweetDetail/components/FormEditTweet";
 import ActionModal from "@/components/shared/ActionModal";
 import ModalError from "@/components/Modal/ModalError";
-import { deleteTweet } from "@/features/tweet/tweetAction";
+import { deleteTweet, update } from "@/features/tweet/tweetAction";
 import TweetDetail from "@/components/Modal/TweetDetail";
 
 type Props = { tweets: ITweet[] };
@@ -73,6 +78,16 @@ const TweetList = ({ tweets }: Props) => {
       },
     ]);
 
+    useEffect(() => {
+      const handleCloseSetting = () => {
+        setOpenTweetSettings(false);
+      };
+      window.addEventListener("click", handleCloseSetting);
+      return () => {
+        window.removeEventListener("click", handleCloseSetting);
+      };
+    }, []);
+
     const handleActionTweetSetting = (
       e: React.MouseEvent<HTMLLIElement>,
       type: ETypeTweetSetting
@@ -91,7 +106,12 @@ const TweetList = ({ tweets }: Props) => {
     const handleDeleteTweet = async (tweetId: number) => {
       try {
         setLoadingDelete(true);
-        await dispatch(deleteTweet(tweetId)).unwrap();
+        await dispatch(
+          update({
+            id: tweetId,
+            payload: { status: ETweetStatus.Archived } as IPayloadTweet,
+          })
+        ).unwrap();
         const newTweets = [...tweetList].filter(
           (tweet) => tweet.id !== tweetId
         );

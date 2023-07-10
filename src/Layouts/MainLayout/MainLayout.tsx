@@ -24,7 +24,6 @@ const MainLayout = ({ children }: Props) => {
         await dispatch(getUser()).unwrap();
         setLoading(false);
       } catch (error) {
-        setLoading(false);
         console.log({ error });
       }
     }

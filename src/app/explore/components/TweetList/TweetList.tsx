@@ -14,7 +14,7 @@ type Props = {};
 const TweetList = (props: Props) => {
   const dispatch = useAppDispatch();
   const [tweets, setTweets] = useState<ITweet[]>([]);
-  const [loadingTweets, setLoadingTweets] = useState<boolean>(false);
+  const [loadingTweets, setLoadingTweets] = useState<boolean>(true);
 
   useEffect(() => {
     async function getData() {
@@ -26,7 +26,9 @@ const TweetList = (props: Props) => {
 
         const newTweets = _tweets.filter((item) => item.image);
         setTweets(newTweets);
-        setLoadingTweets(false);
+        setTimeout(() => {
+          setLoadingTweets(false);
+        }, 500);
       } catch (error) {
         setLoadingTweets(false);
         throw error;
@@ -37,10 +39,10 @@ const TweetList = (props: Props) => {
 
   if (loadingTweets) {
     return (
-      <Row className="g-0 row-cols-4">
+      <Row className="g-0 row-cols-3 row-cols-md-3 row-cols-lg-4">
         {tweets.map((item) => (
           <Col key={item.id}>
-            <Skeleton width="100%" height="300px" borderRadius="0"></Skeleton>
+            <Skeleton borderRadius="0" className={styles.skeleton}></Skeleton>
           </Col>
         ))}
       </Row>
@@ -49,7 +51,7 @@ const TweetList = (props: Props) => {
 
   return (
     <div className={styles.tweetListContainer}>
-      <Row className="g-0 row-cols-4">
+      <Row className="g-0 row-cols-3 row-cols-md-3 row-cols-lg-4">
         {tweets.length <= 0 ? (
           <NoneData title="App is crashed?" />
         ) : (

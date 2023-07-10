@@ -34,8 +34,6 @@ const Github = React.memo(({ setLoadingLoginLibrary }: Props) => {
         ).unwrap();
         localStorage.setItem("token", user.token);
         router.replace("/");
-
-        setLoadingLoginLibrary(false);
       } catch (error) {
         setLoadingLoginLibrary(false);
         setError(error);

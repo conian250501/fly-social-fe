@@ -56,7 +56,7 @@ const SettingLinks = (props: Props) => {
       title: "Tweet Archived",
       subtitle: "All tweet you set to archived",
       icon: <BiArchive className={styles.icon} />,
-      path: PATHS.SettingDeactivateAccount,
+      path: PATHS.TweetsArchived,
     },
     {
       id: nanoid(),
