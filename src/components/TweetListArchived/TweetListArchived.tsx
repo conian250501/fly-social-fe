@@ -1,5 +1,6 @@
 import { PATHS } from "@/contanst/paths";
 import { IError, ITweet } from "@/features/interface";
+import { deleteTweet, restoreTweet } from "@/features/tweet/tweetAction";
 import {
   clearIsDeleted,
   deleteTweetSuccess,
@@ -13,7 +14,7 @@ import Link from "next/link";
 import React, { FC, ReactNode, useCallback, useEffect, useState } from "react";
 import { FiLock } from "react-icons/fi";
 import { GiWorld } from "react-icons/gi";
-import { TbDots, TbGitBranchDeleted } from "react-icons/tb";
+import { TbArrowBackUp, TbDots, TbGitBranchDeleted } from "react-icons/tb";
 import { ETypeTweetSetting } from "../interfaces";
 import ModalError from "../Modal/ModalError";
 import TweetDetail from "../Modal/TweetDetail";
@@ -43,10 +44,12 @@ const TweetListArchived = ({ tweets }: Props) => {
     const { isAuthor } = useCheckAuthor(Number(tweet?.user.id));
 
     const [openTweetSettings, setOpenTweetSettings] = useState<boolean>(false);
-    const [openFormEdit, setOpenFormEdit] = useState<boolean>(false);
+    const [openConfirmRestore, setOpenConfirmRestore] =
+      useState<boolean>(false);
     const [openConfirmDelete, setOpenConfirmDelete] = useState<boolean>(false);
     const [error, setError] = useState<IError | null>(null);
     const [loadingDelete, setLoadingDelete] = useState<boolean>(false);
+    const [loadingRestore, setLoadingRestore] = useState<boolean>(false);
     const [openTweetDetail, setOpenTweetDetail] = useState<boolean>(false);
 
     const [tweetSettings, setTweetSettings] = useState<
@@ -54,8 +57,14 @@ const TweetListArchived = ({ tweets }: Props) => {
     >([
       {
         id: nanoid(),
+        type: ETypeTweetSetting.Restore,
+        title: "Restore",
+        icon: <TbArrowBackUp className={styles.icon} />,
+      },
+      {
+        id: nanoid(),
         type: ETypeTweetSetting.Delete,
-        title: "Archive tweet",
+        title: "Deleted permanently tweet",
         icon: <TbGitBranchDeleted className={styles.icon} />,
       },
     ]);
@@ -75,8 +84,8 @@ const TweetListArchived = ({ tweets }: Props) => {
       type: ETypeTweetSetting
     ) => {
       e.stopPropagation();
-      if (type === ETypeTweetSetting.Update) {
-        setOpenFormEdit(true);
+      if (type === ETypeTweetSetting.Restore) {
+        setOpenConfirmRestore(true);
         return;
       }
       if (type === ETypeTweetSetting.Delete) {
@@ -88,7 +97,7 @@ const TweetListArchived = ({ tweets }: Props) => {
     const handleDeleteTweet = async (tweetId: number) => {
       try {
         setLoadingDelete(true);
-        // await dispatch(archiveTweet(tweetId)).unwrap();
+        await dispatch(deleteTweet(tweetId)).unwrap();
 
         const newTweets = [...tweetList].filter(
           (tweet) => tweet.id !== tweetId
@@ -97,9 +106,26 @@ const TweetListArchived = ({ tweets }: Props) => {
 
         setOpenConfirmDelete(false);
         setLoadingDelete(false);
-        dispatch(deleteTweetSuccess());
       } catch (error) {
         setLoadingDelete(false);
+        setError(error as IError);
+      }
+    };
+
+    const handleRestore = async (tweetId: number) => {
+      try {
+        setLoadingRestore(true);
+        await dispatch(restoreTweet(tweetId)).unwrap();
+
+        const newTweets = [...tweetList].filter(
+          (tweet) => tweet.id !== tweetId
+        );
+        setTweetList(newTweets);
+
+        setOpenConfirmDelete(false);
+        setLoadingRestore(false);
+      } catch (error) {
+        setLoadingRestore(false);
         setError(error as IError);
       }
     };
@@ -112,7 +138,7 @@ const TweetListArchived = ({ tweets }: Props) => {
               <li
                 key={item.id}
                 className={`${styles.tweetSettingItem} ${
-                  item.type === ETypeTweetSetting.Update ? styles.update : ""
+                  item.type === ETypeTweetSetting.Restore ? styles.restore : ""
                 } ${
                   item.type === ETypeTweetSetting.Delete ? styles.delete : ""
                 }`}
@@ -128,10 +154,7 @@ const TweetListArchived = ({ tweets }: Props) => {
     };
     return (
       <div key={tweet.id} className={styles.tweetItem}>
-        <Link
-          href={`${PATHS.Profile}/${tweet.user.id}`}
-          className={styles.avatarAuthor}
-        >
+        <div className={styles.avatarAuthor}>
           <img
             src={
               tweet.user.avatar
@@ -141,7 +164,7 @@ const TweetListArchived = ({ tweets }: Props) => {
             alt=""
             className={styles.image}
           />
-        </Link>
+        </div>
         <div className={styles.tweetInfoWrapper}>
           <div className={styles.authorInfo}>
             <div className="d-flex align-items-start justify-content-start gap-3">
@@ -200,10 +223,16 @@ const TweetListArchived = ({ tweets }: Props) => {
         </div>
 
         {/* ====== MODALS ====== */}
-        <FormEditTweet
-          open={openFormEdit}
-          handleClose={() => setOpenFormEdit(false)}
-          tweet={tweet}
+        <ActionModal
+          show={openConfirmRestore}
+          close={() => setOpenConfirmRestore(false)}
+          imagePath="/images/modal-delete.svg"
+          action={() => handleRestore(Number(tweet.id))}
+          buttonText="Restore now"
+          title="Restore Tweet"
+          confirmText="Are you sure restore this tweet?"
+          loadingAction={loadingRestore}
+          setLoadingAction={setLoadingRestore}
         />
 
         <ActionModal

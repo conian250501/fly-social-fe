@@ -131,7 +131,7 @@ export const getAllTweetByUser = createAsyncThunk(
         limit: filter.limit || 2,
         page: filter.page || 1,
         status: filter.status ? filter.status : ETweetStatus.New,
-        isArchived: filter.isArchived ? filter.isArchived : false,
+        isArchived: filter.isArchived ? filter.isArchived : "",
       });
       const { data } = await axiosConfig.get(
         `/tweets/get-by-user/${userId}?${query}`
@@ -208,6 +208,19 @@ export const archiveTweet = createAsyncThunk(
   async (id: number, { rejectWithValue }) => {
     try {
       const { data } = await axiosConfig.put(`/tweets/archive/${id}`);
+      return data.data;
+    } catch (error) {
+      const err = error as AxiosError;
+      return rejectWithValue(err.response?.data);
+    }
+  }
+);
+
+export const restoreTweet = createAsyncThunk(
+  "tweet/restore-tweet",
+  async (id: number, { rejectWithValue }) => {
+    try {
+      const { data } = await axiosConfig.put(`/tweets/restore/${id}`);
       return data.data;
     } catch (error) {
       const err = error as AxiosError;
