@@ -1,30 +1,22 @@
 "use client";
-import GeneralInfoAction from "@/components/GeneralInfoAction";
 import Loading from "@/components/Loading";
 import LoadingDots from "@/components/LoadingDots";
-import BackLink from "@/components/shared/Profile/BackLink";
-import TabsProfile from "@/components/shared/Profile/TabsProfile";
-import TopInfo from "@/components/shared/Profile/TopInfo";
-import { ETweetStatus, ITweet, IUser } from "@/features/interface";
-import { getAllTweetsSaved } from "@/features/tweet/tweetAction";
+import TweetListArchived from "@/components/TweetListArchived";
+import { ITweet } from "@/features/interface";
+import { getAllTweetByUser } from "@/features/tweet/tweetAction";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { RootState } from "@/redux/store";
 import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
-import { getAllTweetByUser } from "../../../features/tweet/tweetAction";
 const TweetList = dynamic(() => import("@/components/Home/TweetList"), {
   ssr: false,
 });
 
-type Props = {
-  params: {
-    id: string;
-  };
-};
+type Props = {};
 
-const Page = ({ params }: Props) => {
+const Page = ({}: Props) => {
   const dispatch = useAppDispatch();
-  const { user } = useAppSelector((state: RootState) => state.user);
+  const { user } = useAppSelector((state: RootState) => state.auth);
 
   const [tweets, setTweets] = useState<ITweet[]>([]);
   const [loading, setLoading] = useState(false);
@@ -62,8 +54,8 @@ const Page = ({ params }: Props) => {
       setLoading(true);
       const tweets = await dispatch(
         getAllTweetByUser({
-          userId: Number(params.id),
-          filter: { page: page, status: ETweetStatus.Archived },
+          userId: Number(user?.id),
+          filter: { limit: 10, page: 1, isArchived: true },
         })
       ).unwrap();
       setLoadingForTweets(false);
@@ -74,10 +66,13 @@ const Page = ({ params }: Props) => {
       }
 
       setTweets((prevTweets) => {
-        const uniqueTweets = tweets.filter(
-          (newTweet: ITweet) =>
-            !prevTweets.some((prevTweet) => prevTweet.id === newTweet.id)
-        );
+        const uniqueTweets: ITweet[] = tweets
+          .filter(
+            (newTweet: ITweet) =>
+              !prevTweets.some((prevTweet) => prevTweet.id === newTweet.id)
+          )
+          .filter((item: ITweet) => item.deletedAt);
+
         return [...prevTweets, ...uniqueTweets];
       });
       setLoading(false);
@@ -90,16 +85,12 @@ const Page = ({ params }: Props) => {
 
   return (
     <section>
-      <BackLink user={user} />
-      <TopInfo user={user} />
-      <GeneralInfoAction user={user as IUser} />
-      <TabsProfile userId={Number(params.id)} />
       {loadingForTweets ? (
         <div className="d-flex align-items-center justify-content-center mt-4">
           <Loading />
         </div>
       ) : (
-        <TweetList tweets={tweets} />
+        <TweetListArchived tweets={tweets} />
       )}
       {loading && tweets.length > 0 && (
         <div className="d-flex align-items-center justify-content-center mt-4 mb-4">

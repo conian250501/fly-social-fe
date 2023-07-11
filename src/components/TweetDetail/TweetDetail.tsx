@@ -1,6 +1,10 @@
 /* eslint-disable @next/next/no-img-element */
 import { IError, ITweet } from "@/features/interface";
-import { deleteTweet, getById } from "@/features/tweet/tweetAction";
+import {
+  archiveTweet,
+  deleteTweet,
+  getById,
+} from "@/features/tweet/tweetAction";
 import { deleteTweetSuccess } from "@/features/tweet/tweetSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { useCheckAuthor } from "@/hooks/useCheckAuthor";
@@ -57,7 +61,7 @@ const TweetDetail = ({ id }: Props) => {
     {
       id: nanoid(),
       type: ETypeTweetSetting.Delete,
-      title: "Delete tweet",
+      title: "Archive tweet",
       icon: <TbGitBranchDeleted className={styles.icon} />,
     },
   ]);
@@ -106,7 +110,7 @@ const TweetDetail = ({ id }: Props) => {
   const handleDeleteTweet = async () => {
     try {
       setLoadingDelete(true);
-      await dispatch(deleteTweet(Number(tweet?.id))).unwrap();
+      await dispatch(archiveTweet(Number(tweet?.id))).unwrap();
       router.back();
       setOpenConfirmDelete(false);
       setLoadingDelete(false);

@@ -1,47 +1,31 @@
-/* eslint-disable @next/next/no-img-element */
-import {
-  ETweetStatus,
-  IError,
-  IPayloadTweet,
-  ITweet,
-} from "@/features/interface";
+import { PATHS } from "@/contanst/paths";
+import { IError, ITweet } from "@/features/interface";
 import {
   clearIsDeleted,
   deleteTweetSuccess,
 } from "@/features/tweet/tweetSlice";
+import { useCheckAuthor } from "@/hooks/useCheckAuthor";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { RootState } from "@/redux/store";
-import ModalSuccess from "@/components/Modal/ModalSuccess";
-import { PATHS } from "@/contanst/paths";
+import { nanoid } from "@reduxjs/toolkit";
 import moment from "moment";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import React, { FC, ReactNode, useCallback, useEffect, useState } from "react";
 import { FiLock } from "react-icons/fi";
 import { GiWorld } from "react-icons/gi";
-import Loading from "../../Loading";
-import ButtonsAction from "../TabsTweetList/components/ButtonsAction";
-import styles from "./tweetList.module.scss";
-import { useCheckIsMe } from "@/hooks/useCheckIsMe";
 import { TbDots, TbGitBranchDeleted } from "react-icons/tb";
-import { nanoid } from "@reduxjs/toolkit";
-import { ETypeTweetSetting } from "@/components/interfaces";
-import { RxUpdate } from "react-icons/rx";
-import { useCheckAuthor } from "@/hooks/useCheckAuthor";
-import FormEditTweet from "@/components/TweetDetail/components/FormEditTweet";
-import ActionModal from "@/components/shared/ActionModal";
-import ModalError from "@/components/Modal/ModalError";
-import {
-  archiveTweet,
-  deleteTweet,
-  update,
-} from "@/features/tweet/tweetAction";
-import TweetDetail from "@/components/Modal/TweetDetail";
+import { ETypeTweetSetting } from "../interfaces";
+import ModalError from "../Modal/ModalError";
+import TweetDetail from "../Modal/TweetDetail";
+import ActionModal from "../shared/ActionModal";
+import FormEditTweet from "../TweetDetail/components/FormEditTweet";
+import styles from "./tweetListArchived.module.scss";
 
-type Props = { tweets: ITweet[] };
+type Props = {
+  tweets: ITweet[];
+};
 
-const TweetList = ({ tweets }: Props) => {
-  const router = useRouter();
+const TweetListArchived = ({ tweets }: Props) => {
   const dispatch = useAppDispatch();
   const { isDeleted } = useAppSelector((state: RootState) => state.tweet);
   const [tweetList, setTweetList] = useState<ITweet[]>(tweets);
@@ -68,12 +52,6 @@ const TweetList = ({ tweets }: Props) => {
     const [tweetSettings, setTweetSettings] = useState<
       { id: string; type: ETypeTweetSetting; title: string; icon: ReactNode }[]
     >([
-      // {
-      //   id: nanoid(),
-      //   type: ETypeTweetSetting.Update,
-      //   title: "Update tweet",
-      //   icon: <RxUpdate className={styles.icon} />,
-      // },
       {
         id: nanoid(),
         type: ETypeTweetSetting.Delete,
@@ -110,7 +88,7 @@ const TweetList = ({ tweets }: Props) => {
     const handleDeleteTweet = async (tweetId: number) => {
       try {
         setLoadingDelete(true);
-        await dispatch(archiveTweet(tweetId)).unwrap();
+        // await dispatch(archiveTweet(tweetId)).unwrap();
 
         const newTweets = [...tweetList].filter(
           (tweet) => tweet.id !== tweetId
@@ -183,7 +161,7 @@ const TweetList = ({ tweets }: Props) => {
                 )}
               </Link>
               <p className={styles.createdAt}>
-                {moment(tweet.createdAt).fromNow()}
+                {moment(tweet.deletedAt).fromNow()}
               </p>
               <div className={styles.audienceIcon}>
                 {tweet.isPrivate ? (
@@ -219,7 +197,6 @@ const TweetList = ({ tweets }: Props) => {
               )}
             </div>
           </div>
-          <ButtonsAction tweet={tweet} />
         </div>
 
         {/* ====== MODALS ====== */}
@@ -267,20 +244,13 @@ const TweetList = ({ tweets }: Props) => {
         </div>
       ) : (
         <>
-          {tweetList?.map((tweet) => (
+          {tweetList.map((tweet) => (
             <TweetItem tweet={tweet} key={tweet.id} />
           ))}
         </>
       )}
-
-      {/* ====== MODALS ====== */}
-      <ModalSuccess
-        isOpen={isDeleted}
-        handleClose={handleCloseModalSuccessDeletedTweet}
-        message={`Deleted tweet successfully`}
-      />
     </div>
   );
 };
 
-export default TweetList;
+export default TweetListArchived;

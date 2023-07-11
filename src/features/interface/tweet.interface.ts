@@ -13,6 +13,7 @@ export enum ETweetStatus {
 
 export interface IFilterGetTweets extends IBaseFilter {
   status?: ETweetStatus;
+  isArchived?: boolean;
 }
 
 export interface IPayloadTweet {
