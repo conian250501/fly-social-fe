@@ -1,0 +1,223 @@
+@import "../../../../../styles/mixins";
+@import "../../../../../styles/responsive";
+
+.logo {
+  position: relative;
+  width: 80px;
+  height: 80px;
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+  @include desktop {
+    width: 100%;
+    height: 60px;
+    img {
+      width: 60px;
+      height: 60px;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      inset: 50% !important;
+    }
+  }
+
+  @include tablet {
+    width: 100%;
+    height: 50px;
+    img {
+      width: 50px;
+      height: 50px;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      inset: 50% !important;
+    }
+  }
+
+  @include mobile {
+    width: 100%;
+    height: 30px;
+    img {
+      width: 30px;
+      height: 30px;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      inset: 50% !important;
+    }
+  }
+}
+.appName {
+  font-size: 56px;
+  font-weight: 700;
+  color: var(--dark-color-900);
+  text-transform: capitalize;
+
+  @include desktop {
+    text-align: center;
+    font-size: 48px;
+  }
+  @include tablet {
+    text-align: center;
+    font-size: 32px;
+    margin-top: 10px;
+  }
+  @include mobile {
+    text-align: center;
+    font-size: 20px;
+    margin-top: 10px;
+  }
+}
+.formWrapper {
+  height: 100%;
+  width: 100%;
+  position: relative;
+}
+.formAdminLogin {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  padding: 0 20%;
+
+  .formGroup {
+    &:not(:first-child) {
+      margin-top: 12px;
+    }
+  }
+  .formLabel {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--dark-color-900);
+  }
+  .formInput {
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--dark-color-900);
+    border: 2px solid var(--dark-color-900);
+    border-radius: 8px;
+    padding: 16px;
+    &:focus {
+      box-shadow: none;
+    }
+    &.password {
+      border: none;
+    }
+  }
+
+  .inputGroup {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 2px solid var(--dark-color-900);
+    border-radius: 8px;
+    padding-right: 10px;
+  }
+  .iconPwd {
+    font-size: 24px;
+    cursor: pointer;
+  }
+  .formCheckRemember {
+    input {
+      cursor: pointer;
+      &:focus {
+        box-shadow: none;
+      }
+      &:checked {
+        background-color: var(--dark-color-900);
+        border: none;
+      }
+    }
+    label {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--dark-color-900);
+    }
+  }
+  .forgotLink {
+    font-size: 14px;
+    font-weight: 500;
+    text-decoration: none;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  .btnSubmit {
+    width: 100%;
+    margin-top: 16px;
+    padding: 14px;
+    border-radius: 8px;
+    background-color: var(--primary-color);
+    border: none;
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--white-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    &:hover {
+      background-color: rgba($color: #3f9cf0, $alpha: 0.9);
+    }
+    .iconLoading {
+      font-size: 28px;
+      animation: Rotate 0.5s linear infinite;
+    }
+  }
+
+  @include desktop {
+    position: relative;
+    top: 0;
+    left: 0;
+    transform: translate(0);
+  }
+
+  @include tablet {
+    position: relative;
+    top: 0;
+    left: 0;
+    transform: translate(0);
+  }
+
+  @include mobile {
+    position: relative;
+    top: 0;
+    left: 0;
+    transform: translate(0);
+    padding: 0 5%;
+    .formLabel {
+      font-size: 14px;
+    }
+    .formInput {
+      font-size: 14px;
+      border: 1px solid var(--dark-color-900);
+      border-radius: 6px;
+      padding: 12px;
+    }
+    .inputGroup {
+      border: 1px solid var(--dark-color-900);
+    }
+    .iconPwd {
+      font-size: 18px;
+    }
+    .forgotLink {
+      font-size: 12px;
+    }
+    .formCheckRemember {
+      label {
+        font-size: 12px;
+      }
+    }
+    .btnSubmit {
+      font-size: 14px;
+      padding: 12px;
+      border-radius: 6px;
+    }
+  }
+}
