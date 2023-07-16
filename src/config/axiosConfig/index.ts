@@ -25,7 +25,7 @@ axiosConfig.interceptors.response.use(
   (error) => {
     if (error && error.response && error.response.status === 401) {
       localStorage.removeItem("token");
-      window.location = PATHS.LoginPage as any;
+      // window.location = PATHS.LoginPage as any;
     }
     return Promise.reject(error);
   }

@@ -1,5 +1,5 @@
 import { PATHS } from "@/contanst/paths";
-import { getUser } from "@/features/auth/authAction";
+import { getUser, login } from "@/features/auth/authAction";
 import { IError, IPayloadLogin } from "@/features/interface";
 import { useAppDispatch } from "@/redux/hooks";
 import { useFormik } from "formik";
@@ -7,7 +7,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { ProgressSpinner } from "primereact/progressspinner";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Form } from "react-bootstrap";
 import {
   AiOutlineEye,
@@ -15,6 +15,7 @@ import {
   AiOutlineLoading,
 } from "react-icons/ai";
 import styles from "./formSignIn.module.scss";
+import ToastError from "@/components/Toasts/Error/Error";
 type Props = {};
 
 const FormSignIn = (props: Props) => {
@@ -31,7 +32,7 @@ const FormSignIn = (props: Props) => {
       try {
         setLoadingSubmit(true);
         await dispatch(getUser()).unwrap();
-        router.replace(PATHS.Home);
+        router.replace(PATHS.AdminDashboard);
       } catch (error) {
         setLoadingSubmit(false);
         return error;
@@ -43,15 +44,24 @@ const FormSignIn = (props: Props) => {
     }
   }, []);
 
+  const handleSubmit = useCallback(async (values: IPayloadLogin) => {
+    try {
+      setLoadingSubmit(true);
+      await dispatch(login(values)).unwrap();
+      router.push(PATHS.AdminDashboard);
+    } catch (error) {
+      setLoadingSubmit(false);
+      setError(error as IError);
+    }
+  }, []);
+
   const form = useFormik<IPayloadLogin>({
     initialValues: {
       email: "",
       password: "",
     },
     async onSubmit(values, formikHelpers) {
-      try {
-        console.log({ values });
-      } catch (error) {}
+      handleSubmit(values);
     },
   });
   return (
@@ -118,6 +128,8 @@ const FormSignIn = (props: Props) => {
           )}
         </button>
       </Form>
+
+      {error && <ToastError error={error} onClose={() => setError(null)} />}
     </div>
   );
 };

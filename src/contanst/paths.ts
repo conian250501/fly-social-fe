@@ -1,3 +1,5 @@
+const basePathAdmin = "/admin";
+
 export const PATHS = {
   Auth: "/auth",
   LoginPage: "/auth?login=true",
@@ -33,4 +35,12 @@ export const PATHS = {
   CookiesPolicy: "/policy",
   Accessibility: "/accessibility",
   AdsInfo: "/ads-info",
+
+  // ADMIN
+  AdminAuth: `${basePathAdmin}/auth`,
+  AdminDashboard: `${basePathAdmin}/dashboard`,
+  AdminManageUsers: `${basePathAdmin}/users`,
+  AdminManageTweets: `${basePathAdmin}/tweets`,
+  AdminProfile: `${basePathAdmin}/profile`,
+  AdminNotifications: `${basePathAdmin}/notifications`,
 };

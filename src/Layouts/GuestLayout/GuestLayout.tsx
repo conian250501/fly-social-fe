@@ -6,13 +6,15 @@ import { useAppDispatch } from "@/redux/hooks";
 import { getUser } from "@/features/auth/authAction";
 import Loading from "@/components/Loading";
 import LoadingApp from "@/components/LoadingApp";
+import { useRouter } from "next/navigation";
+import { PATHS } from "@/contanst/paths";
 type Props = {
   children: ReactNode;
 };
 
 const GuestLayout = ({ children }: Props) => {
   const dispatch = useAppDispatch();
-
+  const router = useRouter();
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
@@ -23,6 +25,7 @@ const GuestLayout = ({ children }: Props) => {
         await dispatch(getUser()).unwrap();
         setLoading(false);
       } catch (error) {
+        router.push(PATHS.LoginPage);
         setLoading(false);
 
         return error;

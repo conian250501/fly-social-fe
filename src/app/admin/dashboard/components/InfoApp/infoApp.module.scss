@@ -1,0 +1,298 @@
+@import "../../../../../styles/mixins";
+@import "../../../../../styles/responsive";
+.infoAppWrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: stretch;
+  width: 100%;
+  gap: 20px;
+  background-color: var(--white-color);
+  padding: 14px;
+  border-radius: 20px;
+  box-shadow: var(--shadow-section-dashboard);
+
+  @include mobile {
+    position: relative;
+    background: url("../../../../../../public/images/nft.jpg") center no-repeat;
+    background-size: cover;
+    border-radius: 16px;
+    &::before {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      height: 100%;
+      width: 100%;
+      background-color: rgba($color: #000000, $alpha: 0.3);
+      border-radius: 16px;
+      z-index: 1;
+    }
+  }
+}
+.logo {
+  width: 50%;
+  height: auto;
+  border-radius: 10px;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 20px;
+  }
+
+  @include mobile {
+    display: none;
+  }
+}
+.contentWrapper {
+  width: 50%;
+  height: auto;
+  @include mobile {
+    width: 100%;
+    z-index: 2;
+  }
+}
+.tabList {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 100rem;
+  padding: 6px;
+  background-color: var(--border-color-light);
+  overflow: hidden;
+  @include mobile {
+    background-color: var(--white-color);
+  }
+
+  .tabItem {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--dark-color-900);
+    padding: 12px 0;
+    border-radius: 100rem;
+    width: 100%;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.2s linear;
+    &.active {
+      transition: all 0.2s linear;
+      background-color: var(--white-color);
+      box-shadow: var(--shadow-container);
+      animation: TransFormTabActive 0.4s ease-out;
+    }
+
+    @include desktop {
+      font-size: 10px;
+      padding: 8px;
+    }
+    @include tablet {
+      font-size: 12px;
+      padding: 8px;
+    }
+
+    @include mobile {
+      font-size: 12px;
+      padding: 8px;
+      &.active {
+        background-color: var(--primary-color);
+        color: var(--white-color);
+      }
+    }
+  }
+}
+
+.wrapper {
+  margin-top: 12px;
+  height: calc(100% - 80px);
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: column;
+  @include desktop {
+    height: calc(100% - 50px);
+  }
+
+  @include tablet {
+    height: calc(100% - 55px);
+  }
+  @include mobile {
+    height: calc(100% - 50px);
+  }
+}
+.heading {
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--dark-color-900);
+  margin-bottom: 12px;
+  span {
+    color: var(--primary-color);
+  }
+
+  @include desktop {
+    font-size: 18px;
+    margin-bottom: 8px;
+  }
+  @include tablet {
+    font-size: 20px;
+    margin-bottom: 8px;
+  }
+  @include mobile {
+    font-size: 20px;
+    margin-bottom: 8px;
+    color: var(--white-color);
+    span {
+      color: var(--white-color);
+      box-shadow: var(--shadow-container);
+    }
+  }
+}
+.description {
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--dark-color-700);
+  margin-bottom: 0;
+  width: 100%;
+
+  @include desktop {
+    font-size: 10px;
+  }
+  @include tablet {
+    font-size: 10px;
+  }
+  @include mobile {
+    font-size: 10px;
+    color: var(--white-color);
+  }
+}
+
+.count {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 6px;
+  border: 1px solid var(--border-color-light);
+  border-radius: 100rem;
+  background-color: var(--border-color-light);
+  cursor: pointer;
+  overflow: hidden;
+
+  @include desktop {
+    padding: 6px;
+  }
+  @include tablet {
+    padding: 6px;
+  }
+  @include mobile {
+    padding: 6px;
+    height: fit-content;
+    border: 1px solid var(--white-color);
+    background-color: rgba($color: #fff, $alpha: 0.1);
+    margin-top: 32px;
+  }
+  &:hover {
+    .linkMore {
+      transform: translateX(0);
+      transition: all 0.3s ease-out;
+    }
+  }
+  .number {
+    color: var(--white-color);
+    width: fit-content;
+    padding: 12px 32px;
+    border-radius: 100rem;
+    background-color: var(--primary-color);
+    box-shadow: var(--shadow-container);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    .key {
+      font-size: 14px;
+      font-weight: 500;
+      margin-bottom: 0;
+    }
+    .value {
+      font-size: 20px;
+      font-weight: 600;
+      margin-bottom: 0;
+    }
+
+    @include desktop {
+      padding: 6px 16px;
+      .key {
+        font-size: 10px;
+      }
+      .value {
+        font-size: 16px;
+      }
+    }
+
+    @include tablet {
+      padding: 6px 16px;
+      .key {
+        font-size: 10px;
+      }
+      .value {
+        font-size: 16px;
+      }
+    }
+    @include mobile {
+      padding: 6px 16px;
+      .key {
+        font-size: 10px;
+      }
+      .value {
+        font-size: 16px;
+      }
+    }
+  }
+  .linkMore {
+    width: 30%;
+    padding: 10px 24px;
+    border-radius: 100rem;
+    background-color: var(--primary-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--white-color);
+    text-decoration: none;
+    transform: translateX(400px);
+    transition: all 0.3s ease-out;
+
+    &:hover {
+      text-decoration: underline;
+    }
+
+    @include desktop {
+      padding: 8px;
+      font-size: 10px;
+    }
+    @include tablet {
+      padding: 8px;
+      font-size: 10px;
+    }
+
+    @include mobile {
+      padding: 8px;
+      font-size: 10px;
+      transform: translateX(0);
+    }
+  }
+}
+
+@keyframes TransFormTabActive {
+  from {
+    transform: translateY(100px);
+  }
+  to {
+    transform: translateY(0);
+  }
+}

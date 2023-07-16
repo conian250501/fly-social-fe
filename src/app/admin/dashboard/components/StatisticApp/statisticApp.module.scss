@@ -1,0 +1,16 @@
+@import "../../../../../styles/mixins";
+@import "../../../../../styles/responsive";
+
+.wrapper {
+  height: 100%;
+  width: 100%;
+  background-color: var(--white-color);
+  border-radius: 20px;
+  box-shadow: var(--shadow-section-dashboard);
+  @include tablet {
+    margin-top: 12px;
+  }
+  @include mobile {
+    margin-top: 12px;
+  }
+}

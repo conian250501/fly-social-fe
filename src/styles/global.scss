@@ -43,6 +43,12 @@
   --success-color: #4a934a;
   --shadow-popover: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
   --bg-color-light: #eff1f1;
+  --shadow-header: 0 0 2px rgba(0, 0, 0, 0.2);
+  --shadow-btn-pagination: rgba(0, 0, 0, 0) 0px 0px 0px 0px,
+    rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0.12) 0px 1px 1px 0px,
+    rgba(64, 68, 82, 0.16) 0px 0px 0px 1px, rgba(0, 0, 0, 0) 0px 0px 0px 0px,
+    rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(64, 68, 82, 0.08) 0px 2px 5px 0px;
+  --shadow-section-dashboard: rgba(0, 0, 0, 0.2) 0px 18px 50px -10px;
 }
 
 *,

@@ -9,13 +9,17 @@ import { Col, Container, Row } from "react-bootstrap";
 import { useAppDispatch } from "@/redux/hooks";
 import { getUser } from "@/features/auth/authAction";
 import LoadingApp from "@/components/LoadingApp";
+import { useRouter } from "next/navigation";
+import { PATHS } from "@/contanst/paths";
 type Props = {
   children: React.ReactNode;
 };
 
 const MainLayout = ({ children }: Props) => {
   const dispatch = useAppDispatch();
+  const router = useRouter();
   const { isAuthenticated } = useAuth();
+
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -24,6 +28,7 @@ const MainLayout = ({ children }: Props) => {
         await dispatch(getUser()).unwrap();
         setLoading(false);
       } catch (error) {
+        router.push(PATHS.LoginPage);
         console.log({ error });
       }
     }

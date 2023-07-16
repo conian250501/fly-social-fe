@@ -1,0 +1,42 @@
+@import "../../../../styles/mixins";
+@import "../../../../styles/responsive";
+
+.settingsList {
+}
+.settingItem {
+}
+
+.settingLink {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 10px;
+  padding: 16px;
+  cursor: pointer;
+  text-decoration: none;
+  color: var(--dark-color-900);
+  border-radius: 6px;
+  padding-right: 80px;
+  transition: all 0.2s linear;
+
+  &:hover {
+    background-color: var(--border-color-light);
+    color: var(--dark-color-900);
+    transition: all 0.2s linear;
+  }
+  .icon {
+    font-size: 20px;
+  }
+  .title {
+    font-size: 18px;
+    font-weight: 500;
+    color: var(--dark-color-700);
+    margin-bottom: 0;
+    transition: all 0.2s linear;
+
+    &.active {
+      font-weight: 700;
+      color: var(--dark-color-900);
+    }
+  }
+}

@@ -2,7 +2,7 @@ import { IBaseTypes } from "../interface/IBaseTypes";
 import { IFollow } from "./follow.interface";
 import { IStorageTweet } from "./storageTweet.interface";
 import { ITweet } from "./tweet.interface";
-import { EGender } from "./user.interface";
+import { EGender, EUserRole } from "./user.interface";
 
 export interface IPayloadLogin {
   email: string;
@@ -34,6 +34,7 @@ export interface IUser extends IBaseTypes {
   followers: IFollow[];
   followings: IFollow[];
   verified: boolean;
+  role: EUserRole;
 }
 
 export interface IPayloadResetPass {
