@@ -1,9 +1,9 @@
 "use client";
-import React from "react";
-import styles from "./page.module.scss";
 import { Col, Row } from "react-bootstrap";
 import InfoApp from "./components/InfoApp/InfoApp";
 import StatisticApp from "./components/StatisticApp/StatisticApp";
+import TableUsers from "./components/TableUsers/TableUsers";
+import styles from "./page.module.scss";
 type Props = {};
 
 const Page = (props: Props) => {
@@ -17,6 +17,7 @@ const Page = (props: Props) => {
           <StatisticApp />
         </Col>
       </Row>
+      <TableUsers />
     </div>
   );
 };

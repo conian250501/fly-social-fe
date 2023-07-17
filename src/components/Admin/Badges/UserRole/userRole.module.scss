@@ -1,0 +1,17 @@
+.badge {
+  padding: 6px 12px;
+  border-radius: 6px;
+  box-shadow: var(--shadow-btn-pagination);
+  font-size: 12px;
+  font-weight: 600;
+  width: fit-content;
+  margin-bottom: 0;
+  &.admin {
+    color: var(--white-color);
+    background-color: var(--primary-color);
+  }
+  &.user {
+    color: var(--dark-color-900);
+    background-color: var(--border-color-light);
+  }
+}

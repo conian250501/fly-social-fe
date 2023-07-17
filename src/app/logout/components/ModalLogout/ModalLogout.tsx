@@ -6,14 +6,18 @@ import styles from "./modalLogout.module.scss";
 import { Modal } from "react-bootstrap";
 import Loading from "@/components/Loading";
 import { resolve } from "path";
-import { useAppDispatch } from "@/redux/hooks";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { logout } from "@/features/auth/authSlice";
+import { RootState } from "@/redux/store";
+import { EUserRole } from "@/features/interface";
 type Props = {};
 
 const ModalLogout = (props: Props) => {
   const router = useRouter();
   const dispatch = useAppDispatch();
   const [loading, setLoading] = useState<boolean>(false);
+  const { user } = useAppSelector((state: RootState) => state.auth);
+
   const handleLogout = async () => {
     try {
       setLoading(true);
@@ -27,7 +31,11 @@ const ModalLogout = (props: Props) => {
         resolve(true);
       });
 
-      router.push(PATHS.Home);
+      if (user?.role === EUserRole.Admin) {
+        router.push(PATHS.AdminAuth);
+      } else {
+        router.push(PATHS.Home);
+      }
     } catch (error) {}
   };
   const handleCancel = () => {

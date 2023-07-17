@@ -1,0 +1,16 @@
+.badge {
+  padding: 6px 12px;
+  border-radius: 6px;
+  box-shadow: var(--shadow-btn-pagination);
+  font-size: 12px;
+  font-weight: 600;
+  width: fit-content;
+  &.active {
+    color: var(--white-color);
+    background-color: var(--primary-color);
+  }
+  &.inactive {
+    color: var(--white-color);
+    background-color: var(--error-color);
+  }
+}

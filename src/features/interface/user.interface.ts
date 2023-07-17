@@ -14,6 +14,8 @@ export interface IPayloadEditProfile {
 }
 export interface IFilterGetUsers extends IBaseFilter {
   name?: string;
+  status?: EUserStatus | string;
+  verified?: boolean;
 }
 
 export interface IPayloadUpdatePassword {
@@ -31,4 +33,9 @@ export enum EGender {
 export enum EUserRole {
   User = "User",
   Admin = "Admin",
+}
+
+export enum EUserStatus {
+  Active = "Active",
+  InActive = "InActive",
 }

@@ -1,13 +1,23 @@
+/* eslint-disable react/display-name */
 import { ETypeTabInfoApp, ITabInfoApp } from "@/components/Admin/interface";
 import { PATHS } from "@/contanst/paths";
 import { nanoid } from "@reduxjs/toolkit";
 import Link from "next/link";
-import { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./infoApp.module.scss";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { RootState } from "@/redux/store";
+import { stat } from "fs";
+import { getAllUsers } from "@/features/admin/user/userAction";
+import { ProgressSpinner } from "primereact/progressspinner";
+import { getAll as getAllTweets } from "@/features/tweet/tweetAction";
+import { ITweet, IUser } from "@/features/interface";
 
 type Props = {};
 
-const InfoApp = (props: Props) => {
+const InfoApp = React.memo((props: Props) => {
+  const dispatch = useAppDispatch();
+
   const [tabs, setTabs] = useState<ITabInfoApp[]>([
     {
       id: nanoid(),
@@ -26,6 +36,31 @@ const InfoApp = (props: Props) => {
   const [tabActive, setTabActive] = useState<ETypeTabInfoApp>(
     ETypeTabInfoApp.Members
   );
+  const [loadingGetUser, setLoadingGetUsers] = useState<boolean>(false);
+  const [users, setUsers] = useState<IUser[]>([]);
+  const [tweets, setTweets] = useState<ITweet[]>([]);
+
+  useEffect(() => {
+    async function getData() {
+      try {
+        setLoadingGetUsers(true);
+        const [dataUsers, tweets] = await Promise.all([
+          dispatch(getAllUsers({ limit: 0, page: 0 })).unwrap(),
+          dispatch(getAllTweets({ limit: 0, page: 0 })).unwrap(),
+        ]);
+
+        setUsers(dataUsers.users);
+        setTweets(tweets);
+        setLoadingGetUsers(false);
+      } catch (error) {
+        setLoadingGetUsers(false);
+      }
+    }
+    getData();
+  }, []);
+
+  console.log({ users });
+
   return (
     <div className={styles.infoAppWrapper}>
       <div className={styles.logo}>
@@ -91,7 +126,28 @@ const InfoApp = (props: Props) => {
           <div className={styles.count}>
             <div className={styles.number}>
               <p className={styles.key}>Amount:</p>
-              <p className={styles.value}>12</p>
+
+              {tabActive === ETypeTabInfoApp.Members && (
+                <div className={styles.value}>
+                  {loadingGetUser ? <ProgressSpinner /> : <>{users.length}</>}
+                </div>
+              )}
+
+              {tabActive === ETypeTabInfoApp.Tweets && (
+                <p className={styles.value}>
+                  {loadingGetUser ? <ProgressSpinner /> : <>{tweets.length}</>}
+                </p>
+              )}
+
+              {tabActive === ETypeTabInfoApp.Verified && (
+                <p className={styles.value}>
+                  {loadingGetUser ? (
+                    <ProgressSpinner />
+                  ) : (
+                    <>{users.filter((user) => user.verified).length}</>
+                  )}
+                </p>
+              )}
             </div>
             {tabActive === ETypeTabInfoApp.Members && (
               <Link href={PATHS.AdminManageUsers} className={styles.linkMore}>
@@ -113,6 +169,6 @@ const InfoApp = (props: Props) => {
       </div>
     </div>
   );
-};
+});
 
 export default InfoApp;

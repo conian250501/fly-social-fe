@@ -5,6 +5,7 @@ import followReducer from "@/features/follow/followSlice";
 import storageTweetReducer from "@/features/storageTweet/storageTweetSlice";
 import tweetReducer from "@/features/tweet/tweetSlice";
 import userReducer from "@/features/user/userSlice";
+import userAdminReducer from "@/features/admin/user/userSlice";
 
 const rootReducer = combineReducers({
   auth: authReducer,
@@ -13,6 +14,9 @@ const rootReducer = combineReducers({
   storage: storageTweetReducer,
   user: userReducer,
   follow: followReducer,
+
+  // ADMIN
+  adminUser: userAdminReducer,
 });
 
 export const store = configureStore({
