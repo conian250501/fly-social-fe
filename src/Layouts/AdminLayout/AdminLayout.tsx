@@ -32,6 +32,12 @@ const AdminLayout = ({ children }: Props) => {
     fetchUser();
   }, []);
 
+  useEffect(() => {
+    if (user && user.role !== EUserRole.Admin) {
+      localStorage.removeItem("token");
+    }
+  }, [user]);
+
   if (loading) {
     return (
       <div className="d-flex align-items-center justify-content-center w-100 vh-100">

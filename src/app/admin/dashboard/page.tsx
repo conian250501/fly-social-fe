@@ -2,8 +2,9 @@
 import { Col, Row } from "react-bootstrap";
 import InfoApp from "./components/InfoApp/InfoApp";
 import StatisticApp from "./components/StatisticApp/StatisticApp";
-import TableUsers from "./components/TableUsers/TableUsers";
+import TableUsers from "../../../components/Admin/TableUsers/TableUsers";
 import styles from "./page.module.scss";
+import { ETypePageForTableUser } from "@/components/Admin/interface";
 type Props = {};
 
 const Page = (props: Props) => {
@@ -17,7 +18,7 @@ const Page = (props: Props) => {
           <StatisticApp />
         </Col>
       </Row>
-      <TableUsers />
+      <TableUsers typePage={ETypePageForTableUser.DashboardPage} />
     </div>
   );
 };

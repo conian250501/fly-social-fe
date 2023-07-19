@@ -14,17 +14,19 @@ import { AiOutlineLoading } from "react-icons/ai";
 import { forgotPassword } from "@/features/auth/authAction";
 import ModalError from "@/components/Modal/ModalError/ModalError";
 import ModalSuccess from "@/components/Modal/ModalSuccess/ModalSuccess";
+import { useRouter } from "next/navigation";
 type Props = {};
 
 const Page = (props: Props) => {
   const dispatch = useAppDispatch();
-  const { error } = useAppSelector((state: RootState) => state.auth);
+  const router = useRouter();
 
   const [loading, setLoading] = useState(false);
   const [sendMailSuccess, setSendMailSuccess] = useState(false);
   const [isResendMail, setIsResendMail] = useState(false);
   const [initialResendTime, setInitialResendTime] = useState(25);
   const [resendTime, setResendTime] = useState(initialResendTime);
+  const [error, setError] = useState<IError | null>(null);
 
   useEffect(() => {
     return () => {
@@ -73,7 +75,7 @@ const Page = (props: Props) => {
         setLoading(false);
       } catch (error) {
         setLoading(false);
-        dispatch(setError(error));
+        setError(error as IError);
       }
     },
   });
@@ -87,7 +89,7 @@ const Page = (props: Props) => {
       setLoading(false);
     } catch (error) {
       setLoading(false);
-      dispatch(setError(error as IError));
+      setError(error as IError);
     }
   };
 
@@ -140,13 +142,9 @@ const Page = (props: Props) => {
           </div>
         ) : (
           <>
-            <Link
-              href={PATHS.Auth}
-              prefetch={false}
-              className={styles.iconClose}
-            >
+            <div onClick={() => router.back()} className={styles.iconClose}>
               <IoMdClose className={styles.icon} />
-            </Link>
+            </div>
             <div className={styles.logo}>
               <img src="/images/logo-app.png" alt="" />
             </div>

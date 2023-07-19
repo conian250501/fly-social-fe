@@ -5,3 +5,4 @@ export * from "./commentDetail.interface";
 export * from "./formEditProfile.interface";
 export * from "./followUserList.interface";
 export * from "./formEditPassword.interface";
+export * from "./pagination.interface";

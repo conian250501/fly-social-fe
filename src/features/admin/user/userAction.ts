@@ -12,7 +12,7 @@ import {
 export const getAllUsers = createAsyncThunk(
   "user-admin/get-all",
   async (
-    { page, limit, name, status, verified }: IFilterGetUsers,
+    { page = 1, limit = 4, name, status, verified }: IFilterGetUsers,
     { rejectWithValue }
   ) => {
     try {

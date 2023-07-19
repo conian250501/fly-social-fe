@@ -149,6 +149,7 @@
   @include resetList;
   box-shadow: var(--shadow-header);
   padding: 16px 0;
+  background-color: rgba($color: #fff, $alpha: 0.8);
   @include mobile {
     display: flex;
     align-items: center;

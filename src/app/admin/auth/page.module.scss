@@ -2,11 +2,18 @@
 @import "../../../styles/mixins";
 
 .adminAuthPage {
-  position: relative;
   display: flex;
   justify-content: center;
   align-items: stretch;
   height: 100vh;
+  max-height: 100%;
+  @include mobile {
+    background: url("../../../../public/images/banner-login.png") top center
+      no-repeat;
+    background-color: var(--primary-color);
+    background-size: contain;
+    align-items: flex-end;
+  }
 }
 .banner {
   width: 50%;
@@ -43,7 +50,8 @@
   @include desktop {
     width: 100%;
     border-radius: 0;
-    height: calc(100vh - 400px);
+    display: none;
+
     .heading,
     .description {
       display: none;
@@ -53,7 +61,7 @@
   @include tablet {
     width: 100%;
     border-radius: 0;
-    height: calc(100vh - 250px);
+    display: none;
     .heading,
     .description {
       display: none;
@@ -63,7 +71,8 @@
   @include mobile {
     width: 100%;
     border-radius: 0;
-    height: calc(100vh - 350px);
+    display: none;
+
     .heading,
     .description {
       display: none;
@@ -74,10 +83,6 @@
   width: 50%;
 
   @include desktop {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
     width: 100%;
     height: fit-content;
     padding: 40px;
@@ -87,10 +92,6 @@
   }
 
   @include tablet {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
     width: 100%;
     height: fit-content;
     padding: 40px;
@@ -100,10 +101,6 @@
   }
 
   @include mobile {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
     width: 100%;
     height: fit-content;
     padding: 24px;

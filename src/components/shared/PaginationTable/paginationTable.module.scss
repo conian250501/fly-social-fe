@@ -1,0 +1,25 @@
+@import "../../../styles/mixins";
+@import "../../../styles/responsive";
+.paginationList {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+.btn {
+  padding: 4px 10px;
+  box-shadow: var(--shadow-btn-pagination);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--dark-color-900);
+  cursor: pointer;
+  border-radius: 6px;
+  &.disabled {
+    background-color: var(--border-color-light);
+    color: var(--dark-color-700);
+  }
+
+  @include mobile {
+    font-size: 12px;
+  }
+}

@@ -1,2 +1,3 @@
 export * from "./infoApp.interface";
-export * from "./tabUserFilters.interface.ts";
+export * from "./tabUserFilters.interface";
+export * from "./tableUsers.interface";

@@ -1,22 +1,38 @@
-import React, { useEffect, useState } from "react";
-import styles from "./tableUsers.module.scss";
-import { Form, Table } from "react-bootstrap";
-import { EUserStatus, IUser } from "@/features/interface";
-import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import { RootState } from "@/redux/store";
-import { getAllUsers } from "@/features/admin/user/userAction";
-import { ProgressSpinner } from "primereact/progressspinner";
-import { nanoid } from "@reduxjs/toolkit";
-import { ETypeTabUserFilter } from "@/components/Admin/interface";
-import NoneData from "@/components/shared/NoneData/NoneData";
-import moment from "moment";
 import UserRole from "@/components/Admin/Badges/UserRole/UserRole";
 import UserStatus from "@/components/Admin/Badges/UserStatus/UserStatus";
-type Props = {};
+import {
+  ETypePageForTableUser,
+  ETypeTabUserFilter,
+} from "@/components/Admin/interface";
+import NoneData from "@/components/shared/NoneData/NoneData";
+import { PATHS } from "@/contanst/paths";
+import { getAllUsers } from "@/features/admin/user/userAction";
+import { EUserStatus } from "@/features/interface";
+import { useDebounce } from "@/hooks/useDebounce";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { RootState } from "@/redux/store";
+import { nanoid } from "@reduxjs/toolkit";
+import moment from "moment";
+import Link from "next/link";
+import { ProgressSpinner } from "primereact/progressspinner";
+import { useEffect, useState } from "react";
+import { Form, Table } from "react-bootstrap";
+import { FiSearch } from "react-icons/fi";
+import styles from "./tableUsers.module.scss";
+import PaginationTable from "@/components/shared/PaginationTable/PaginationTable";
+import { ETypePageForPagination } from "@/components/interfaces";
 
-const TableUsers = ({}: Props) => {
+type Props = {
+  typePage: ETypePageForTableUser;
+  customClassNameTableWrapper?: string;
+};
+
+const TableUsers = ({ typePage, customClassNameTableWrapper }: Props) => {
   const dispatch = useAppDispatch();
-  const { users } = useAppSelector((state: RootState) => state.adminUser);
+  const { users, page, totalPage } = useAppSelector(
+    (state: RootState) => state.adminUser
+  );
+  const { user } = useAppSelector((state: RootState) => state.auth);
 
   const [loadingGetUser, setLoadingGetUsers] = useState<boolean>(false);
   const [tabFilters, setTabFilters] = useState<
@@ -50,12 +66,14 @@ const TableUsers = ({}: Props) => {
     status: EUserStatus | string;
     verified: boolean;
   }>({
-    limit: 2,
+    limit: 4,
     page: 1,
     name: "",
     status: "",
     verified: false,
   });
+
+  const searchValue = useDebounce(filters.name);
 
   useEffect(() => {
     async function getData() {
@@ -68,10 +86,20 @@ const TableUsers = ({}: Props) => {
       }
     }
     getData();
-  }, [filters]);
+  }, [searchValue, filters.status, filters.verified]);
 
   return (
-    <div className={styles.tableWrapper}>
+    <div className={`${styles.tableWrapper} ${customClassNameTableWrapper}`}>
+      {typePage === ETypePageForTableUser.DashboardPage && (
+        <div className="d-flex align-items-center justify-content-between mb-4">
+          <h1 className={styles.headingTop}>
+            Hi <strong>{user?.name}</strong>, Welcome back!
+          </h1>
+          <Link href={PATHS.AdminManageUsers} className={styles.btnSeeMore}>
+            More
+          </Link>
+        </div>
+      )}
       <div className={styles.tabFilters}>
         {tabFilters.map((tab) => (
           <div
@@ -116,12 +144,17 @@ const TableUsers = ({}: Props) => {
             tabActive === ETypeTabUserFilter.Verified ? styles.active : ""
           }`}
         >
-          <div className="iconSearch"></div>
-          <Form.Control
-            value={filters.name}
-            onChange={(e) => setFilters({ ...filters, name: e.target.value })}
-            placeholder="enter a name"
-          />
+          <div className={styles.inputGroup}>
+            <div className={styles.iconSearch}>
+              <FiSearch className={styles.icon} />
+            </div>
+            <Form.Control
+              value={filters.name}
+              className={styles.formInput}
+              onChange={(e) => setFilters({ ...filters, name: e.target.value })}
+              placeholder="Enter a name..."
+            />
+          </div>
         </div>
       </div>
       {loadingGetUser ? (
@@ -160,7 +193,10 @@ const TableUsers = ({}: Props) => {
                     </td>
                     <td className={styles.tableCell}>
                       <div className={styles.information}>
-                        <div className={styles.avatar}>
+                        <Link
+                          href={`${PATHS.AdminManageUsers}/${user.id}`}
+                          className={styles.avatar}
+                        >
                           <img
                             src={
                               user.avatar
@@ -169,9 +205,22 @@ const TableUsers = ({}: Props) => {
                             }
                             alt=""
                           />
-                        </div>
+                        </Link>
                         <div className={styles.info}>
-                          <div className={styles.name}>{user.name}</div>
+                          <Link
+                            href={`${PATHS.AdminManageUsers}/${user.id}`}
+                            className={styles.name}
+                          >
+                            {user.name}
+
+                            {user.verified && (
+                              <img
+                                src="/icons/twitter-verified-badge.svg"
+                                alt=""
+                                className={styles.iconVerified}
+                              />
+                            )}
+                          </Link>
                           <div className="d-flex align-items-center justify-content-start gap-4 mt-2">
                             <div
                               className={`${styles.followItem} ${styles.badge}`}
@@ -238,6 +287,16 @@ const TableUsers = ({}: Props) => {
           )}
         </>
       )}
+
+      {typePage === ETypePageForTableUser.ManageUsersPage ? (
+        <div className="d-flex align-items-center justify-content-end w-100">
+          <PaginationTable
+            page={page}
+            totalPage={totalPage}
+            typePage={ETypePageForPagination.AdminManageUsers}
+          />
+        </div>
+      ) : null}
     </div>
   );
 };
