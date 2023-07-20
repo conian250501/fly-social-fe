@@ -16,6 +16,9 @@ import {
 } from "react-icons/ai";
 import styles from "./formSignIn.module.scss";
 import ToastError from "@/components/Toasts/Error/Error";
+import Google from "@/components/AuthButtons/Google";
+import Github from "@/components/AuthButtons/Github";
+import Facebook from "@/components/AuthButtons/Facebook";
 type Props = {};
 
 const FormSignIn = (props: Props) => {
@@ -115,6 +118,14 @@ const FormSignIn = (props: Props) => {
             Forgot password?
           </Link>
         </div>
+
+        <div className="textOr">Or</div>
+
+        <Google setLoadingLoginLibrary={setLoadingSubmit} />
+
+        <Facebook setLoadingLoginLibrary={setLoadingSubmit} />
+
+        <Github setLoadingLoginLibrary={setLoadingSubmit} />
 
         <button
           type="submit"

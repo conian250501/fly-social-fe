@@ -4,7 +4,9 @@ import {
   ETypePageForTableUser,
   ETypeTabUserFilter,
 } from "@/components/Admin/interface";
+import { ETypePageForPagination } from "@/components/interfaces";
 import NoneData from "@/components/shared/NoneData/NoneData";
+import PaginationTable from "@/components/shared/PaginationTable/PaginationTable";
 import { PATHS } from "@/contanst/paths";
 import { getAllUsers } from "@/features/admin/user/userAction";
 import { EUserStatus } from "@/features/interface";
@@ -18,9 +20,8 @@ import { ProgressSpinner } from "primereact/progressspinner";
 import { useEffect, useState } from "react";
 import { Form, Table } from "react-bootstrap";
 import { FiSearch } from "react-icons/fi";
+import ButtonManageRecordTable from "../ButtonManageTable/ButtonManageRecordTable";
 import styles from "./tableUsers.module.scss";
-import PaginationTable from "@/components/shared/PaginationTable/PaginationTable";
-import { ETypePageForPagination } from "@/components/interfaces";
 
 type Props = {
   typePage: ETypePageForTableUser;
@@ -279,6 +280,12 @@ const TableUsers = ({ typePage, customClassNameTableWrapper }: Props) => {
                     </td>
                     <td className={styles.tableCell}>
                       <UserStatus status={user.status} />
+                    </td>
+
+                    <td className={styles.tableCell}>
+                      <ButtonManageRecordTable
+                        link={`${PATHS.AdminManageUsers}/${user.id}`}
+                      />
                     </td>
                   </tr>
                 ))}

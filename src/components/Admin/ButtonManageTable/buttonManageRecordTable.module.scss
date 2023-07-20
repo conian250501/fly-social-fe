@@ -1,0 +1,18 @@
+.manageLink {
+  padding: 8px 16px;
+  font-size: 14px;
+  font-weight: 600;
+  box-shadow: var(--shadow-btn-pagination);
+  text-decoration: none;
+  border-radius: 6px;
+  background-color: var(--dark-color-900);
+  color: var(--white-color);
+  border: 2px solid var(--dark-color-900);
+  transition: all 0.1s ease-in;
+
+  &:hover {
+    background-color: transparent;
+    color: var(--dark-color-900);
+    transition: all 0.1s ease-out;
+  }
+}

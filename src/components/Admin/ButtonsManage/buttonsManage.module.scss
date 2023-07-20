@@ -1,0 +1,29 @@
+.btnList {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+.btnItem {
+  padding: 10px 20px;
+  box-shadow: var(--shadow-btn-pagination);
+  font-size: 14px;
+  font-weight: 600;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: var(--dark-color-900);
+  border-radius: 6px;
+  color: var(--white-color);
+  cursor: pointer;
+  &.delete {
+    background-color: var(--error-color);
+  }
+  &.edit {
+    background-color: var(--primary-color);
+    text-decoration: none;
+    &:hover {
+      color: var(--white-color);
+    }
+  }
+}

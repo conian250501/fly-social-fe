@@ -40,7 +40,9 @@ export const PATHS = {
   AdminAuth: `${basePathAdmin}/auth`,
   AdminDashboard: `${basePathAdmin}/dashboard`,
   AdminManageUsers: `${basePathAdmin}/users`,
+  AdminManageUserEdit: `${basePathAdmin}/users/edit`,
   AdminManageTweets: `${basePathAdmin}/tweets`,
+  AdminManageTweetEdit: `${basePathAdmin}/tweets/edit`,
   AdminProfile: `${basePathAdmin}/profile`,
   AdminNotifications: `${basePathAdmin}/notifications`,
 };
