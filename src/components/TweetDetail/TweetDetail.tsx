@@ -48,7 +48,7 @@ const TweetDetail = ({ id }: Props) => {
   const [openConfirmDelete, setOpenConfirmDelete] = useState<boolean>(false);
   const [error, setError] = useState<IError | null>(null);
   const [loadingDelete, setLoadingDelete] = useState<boolean>(false);
-  const [loadingGetTweet, setLoadingGetTweet] = useState<boolean>(false);
+  const [loadingGetTweet, setLoadingGetTweet] = useState<boolean>(true);
   const [tweetSettings, setTweetSettings] = useState<
     { id: string; type: ETypeTweetSetting; title: string; icon: ReactNode }[]
   >([
@@ -154,12 +154,14 @@ const TweetDetail = ({ id }: Props) => {
     );
   }
 
-  if (!tweet)
+  if (!tweet) {
     return (
       <div>
         <h1>Tweet doest exist</h1>
       </div>
     );
+  }
+
   return (
     <div className={styles.tweetDetailContainer}>
       <div onClick={handleBackPage} role="button" className={styles.backLink}>

@@ -9,7 +9,7 @@ import NoneData from "@/components/shared/NoneData/NoneData";
 import PaginationTable from "@/components/shared/PaginationTable/PaginationTable";
 import { PATHS } from "@/contanst/paths";
 import { getAllUsers } from "@/features/admin/user/userAction";
-import { EUserStatus } from "@/features/interface";
+import { EUserStatus, IUser } from "@/features/interface";
 import { useDebounce } from "@/hooks/useDebounce";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { RootState } from "@/redux/store";
@@ -30,12 +30,13 @@ type Props = {
 
 const TableUsers = ({ typePage, customClassNameTableWrapper }: Props) => {
   const dispatch = useAppDispatch();
-  const { users, page, totalPage } = useAppSelector(
+  const { page, totalPage } = useAppSelector(
     (state: RootState) => state.adminUser
   );
   const { user } = useAppSelector((state: RootState) => state.auth);
 
   const [loadingGetUser, setLoadingGetUsers] = useState<boolean>(false);
+  const [users, setUsers] = useState<IUser[]>([]);
   const [tabFilters, setTabFilters] = useState<
     { id: string; type: ETypeTabUserFilter; status: EUserStatus | string }[]
   >([
@@ -80,7 +81,8 @@ const TableUsers = ({ typePage, customClassNameTableWrapper }: Props) => {
     async function getData() {
       try {
         setLoadingGetUsers(true);
-        Promise.all([dispatch(getAllUsers(filters)).unwrap()]);
+        const res = await dispatch(getAllUsers(filters)).unwrap();
+        setUsers(res.users);
         setLoadingGetUsers(false);
       } catch (error) {
         setLoadingGetUsers(false);

@@ -33,7 +33,11 @@ const Google = ({ setLoadingLoginLibrary }: Props) => {
     onError: (errorResponse) => console.log(errorResponse),
   });
   return (
-    <button className={styles.buttonGoogle} onClick={() => handleLoginGoogle()}>
+    <button
+      type="button"
+      className={styles.buttonGoogle}
+      onClick={() => handleLoginGoogle()}
+    >
       <div className={styles.icon}>
         <img src="/icons/Google.svg" alt="" />
       </div>

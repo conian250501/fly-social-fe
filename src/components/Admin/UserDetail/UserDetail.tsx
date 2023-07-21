@@ -24,8 +24,8 @@ const UserDetail = ({ user }: Props) => {
     {
       id: nanoid(),
       icon: <FaVoicemail className={styles.icon} />,
-      title: "Email",
-      content: user.email || "N/A",
+      title: "Phone",
+      content: user.phone || "N/A",
     },
     {
       id: nanoid(),
@@ -73,7 +73,12 @@ const UserDetail = ({ user }: Props) => {
         <div className={styles.info}>
           <div className="d-flex align-items-center justify-content-between">
             <h1 className={styles.name}>{user.name}</h1>
-            <ButtonsManage link={`${PATHS.AdminManageUserEdit}/${user.id}`} />
+            <ButtonsManage
+              type="User"
+              user={user}
+              tweet={null}
+              link={`${PATHS.AdminManageUserEdit}/${user.id}`}
+            />
           </div>
           <p className={styles.nickname}>
             {user.nickname ? `@${user.nickname}` : "N/A"}
@@ -81,6 +86,16 @@ const UserDetail = ({ user }: Props) => {
 
           {/*====== INFORMATION DETAIL =======  */}
           <Row className={`${styles.detailList} g-4`}>
+            {/* ======= EMAIL ======= */}
+            <Col xs={12} sm={12} md={6} lg={3}>
+              <div className={styles.detailItem}>
+                <div className={styles.key}>Email</div>
+                <div className={styles.value}>
+                  {user.email ? user.email : "N/A"}
+                </div>
+              </div>
+            </Col>
+
             {/* ======= BIO ======= */}
             <Col xs={12} sm={12} md={6} lg={3}>
               <div className={styles.detailItem}>
@@ -114,16 +129,6 @@ const UserDetail = ({ user }: Props) => {
                 </div>
               </div>
             </Col>
-
-            {/* ====== PHONE ====== */}
-            <Col xs={12} sm={12} md={6} lg={3}>
-              <div className={styles.detailItem}>
-                <div className={styles.key}>Phone number</div>
-                <div className={styles.value}>
-                  {user.phone ? user.phone : "N/A"}
-                </div>
-              </div>
-            </Col>
           </Row>
         </div>
       </div>
@@ -132,7 +137,7 @@ const UserDetail = ({ user }: Props) => {
         {infoMoreList.map((item) => (
           <Col key={item.id} xs={12} sm={12} md={6} lg={3}>
             <div className={styles.infoMoreItem}>
-              {item.icon}
+              <div className={styles.iconWrapper}>{item.icon}</div>
               <div className={styles.content}>
                 <p className={styles.text}>{item.content}</p>
                 <h4 className={styles.title}>{item.title}</h4>

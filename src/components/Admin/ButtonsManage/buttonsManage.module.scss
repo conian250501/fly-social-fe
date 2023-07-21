@@ -5,7 +5,7 @@
   gap: 10px;
 }
 .btnItem {
-  padding: 10px 20px;
+  padding: 8px 20px;
   box-shadow: var(--shadow-btn-pagination);
   font-size: 14px;
   font-weight: 600;
@@ -17,13 +17,40 @@
   color: var(--white-color);
   cursor: pointer;
   &.delete {
-    background-color: var(--error-color);
+    color: var(--error-color);
+    transition: all 0.1s ease-in;
+    &:hover {
+      background-color: var(--error-color);
+      color: var(--white-color);
+      transition: all 0.1s ease-in;
+    }
+  }
+  &.inactive {
+    color: var(--green-color);
+    transition: all 0.1s ease-in;
+    &:hover {
+      background-color: var(--green-color);
+      color: var(--white-color);
+      transition: all 0.1s ease-in;
+    }
+  }
+  &.active {
+    color: var(--gray-color);
+    transition: all 0.1s ease-in;
+    &:hover {
+      background-color: var(--gray-color);
+      color: var(--white-color);
+      transition: all 0.1s ease-in;
+    }
   }
   &.edit {
-    background-color: var(--primary-color);
+    color: var(--primary-color);
     text-decoration: none;
+    transition: all 0.1s ease-in;
     &:hover {
+      background-color: var(--primary-color);
       color: var(--white-color);
+      transition: all 0.1s ease-in;
     }
   }
 }

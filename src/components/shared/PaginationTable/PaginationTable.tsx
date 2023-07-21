@@ -50,6 +50,7 @@ const PaginationTable = ({ typePage, page, totalPage }: Props) => {
         className={`${styles.btn} ${styles.btnNext} ${
           page === totalPage ? styles.disabled : ""
         }`}
+        disabled={page === totalPage}
         onClick={handleNext}
       >
         Next

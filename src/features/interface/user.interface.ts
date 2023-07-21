@@ -1,8 +1,8 @@
 import { IBaseFilter } from "./filter.interface";
 
 export interface IPayloadEditProfile {
-  cover?: string;
-  avatar?: string;
+  cover?: string | File | null;
+  avatar?: string | File | null;
   name: string;
   nickname: string;
   bio?: string;
@@ -11,6 +11,7 @@ export interface IPayloadEditProfile {
   birthDate: string;
   phone?: string;
   gender?: EGender;
+  status?: EUserStatus;
 }
 export interface IFilterGetUsers extends IBaseFilter {
   name?: string;

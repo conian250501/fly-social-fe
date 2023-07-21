@@ -119,14 +119,6 @@ const FormSignIn = (props: Props) => {
           </Link>
         </div>
 
-        <div className="textOr">Or</div>
-
-        <Google setLoadingLoginLibrary={setLoadingSubmit} />
-
-        <Facebook setLoadingLoginLibrary={setLoadingSubmit} />
-
-        <Github setLoadingLoginLibrary={setLoadingSubmit} />
-
         <button
           type="submit"
           className={styles.btnSubmit}
@@ -138,6 +130,13 @@ const FormSignIn = (props: Props) => {
             "Sign In"
           )}
         </button>
+        <div className="textOr">Or</div>
+
+        <Google setLoadingLoginLibrary={setLoadingSubmit} />
+
+        <Facebook setLoadingLoginLibrary={setLoadingSubmit} />
+
+        <Github setLoadingLoginLibrary={setLoadingSubmit} />
       </Form>
 
       {error && <ToastError error={error} onClose={() => setError(null)} />}

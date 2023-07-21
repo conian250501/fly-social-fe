@@ -1,13 +1,13 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import styles from "./page.module.scss";
-import { IUser } from "@/features/interface";
+import FormEditUser from "@/components/Admin/FormEditUser";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import NoneData from "@/components/shared/NoneData";
-import UserDetail from "@/components/Admin/UserDetail";
-import { ProgressSpinner } from "primereact/progressspinner";
-import { getUserById } from "@/features/admin/user/userAction";
 import { RootState } from "@/redux/store";
+import { getUserById } from "@/features/admin/user/userAction";
+import { ProgressSpinner } from "primereact/progressspinner";
+import NoneData from "@/components/shared/NoneData/NoneData";
+import { IUser } from "@/features/interface";
 type Props = {
   params: {
     id: string;
@@ -40,8 +40,8 @@ const Page = ({ params }: Props) => {
   }
 
   return (
-    <div>
-      <UserDetail user={user as IUser} />
+    <div className={styles.editUserPage}>
+      <FormEditUser user={user as IUser} />
     </div>
   );
 };

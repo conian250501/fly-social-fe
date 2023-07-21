@@ -1,94 +1,15 @@
 @import "../../../styles/mixins";
 @import "../../../styles/responsive";
 
-.contentModal {
-  border-radius: 20px;
-  overflow: hidden;
+.backLinkContainer {
+  background-color: transparent;
+  padding-left: 0;
+  margin-bottom: 24px;
 }
-.header {
-  padding: 12px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  position: sticky;
-  top: 0;
-  z-index: 2;
-  background-color: rgba($color: #fff, $alpha: 0.8);
 
-  .iconClose {
-    width: 30px;
-    height: 30px;
-    border-radius: 100rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-    &:hover {
-      background-color: var(--border-color-light);
-    }
-    .icon {
-      font-size: 20px;
-    }
-  }
-  .title {
-    font-size: 20px;
-    font-weight: 600;
-    color: var(--dark-color-900);
-    margin-bottom: 0;
-  }
-  .btnSave {
-    padding: 8px 24px;
-    border-radius: 100rem;
-    background-color: var(--dark-color-900);
-    font-size: 14px;
-    font-weight: 600;
-    color: var(--white-color);
-    &:hover {
-      background-color: rgba($color: #000000, $alpha: 0.8);
-    }
-  }
-}
-.form {
-  overflow-y: scroll;
-  height: calc(100vh - 100px);
-  .formGroup {
-    position: relative;
-    padding: 0 16px;
-    margin-bottom: 16px;
-  }
-  .formLabel {
-    font-size: 14px;
-    font-weight: 600;
-    color: var(--dark-color-900);
-    margin-bottom: 4px;
-    display: block;
-  }
-  .formInput {
-    width: 100%;
-    padding: 16px;
-    border: 1px solid var(--border-color-light);
-    border-radius: 10px;
-    font-size: 16px;
-    font-weight: 500;
-    &:focus {
-      border: 2px solid var(--primary-color);
-      box-shadow: none;
-    }
-  }
-  .countValueInput {
-    position: absolute;
-    top: 50%;
-    right: 32px;
-    transform: translate(0, -50%);
-    font-size: 12px;
-    font-weight: 500;
-    color: var(--dark-color-700);
-    margin-bottom: 0;
-  }
-}
 .formGroupCover {
   width: 100%;
-  height: 200px;
+  height: 400px;
   position: relative;
   overflow: hidden;
   cursor: pointer;
@@ -110,7 +31,7 @@
   .coverPreview {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: contain;
     transition: all 0.2s linear;
   }
   .coverPlaceholder {
@@ -155,7 +76,7 @@
 
 .formGroupAvatar {
   width: 100%;
-  height: 60px;
+  height: 80px;
   position: relative;
   cursor: pointer;
   &:hover {
@@ -174,8 +95,8 @@
     }
   }
   .avatarPreviewWrapper {
-    width: 100px;
-    height: 100px;
+    width: 160px;
+    height: 160px;
     position: absolute;
     bottom: 12px;
     left: 16px;
@@ -227,12 +148,91 @@
   }
 }
 
-.textErrorValidate {
-  font-size: 14px;
-  font-weight: 500;
-  color: var(--error-color);
+.formWrapper {
+  padding: 16px;
+  .formGroup {
+    height: 100%;
+    width: 100%;
+    margin-bottom: 12px;
+    position: relative;
+
+    @include mobile {
+    }
+  }
+  .formLabel {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--dark-color-900);
+  }
+  .formInput {
+    width: 100%;
+    border-radius: 6px;
+    border: 1px solid var(--border-color-light);
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--dark-color-900);
+    padding: 14px;
+    &:focus {
+      border: 2px solid var(--primary-color);
+      box-shadow: none;
+    }
+  }
+  .phoneInputWrapper {
+    @extend .formInput;
+
+    padding: 14px 0;
+    &.focus {
+      border: 2px solid var(--primary-color);
+      box-shadow: none;
+    }
+    input {
+      box-shadow: none;
+      border: none;
+      height: 100%;
+      width: 100%;
+    }
+  }
+  .countValueInput {
+    position: absolute;
+    top: 60%;
+    right: 14px;
+    transform: translate(0, -50%);
+    font-size: 14px;
+    font-weight: 400;
+    color: var(--dark-color-700);
+  }
+  .inputGender {
+    cursor: pointer;
+    input {
+      cursor: pointer;
+    }
+    label {
+      font-size: 16px;
+      font-weight: 500;
+      color: var(--dark-color-900);
+    }
+  }
 }
-.iconLoading {
-  font-size: 20px;
-  animation: Rotate 0.5s linear infinite;
+
+.btn {
+  padding: 10px 32px;
+  font-size: 14px;
+  font-weight: 600;
+  border-radius: 100rem;
+  &.cancel {
+    border: 2px solid var(--dark-color-900);
+    color: var(--dark-color-900);
+  }
+  &.save {
+    background-color: var(--dark-color-900);
+    color: var(--white-color);
+  }
+  .iconLoading {
+    font-size: 20px;
+    animation: Rotate 0.5s linear infinite;
+  }
+  @include mobile {
+    font-size: 14px;
+    padding: 10px 24px;
+  }
 }

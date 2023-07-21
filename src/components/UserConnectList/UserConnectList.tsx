@@ -112,25 +112,27 @@ const UserList = (props: Props) => {
                     href={`${PATHS.Profile}/${user.id}`}
                     className="d-flex align-items-center justify-content-start gap-3 text-decoration-none"
                   >
-                    <img
-                      src={
-                        user.avatar
-                          ? user.avatar
-                          : "/images/avatar-placeholder.png"
-                      }
-                      alt=""
-                      className={styles.avatar}
-                    />
+                    <div className="position-relative">
+                      <img
+                        src={
+                          user.avatar
+                            ? user.avatar
+                            : "/images/avatar-placeholder.png"
+                        }
+                        alt=""
+                        className={styles.avatar}
+                      />
+                      {user.verified && (
+                        <img
+                          src="/icons/twitter-verified-badge.svg"
+                          alt=""
+                          className={styles.iconVerified}
+                        />
+                      )}
+                    </div>
                     <div className={styles.info}>
-                      <div className="d-flex align-items-center justify-content-start gap-2">
+                      <div className="d-flex align-items-center justify-content-start gap-2 position-relative">
                         <h4 className={styles.name}>{user.name}</h4>
-                        {user.verified && (
-                          <img
-                            src="/icons/twitter-verified-badge.svg"
-                            alt=""
-                            className={styles.iconVerified}
-                          />
-                        )}
                       </div>
                       {user.nickname && (
                         <p className={styles.nickname}>@{user.nickname}</p>

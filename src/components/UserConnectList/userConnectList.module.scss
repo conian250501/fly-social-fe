@@ -29,6 +29,13 @@
     border-radius: 100rem;
     object-fit: cover;
   }
+  .iconVerified {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    width: 20px;
+    height: 20px;
+  }
 }
 .info {
   .name {
@@ -37,6 +44,7 @@
     color: var(--dark-color-900);
     margin-bottom: 0;
   }
+
   .nickname {
     font-size: 14px;
     font-weight: 500;

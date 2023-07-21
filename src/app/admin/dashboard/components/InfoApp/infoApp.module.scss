@@ -113,6 +113,7 @@
   justify-content: space-between;
   align-items: center;
   flex-direction: column;
+  gap: 24px;
   @include desktop {
     height: calc(100% - 50px);
   }
@@ -181,7 +182,6 @@
   background-color: var(--border-color-light);
   cursor: pointer;
   overflow: hidden;
-
   @include desktop {
     padding: 6px;
   }
@@ -221,6 +221,9 @@
       font-size: 20px;
       font-weight: 600;
       margin-bottom: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
 
     @include desktop {

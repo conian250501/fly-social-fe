@@ -10,7 +10,7 @@ type Props = {};
 const Page = (props: Props) => {
   return (
     <div className={styles.dashboardPage}>
-      <Row>
+      <Row className={styles.topSection}>
         <Col xs={12} sm={12} md={12} lg={8} xl={8}>
           <InfoApp />
         </Col>

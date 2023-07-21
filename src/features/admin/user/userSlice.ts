@@ -1,6 +1,6 @@
 import { IUser } from "@/features/interface";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { getAllUsers } from "./userAction";
+import { getAllUsers, getUserById } from "./userAction";
 
 export interface IInitialState {
   users: IUser[];
@@ -21,6 +21,12 @@ const userSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers(builder) {
+    builder.addCase(
+      getUserById.fulfilled,
+      (state, action: PayloadAction<IUser>) => {
+        state.user = action.payload;
+      }
+    );
     builder.addCase(
       getAllUsers.fulfilled,
       (

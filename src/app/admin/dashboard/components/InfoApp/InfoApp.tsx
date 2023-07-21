@@ -1,17 +1,15 @@
 /* eslint-disable react/display-name */
 import { ETypeTabInfoApp, ITabInfoApp } from "@/components/Admin/interface";
 import { PATHS } from "@/contanst/paths";
+import { getAllUsers } from "@/features/admin/user/userAction";
+import { ITweet, IUser } from "@/features/interface";
+import { getAll as getAllTweets } from "@/features/tweet/tweetAction";
+import { useAppDispatch } from "@/redux/hooks";
 import { nanoid } from "@reduxjs/toolkit";
 import Link from "next/link";
+import { ProgressSpinner } from "primereact/progressspinner";
 import React, { useEffect, useState } from "react";
 import styles from "./infoApp.module.scss";
-import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import { RootState } from "@/redux/store";
-import { stat } from "fs";
-import { getAllUsers } from "@/features/admin/user/userAction";
-import { ProgressSpinner } from "primereact/progressspinner";
-import { getAll as getAllTweets } from "@/features/tweet/tweetAction";
-import { ITweet, IUser } from "@/features/interface";
 
 type Props = {};
 
@@ -58,8 +56,6 @@ const InfoApp = React.memo((props: Props) => {
     }
     getData();
   }, []);
-
-  console.log({ users });
 
   return (
     <div className={styles.infoAppWrapper}>
@@ -129,7 +125,14 @@ const InfoApp = React.memo((props: Props) => {
 
               {tabActive === ETypeTabInfoApp.Members && (
                 <div className={styles.value}>
-                  {loadingGetUser ? <ProgressSpinner /> : <>{users.length}</>}
+                  {loadingGetUser ? (
+                    <ProgressSpinner
+                      style={{ width: 30, height: 30 }}
+                      strokeWidth="4"
+                    />
+                  ) : (
+                    <>{users.length}</>
+                  )}
                 </div>
               )}
 
