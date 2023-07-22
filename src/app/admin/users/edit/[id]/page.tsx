@@ -8,6 +8,7 @@ import { getUserById } from "@/features/admin/user/userAction";
 import { ProgressSpinner } from "primereact/progressspinner";
 import NoneData from "@/components/shared/NoneData/NoneData";
 import { IUser } from "@/features/interface";
+import BackLink from "@/components/shared/BackLink/BackLink";
 type Props = {
   params: {
     id: string;
@@ -41,6 +42,11 @@ const Page = ({ params }: Props) => {
 
   return (
     <div className={styles.editUserPage}>
+      <BackLink
+        title="Edit Information"
+        customClassNameContainer={styles.backLinkContainer}
+      />
+
       <FormEditUser user={user as IUser} />
     </div>
   );

@@ -12,6 +12,7 @@ export interface IPayloadEditProfile {
   phone?: string;
   gender?: EGender;
   status?: EUserStatus;
+  role?: EUserRole;
 }
 export interface IFilterGetUsers extends IBaseFilter {
   name?: string;

@@ -1,32 +1,32 @@
 /* eslint-disable react/display-name */
-import React, { useEffect, useState } from "react";
-import styles from "./formEditUser.module.scss";
-import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import { RootState } from "@/redux/store";
+import ModalError from "@/components/Modal/ModalError";
+import ModalSuccess from "@/components/Modal/ModalSuccess";
+import { ETypeInputProfile } from "@/components/interfaces";
 import {
   getUserById,
   updateUser,
   uploadFilesProfile,
 } from "@/features/admin/user/userAction";
-import { ProgressSpinner } from "primereact/progressspinner";
-import NoneData from "@/components/shared/NoneData/NoneData";
-import { useRouter } from "next/navigation";
 import {
   EGender,
+  EUserRole,
   IError,
   IPayloadEditProfile,
   IUser,
 } from "@/features/interface";
-import { ETypeInputProfile } from "@/components/interfaces";
+import { useAppDispatch } from "@/redux/hooks";
 import { useFormik } from "formik";
+import { useRouter } from "next/navigation";
+import { Dropdown } from "primereact/dropdown";
+import React, { useEffect, useState } from "react";
 import { Col, Form, Row } from "react-bootstrap";
-import BackLink from "@/components/shared/BackLink";
-import { AiOutlineLoading } from "react-icons/ai";
 import ReactDatePicker from "react-datepicker";
-import ModalSuccess from "@/components/Modal/ModalSuccess";
-import ModalError from "@/components/Modal/ModalError";
-import PhoneInput from "react-phone-input-2";
+import { AiOutlineLoading } from "react-icons/ai";
 import { MdCameraswitch } from "react-icons/md";
+import PhoneInput from "react-phone-input-2";
+import styles from "./formEditUser.module.scss";
+import { SelectItemOptionsType } from "primereact/selectitem";
+
 type Props = {
   user: IUser;
 };
@@ -64,6 +64,15 @@ const FormEditUser = React.memo(({ user }: Props) => {
   }>({ avatar: "", cover: "" });
   const [isFileChange, setIsFileChange] = useState<boolean>(false);
 
+  const roles: SelectItemOptionsType = [
+    {
+      name: "Admin",
+    },
+    {
+      name: "User",
+    },
+  ];
+
   useEffect(() => {
     if (user) {
       setImagesPreview({
@@ -82,9 +91,10 @@ const FormEditUser = React.memo(({ user }: Props) => {
       gender: user?.gender || EGender.Male,
       birthDate: user?.birthDate || "",
       website: user?.website || "",
-      avatar: null,
-      cover: null,
+      avatar: user.avatar || null,
+      cover: user.cover || null,
       bio: user.bio || "",
+      role: user.role || EUserRole.User,
     },
     async onSubmit(values, { resetForm }) {
       const formData = new FormData();
@@ -137,11 +147,6 @@ const FormEditUser = React.memo(({ user }: Props) => {
 
   return (
     <Form className={styles.formWrapper} onSubmit={form.handleSubmit}>
-      <BackLink
-        title="Edit Information"
-        customClassNameContainer={styles.backLinkContainer}
-      />
-
       {/* ====== AVATAR AND COVER ====== */}
       <Form.Group className={styles.formGroupCover}>
         <div className={styles.background}></div>
@@ -356,9 +361,24 @@ const FormEditUser = React.memo(({ user }: Props) => {
             </div>
           </Form.Group>
         </Col>
+
+        {/* ====== ROLE ====== */}
+        <Col xs={12} sm={12} md={6} lg={6}>
+          <Form.Group className={styles.formGroup}>
+            <Form.Label className={styles.formLabel}>Role</Form.Label>
+            <Dropdown
+              value={{ name: form.values.role }}
+              onChange={(e) => form.setFieldValue("role", e.value.name)}
+              options={roles}
+              optionLabel="name"
+              placeholder="Select a role"
+              className={styles.formInputRole}
+            />
+          </Form.Group>
+        </Col>
       </Row>
 
-      <div className="d-flex align-items-center justify-content-end w-100">
+      <div className="d-flex align-items-center justify-content-end w-100 mt-4">
         <button
           type="submit"
           className={`${styles.btn} ${styles.save}`}

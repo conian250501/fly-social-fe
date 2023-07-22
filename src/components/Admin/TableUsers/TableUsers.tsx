@@ -22,6 +22,7 @@ import { Form, Table } from "react-bootstrap";
 import { FiSearch } from "react-icons/fi";
 import ButtonManageRecordTable from "../ButtonManageTable/ButtonManageRecordTable";
 import styles from "./tableUsers.module.scss";
+import { Dropdown } from "primereact/dropdown";
 
 type Props = {
   typePage: ETypePageForTableUser;
@@ -75,6 +76,20 @@ const TableUsers = ({ typePage, customClassNameTableWrapper }: Props) => {
     verified: false,
   });
 
+  const dropdownFilters = [
+    {
+      name: ETypeTabUserFilter.All,
+    },
+    {
+      name: ETypeTabUserFilter.Active,
+    },
+    {
+      name: ETypeTabUserFilter.InActive,
+    },
+  ];
+
+  const [valueFilterMobile, setValueFilterMobile] = useState<string>("");
+
   const searchValue = useDebounce(filters.name);
 
   useEffect(() => {
@@ -106,7 +121,7 @@ const TableUsers = ({ typePage, customClassNameTableWrapper }: Props) => {
       <div className={styles.tabFilters}>
         {tabFilters.map((tab) => (
           <div
-            className={`${styles.tabItem} ${
+            className={`${styles.tabItem} ${styles.desktop} ${
               tabActive === tab.type ? styles.active : ""
             }`}
             key={tab.id}
@@ -131,7 +146,7 @@ const TableUsers = ({ typePage, customClassNameTableWrapper }: Props) => {
             setTabActive(ETypeTabUserFilter.Verified);
 
             setFilters({
-              limit: 2,
+              limit: 4,
               page: 1,
               status: "",
               name: "",
@@ -160,6 +175,65 @@ const TableUsers = ({ typePage, customClassNameTableWrapper }: Props) => {
           </div>
         </div>
       </div>
+
+      {/* ===== FILTERS MOBILE ======= */}
+      <div className={`${styles.tabFilters} ${styles.mobile}`}>
+        <Dropdown
+          value={{ name: valueFilterMobile }}
+          onChange={(e) => {
+            if (e.value.name === ETypeTabUserFilter.All) {
+              setValueFilterMobile(e.value.name);
+              setFilters({ ...filters, status: "", verified: false });
+              setTabActive(e.value.name);
+            } else {
+              setFilters({ ...filters, status: e.value.name, verified: false });
+              setValueFilterMobile(e.value.name);
+              setTabActive(e.value.name);
+            }
+          }}
+          options={dropdownFilters}
+          optionLabel="name"
+          placeholder="Select a Status"
+          className={styles.filtersDropdown}
+        />
+
+        <div
+          className={`${styles.tabItem} ${
+            tabActive === ETypeTabUserFilter.Verified ? styles.active : ""
+          }`}
+          onClick={() => {
+            setTabActive(ETypeTabUserFilter.Verified);
+
+            setFilters({
+              limit: 4,
+              page: 1,
+              status: "",
+              name: "",
+              verified: true,
+            });
+          }}
+        >
+          Verified
+        </div>
+        <div
+          className={`${styles.tabItem} ${
+            tabActive === ETypeTabUserFilter.Verified ? styles.active : ""
+          }`}
+        >
+          <div className={styles.inputGroup}>
+            <div className={styles.iconSearch}>
+              <FiSearch className={styles.icon} />
+            </div>
+            <Form.Control
+              value={filters.name}
+              className={styles.formInput}
+              onChange={(e) => setFilters({ ...filters, name: e.target.value })}
+              placeholder="Enter a name..."
+            />
+          </div>
+        </div>
+      </div>
+
       {loadingGetUser ? (
         <div className="d-flex align-items-center justify-content-center w-100 h-100">
           <ProgressSpinner className={styles.loading} strokeWidth="4px" />
@@ -298,7 +372,7 @@ const TableUsers = ({ typePage, customClassNameTableWrapper }: Props) => {
       )}
 
       {typePage === ETypePageForTableUser.ManageUsersPage ? (
-        <div className="d-flex align-items-center justify-content-end w-100">
+        <div className="d-flex align-items-center justify-content-end w-100 mt-4">
           <PaginationTable
             page={page}
             totalPage={totalPage}

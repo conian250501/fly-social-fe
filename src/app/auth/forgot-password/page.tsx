@@ -15,6 +15,7 @@ import { forgotPassword } from "@/features/auth/authAction";
 import ModalError from "@/components/Modal/ModalError/ModalError";
 import ModalSuccess from "@/components/Modal/ModalSuccess/ModalSuccess";
 import { useRouter } from "next/navigation";
+import { convertPrivateEmail } from "@/shared/utils/convertPrivateEmail";
 type Props = {};
 
 const Page = (props: Props) => {
@@ -129,11 +130,10 @@ const Page = (props: Props) => {
           <div className={styles.successContainer}>
             <h1 className={styles.heading}>Check your email</h1>
             <p className={styles.message}>
-              {`We have sent an email with password reset information to
-                  ${form.values.email.replace(
-                    /(\w{1})(\w+)(\w{1}@)/,
-                    "$1****$3"
-                  )}.`}
+              <>
+                We have sent an email with password reset information to
+                <strong>{convertPrivateEmail(form.values.email)}.</strong>
+              </>
             </p>
             <p className={styles.description}>
               Didn’t receive the email? Check spam or promotion folder
@@ -155,6 +155,7 @@ const Page = (props: Props) => {
             </p>
             <Form.Group className={styles.formGroup}>
               <Form.Control
+                type="email"
                 value={form.values.email}
                 onChange={form.handleChange}
                 name="email"
@@ -184,7 +185,7 @@ const Page = (props: Props) => {
       {error && (
         <ModalError
           isOpen={Boolean(error)}
-          handleClose={() => dispatch(clearError())}
+          handleClose={() => setError(null)}
           message={error.message}
         />
       )}

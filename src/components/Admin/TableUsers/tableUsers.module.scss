@@ -17,6 +17,11 @@
   strong {
     color: var(--primary-color);
   }
+
+  @include mobile {
+    font-size: 16px;
+    font-weight: 600;
+  }
 }
 .btnSeeMore {
   padding: 8px 24px;
@@ -36,6 +41,11 @@
     background-color: transparent;
     border: 2px solid var(--dark-color-900);
     transition: all 0.1s ease-out;
+  }
+
+  @include mobile {
+    font-size: 12px;
+    padding: 6px 20px;
   }
 }
 
@@ -62,6 +72,24 @@
     }
   }
 
+  &.mobile {
+    display: none;
+    @include mobile {
+      display: block;
+      width: 100%;
+    }
+  }
+
+  .filtersDropdown {
+    @extend .tabItem;
+    padding: 7px;
+    span {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--dark-color-700);
+    }
+  }
+
   @include tablet {
     flex-wrap: wrap;
     .tabItem {
@@ -71,8 +99,10 @@
 
   @include mobile {
     flex-wrap: wrap;
+    display: none;
     .tabItem {
       flex: 0 1 100%;
+      margin-top: 12px;
     }
   }
 }
