@@ -1,8 +1,13 @@
+@import "../../../styles/mixins";
+@import "../../../styles/responsive";
+
 .btnList {
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 10px;
+  @include mobile {
+  }
 }
 .btnItem {
   padding: 8px 20px;

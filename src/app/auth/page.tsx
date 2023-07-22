@@ -65,9 +65,15 @@ const Page = (props: Props) => {
           <p className={styles.description}>Join FLY now today.</p>
 
           <div className={styles.btnLoginList}>
-            <Google setLoadingLoginLibrary={setLoadingLoginLibrary} />
+            <Google
+              typePage="User"
+              setLoadingLoginLibrary={setLoadingLoginLibrary}
+            />
             <Facebook setLoadingLoginLibrary={setLoadingLoginLibrary} />
-            <Github setLoadingLoginLibrary={setLoadingLoginLibrary} />
+            <Github
+              typePage="User"
+              setLoadingLoginLibrary={setLoadingLoginLibrary}
+            />
 
             <button
               className={`${styles.btnAccount} ${styles.login}`}

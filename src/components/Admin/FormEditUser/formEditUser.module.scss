@@ -7,6 +7,12 @@
   position: relative;
   overflow: hidden;
   cursor: pointer;
+  @include tablet {
+    height: 250px;
+  }
+  @include mobile {
+    height: 140px;
+  }
   &:hover {
     .background {
       opacity: 1;
@@ -25,7 +31,7 @@
   .coverPreview {
     width: 100%;
     height: 100%;
-    object-fit: contain;
+    object-fit: cover;
     transition: all 0.2s linear;
     border: 1px solid var(--border-color-weight);
     border-top-left-radius: 10px;
@@ -76,6 +82,12 @@
   height: 80px;
   position: relative;
   cursor: pointer;
+  @include tablet {
+  }
+
+  @include mobile {
+    height: 60px;
+  }
   &:hover {
     .background {
       opacity: 1;
@@ -101,6 +113,16 @@
     border-radius: 100rem;
     z-index: 4;
     overflow: hidden;
+    @include tablet {
+      width: 140px;
+      height: 140px;
+    }
+
+    @include mobile {
+      top: -50px;
+      width: 100px;
+      height: 100px;
+    }
   }
   .background {
     height: 100%;

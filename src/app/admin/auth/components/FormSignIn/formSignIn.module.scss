@@ -221,3 +221,17 @@
     }
   }
 }
+
+.textOr {
+  text-align: center;
+  margin: 16px 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--dark-color-700);
+}
+.btnGoogle,
+.btnGithub {
+  margin-bottom: 12px;
+  border-radius: 10px;
+  padding: 14px;
+}

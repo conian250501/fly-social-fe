@@ -5,11 +5,18 @@ import { useGoogleLogin } from "@react-oauth/google";
 import { useRouter } from "next/navigation";
 import React from "react";
 import styles from "./google.module.scss";
+import { PATHS } from "@/contanst/paths";
 type Props = {
   setLoadingLoginLibrary: React.Dispatch<React.SetStateAction<boolean>>;
+  customBtnClassName?: string;
+  typePage: "User" | "Admin";
 };
 
-const Google = ({ setLoadingLoginLibrary }: Props) => {
+const Google = ({
+  setLoadingLoginLibrary,
+  customBtnClassName,
+  typePage,
+}: Props) => {
   const dispatch = useAppDispatch();
   const router = useRouter();
 
@@ -24,7 +31,12 @@ const Google = ({ setLoadingLoginLibrary }: Props) => {
         const user: any = await dispatch(loginByGoogle(accessToken)).unwrap();
 
         localStorage.setItem("token", user.token);
-        router.replace("/");
+
+        if (typePage === "User") {
+          router.replace(PATHS.Home);
+        } else {
+          router.replace(PATHS.AdminDashboard);
+        }
       } catch (error) {
         setLoadingLoginLibrary(false);
         dispatch(setError(error));
@@ -35,7 +47,7 @@ const Google = ({ setLoadingLoginLibrary }: Props) => {
   return (
     <button
       type="button"
-      className={styles.buttonGoogle}
+      className={`${styles.buttonGoogle} ${customBtnClassName}`}
       onClick={() => handleLoginGoogle()}
     >
       <div className={styles.icon}>

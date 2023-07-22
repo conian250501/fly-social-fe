@@ -71,8 +71,13 @@ const UserDetail = ({ user }: Props) => {
           )}
         </div>
         <div className={styles.info}>
-          <div className="d-flex align-items-center justify-content-between">
-            <h1 className={styles.name}>{user.name}</h1>
+          <div className="d-flex align-items-start align-items-md-center align-items-lg-center justify-content-between flex-column flex-md-row flex-lg-row">
+            <div>
+              <h1 className={styles.name}>{user.name}</h1>
+              <p className={styles.nickname}>
+                {user.nickname ? `@${user.nickname}` : "N/A"}
+              </p>
+            </div>
             <ButtonsManage
               type="User"
               user={user}
@@ -80,9 +85,6 @@ const UserDetail = ({ user }: Props) => {
               link={`${PATHS.AdminManageUserEdit}/${user.id}`}
             />
           </div>
-          <p className={styles.nickname}>
-            {user.nickname ? `@${user.nickname}` : "N/A"}
-          </p>
 
           {/*====== INFORMATION DETAIL =======  */}
           <Row className={`${styles.detailList} g-4`}>
@@ -135,7 +137,7 @@ const UserDetail = ({ user }: Props) => {
       {/* ====== INFORMATION MORE ====== */}
       <Row className={`g-4 ${styles.infoMoreList}`}>
         {infoMoreList.map((item) => (
-          <Col key={item.id} xs={12} sm={12} md={6} lg={3}>
+          <Col key={item.id} xs={6} sm={6} md={6} lg={3}>
             <div className={styles.infoMoreItem}>
               <div className={styles.iconWrapper}>{item.icon}</div>
               <div className={styles.content}>

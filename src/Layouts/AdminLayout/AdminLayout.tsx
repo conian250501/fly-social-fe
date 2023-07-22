@@ -47,7 +47,7 @@ const AdminLayout = ({ children }: Props) => {
   }
 
   if (user?.role !== EUserRole.Admin) {
-    router.push("/404");
+    router.push(PATHS.AdminAuth);
   }
 
   return (

@@ -69,75 +69,83 @@ const FormSignIn = (props: Props) => {
   });
   return (
     <div className={styles.formWrapper}>
-      <Form className={styles.formAdminLogin} onSubmit={form.handleSubmit}>
-        <div className={styles.logo}>
-          <Image src="/images/logo-app.png" alt="" fill />
-        </div>
-        <h1 className={styles.appName}>Fly social</h1>
-        <Form.Group className={styles.formGroup}>
-          <Form.Label className={styles.formLabel}>Email</Form.Label>
-          <Form.Control
-            value={form.values.email}
-            onChange={form.handleChange}
-            name="email"
-            placeholder="example@gmail.com"
-            className={styles.formInput}
-          />
-        </Form.Group>
-
-        <Form.Group className={styles.formGroup}>
-          <Form.Label className={styles.formLabel}>Password</Form.Label>
-          <div className={styles.inputGroup}>
-            <Form.Control
-              type={showPassword ? "text" : "password"}
-              value={form.values.password}
-              onChange={form.handleChange}
-              name="password"
-              placeholder="********"
-              className={`${styles.formInput} ${styles.password}`}
-            />
-            {showPassword ? (
-              <AiOutlineEye
-                onClick={() => setShowPassword(false)}
-                className={styles.iconPwd}
-              />
-            ) : (
-              <AiOutlineEyeInvisible
-                onClick={() => setShowPassword(true)}
-                className={styles.iconPwd}
-              />
-            )}
+      <div className={styles.formAdminLogin}>
+        <Form onSubmit={form.handleSubmit}>
+          <div className={styles.logo}>
+            <Image src="/images/logo-app.png" alt="" fill />
           </div>
-        </Form.Group>
-        <div className="d-flex align-items-center justify-content-between mt-3">
-          <Form.Check
-            label="Remember me"
-            className={styles.formCheckRemember}
-          />
-          <Link href={PATHS.ForgotPassword} className={styles.forgotLink}>
-            Forgot password?
-          </Link>
-        </div>
+          <h1 className={styles.appName}>Fly social</h1>
+          <Form.Group className={styles.formGroup}>
+            <Form.Label className={styles.formLabel}>Email</Form.Label>
+            <Form.Control
+              value={form.values.email}
+              onChange={form.handleChange}
+              name="email"
+              placeholder="example@gmail.com"
+              className={styles.formInput}
+            />
+          </Form.Group>
 
-        <button
-          type="submit"
-          className={styles.btnSubmit}
-          disabled={loadingSubmit}
-        >
-          {loadingSubmit ? (
-            <AiOutlineLoading className={styles.iconLoading} />
-          ) : (
-            "Sign In"
-          )}
-        </button>
-        <div className="textOr">Or</div>
+          <Form.Group className={styles.formGroup}>
+            <Form.Label className={styles.formLabel}>Password</Form.Label>
+            <div className={styles.inputGroup}>
+              <Form.Control
+                type={showPassword ? "text" : "password"}
+                value={form.values.password}
+                onChange={form.handleChange}
+                name="password"
+                placeholder="********"
+                className={`${styles.formInput} ${styles.password}`}
+              />
+              {showPassword ? (
+                <AiOutlineEye
+                  onClick={() => setShowPassword(false)}
+                  className={styles.iconPwd}
+                />
+              ) : (
+                <AiOutlineEyeInvisible
+                  onClick={() => setShowPassword(true)}
+                  className={styles.iconPwd}
+                />
+              )}
+            </div>
+          </Form.Group>
+          <div className="d-flex align-items-center justify-content-between mt-3">
+            <Form.Check
+              label="Remember me"
+              className={styles.formCheckRemember}
+            />
+            <Link href={PATHS.ForgotPassword} className={styles.forgotLink}>
+              Forgot password?
+            </Link>
+          </div>
 
-        <Google setLoadingLoginLibrary={setLoadingSubmit} />
+          <button
+            type="submit"
+            className={styles.btnSubmit}
+            disabled={loadingSubmit}
+          >
+            {loadingSubmit ? (
+              <AiOutlineLoading className={styles.iconLoading} />
+            ) : (
+              "Sign In"
+            )}
+          </button>
+        </Form>
+        <div className={styles.textOr}>Or</div>
 
-        <Facebook setLoadingLoginLibrary={setLoadingSubmit} />
+        <Google
+          typePage="Admin"
+          setLoadingLoginLibrary={setLoadingSubmit}
+          customBtnClassName={styles.btnGoogle}
+        />
 
-        <Github setLoadingLoginLibrary={setLoadingSubmit} />
-      </Form>
+        <Github
+          typePage="Admin"
+          setLoadingLoginLibrary={setLoadingSubmit}
+          customBtnClassName={styles.btnGithub}
+        />
+      </div>
 
       {error && <ToastError error={error} onClose={() => setError(null)} />}
     </div>

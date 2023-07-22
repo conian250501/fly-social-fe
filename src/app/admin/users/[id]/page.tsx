@@ -32,7 +32,11 @@ const Page = ({ params }: Props) => {
   }, []);
 
   if (loading) {
-    return <ProgressSpinner className={styles.loading} strokeWidth="4" />;
+    return (
+      <div className="d-flex align-items-center justify-content-center w-100 ">
+        <ProgressSpinner className={styles.loading} strokeWidth="3" />
+      </div>
+    );
   }
 
   if (!user && !loading) {

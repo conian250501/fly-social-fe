@@ -225,7 +225,6 @@ const Page = (props: Props) => {
             message={"Password successfully updated."}
             handleClose={() => {
               setIsChangeSuccess(false);
-              router.replace(PATHS.Auth);
             }}
           />
         </div>
