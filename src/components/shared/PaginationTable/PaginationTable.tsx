@@ -3,6 +3,7 @@ import styles from "./paginationTable.module.scss";
 import { ETypePageForPagination } from "@/components/interfaces";
 import { useAppDispatch } from "@/redux/hooks";
 import { getAllUsers } from "@/features/admin/user/userAction";
+import { getAllTweets } from "@/features/admin/tweet/tweetAction";
 type Props = {
   page: number;
   totalPage: number;
@@ -17,7 +18,9 @@ const PaginationTable = ({ typePage, page, totalPage }: Props) => {
       case ETypePageForPagination.AdminManageUsers:
         await dispatch(getAllUsers({ page: page - 1 })).unwrap();
         break;
-      case ETypePageForPagination.AdminManageUsers:
+      case ETypePageForPagination.AdminManageTweets:
+        await dispatch(getAllTweets({ page: page - 1 })).unwrap();
+
         break;
       default:
         break;
@@ -29,7 +32,8 @@ const PaginationTable = ({ typePage, page, totalPage }: Props) => {
       case ETypePageForPagination.AdminManageUsers:
         await dispatch(getAllUsers({ page: page + 1 })).unwrap();
         break;
-      case ETypePageForPagination.AdminManageUsers:
+      case ETypePageForPagination.AdminManageTweets:
+        await dispatch(getAllTweets({ page: page + 1 })).unwrap();
         break;
       default:
         break;
