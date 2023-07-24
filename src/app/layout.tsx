@@ -10,6 +10,8 @@ import "primereact/resources/primereact.min.css";
 import "primeicons/primeicons.css";
 import "react-phone-input-2/lib/style.css";
 import { GoogleOAuthProvider } from "@react-oauth/google";
+import { useEffect } from "react";
+import { EUserRole } from "@/features/interface";
 
 const montserrat = Montserrat({
   weight: ["300", "400", "500", "600", "700", "800"],

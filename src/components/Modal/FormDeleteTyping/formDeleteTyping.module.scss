@@ -1,0 +1,95 @@
+.modalContent {
+  padding: 24px !important;
+  border-radius: 20px !important;
+}
+.form {
+  position: relative;
+  padding-top: 24px;
+  .iconClose {
+    position: absolute;
+    right: 0;
+    top: 0;
+    cursor: pointer;
+    &:hover {
+      .icon {
+        color: var(--error-color);
+      }
+    }
+    .icon {
+      font-size: 20px;
+    }
+  }
+  .title {
+    font-size: 24px;
+    font-weight: 600;
+    color: var(--dark-color-900);
+  }
+  .description {
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--dark-color-700);
+    width: 80%;
+    margin-bottom: 0;
+  }
+  .lineDivide {
+    width: 30%;
+    height: 1px;
+    background-color: var(--border-color-weight);
+    margin: 24px 0;
+  }
+  .script {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--dark-color-900);
+    font-style: italic;
+    margin-bottom: 10px;
+    span {
+      font-weight: 600;
+      font-style: normal;
+      text-transform: uppercase;
+    }
+  }
+  .formInput {
+    padding: 14px 16px;
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--dark-color-700);
+    border: 1px solid var(--border-color-light);
+    border-radius: 10px;
+    &:focus {
+      border: 2px solid var(--primary-color);
+      box-shadow: none;
+    }
+  }
+
+  .btnList {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 12px;
+    margin-top: 14px;
+  }
+  .btnItem {
+    padding: 8px 16px;
+    font-size: 14px;
+    font-weight: 600;
+    border-radius: 10px;
+    box-shadow: var(--shadow-btn-pagination);
+    background-color: transparent;
+    border: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--dark-color-900);
+    &.delete {
+      color: var(--dark-color-900);
+    }
+    &.disabled {
+      background-color: var(--border-color-light);
+    }
+  }
+  .iconLoading {
+    width: 24px;
+    height: 24px;
+  }
+}

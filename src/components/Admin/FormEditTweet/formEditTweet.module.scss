@@ -1,0 +1,131 @@
+@import "../../../styles/mixins";
+@import "../../../styles/responsive";
+
+.noneDataTitle {
+  text-align: center !important;
+  width: 100%;
+}
+
+.form {
+  width: 50%;
+  @include tablet {
+    width: 100%;
+  }
+
+  @include mobile {
+    width: 100%;
+  }
+  .filePreviewPlaceholder {
+    width: 100%;
+    height: 300px;
+    background-color: var(--border-color-light);
+    border-radius: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--error-color);
+  }
+  .filePreview {
+    img {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      object-fit: cover;
+      border-radius: 20px;
+    }
+  }
+  .fileLabel {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    border-radius: 10px;
+    padding: 14px 16px;
+    border: 1px solid var(--dark-color-900);
+    background-color: var(--white-color);
+    margin-top: 12px;
+    margin-bottom: 16px;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--dark-color-800);
+    cursor: pointer;
+    transition: all 0.2s linear;
+
+    &:hover {
+      background-color: var(--dark-color-900);
+      color: var(--white-color);
+      transition: all 0.2s linear;
+    }
+    .icon {
+      font-size: 24px;
+    }
+
+    @include mobile {
+      padding: 12px 14px;
+      font-size: 14px;
+      .icon {
+        font-size: 20px;
+      }
+    }
+  }
+  .formInput {
+    padding: 14px 16px;
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--dark-color-900);
+    border: 1px solid var(--border-color-light);
+    border-radius: 10px;
+    height: 240px;
+    &:focus {
+      border: 2px solid var(--primary-color);
+      box-shadow: none;
+    }
+
+    @include mobile {
+      font-size: 14px;
+      height: 180px;
+    }
+  }
+
+  .btnList {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 12px;
+    margin-top: 14px;
+  }
+  .btnItem {
+    padding: 8px 16px;
+    font-size: 14px;
+    font-weight: 600;
+    border-radius: 10px;
+    box-shadow: var(--shadow-btn-pagination);
+    background-color: transparent;
+    border: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--dark-color-900);
+    transition: all 0.2s linear;
+
+    &.cancel {
+      &:hover {
+        background-color: var(--error-color);
+        color: var(--white-color);
+        transition: all 0.2s linear;
+      }
+    }
+    &.save {
+      background-color: var(--primary-color);
+      color: var(--white-color);
+    }
+    &.disabled {
+      background-color: var(--border-color-light);
+    }
+  }
+  .iconLoading {
+    width: 24px;
+    height: 24px;
+  }
+}

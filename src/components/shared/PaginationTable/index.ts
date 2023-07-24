@@ -1,1 +1,1 @@
-export { default } from "./paginationTable.module.scss";
+export { default } from "./PaginationTable";

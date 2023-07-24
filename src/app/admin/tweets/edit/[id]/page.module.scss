@@ -1,0 +1,19 @@
+@import "../../../../../styles/responsive";
+@import "../../../../../styles/mixins";
+
+.backLink {
+  background-color: transparent;
+  padding-left: 0;
+  margin-top: 0;
+  margin-bottom: 12px;
+  @include mobile {
+    margin-top: 0;
+    margin-bottom: 16px;
+    padding-top: 0;
+  }
+}
+
+.loading {
+  width: 40px;
+  height: 40px;
+}

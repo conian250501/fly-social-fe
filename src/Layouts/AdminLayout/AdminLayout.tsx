@@ -8,6 +8,7 @@ import { RootState } from "@/redux/store";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import styles from "./adminLayout.module.scss";
+import NoneData from "@/components/shared/NoneData/NoneData";
 type Props = {
   children: React.ReactNode;
 };
@@ -18,6 +19,10 @@ const AdminLayout = ({ children }: Props) => {
   const { user } = useAppSelector((state: RootState) => state.auth);
 
   const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    document.body.style.background = "rgba(0, 0, 0, 0.06)";
+  }, []);
 
   useEffect(() => {
     async function fetchUser() {
@@ -36,7 +41,7 @@ const AdminLayout = ({ children }: Props) => {
     if (user && user.role !== EUserRole.Admin) {
       localStorage.removeItem("token");
     }
-  }, [user]);
+  }, []);
 
   if (loading) {
     return (
@@ -47,7 +52,7 @@ const AdminLayout = ({ children }: Props) => {
   }
 
   if (user?.role !== EUserRole.Admin) {
-    router.push(PATHS.AdminAuth);
+    return <NoneData title="You doesn't permission for this page" />;
   }
 
   return (

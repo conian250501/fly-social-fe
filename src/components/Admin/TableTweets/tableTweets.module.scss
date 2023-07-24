@@ -74,9 +74,14 @@
     font-size: 14px;
     font-weight: 600;
     color: var(--dark-color-700);
+    width: 100px;
+    aspect-ratio: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     img {
-      width: 100px;
-      aspect-ratio: 1;
+      height: 100%;
+      width: 100%;
       object-fit: cover;
     }
   }
@@ -84,6 +89,12 @@
     font-size: 16px;
     font-weight: 600;
     color: var(--dark-color-700);
+  }
+  .btnList {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 14px;
   }
   .btnDelete {
     padding: 8px 16px;
@@ -100,4 +111,91 @@
       transition: all 0.1s ease-out;
     }
   }
+}
+
+.author {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 12px;
+  .avatar {
+    position: relative;
+    width: 60px;
+    height: 60px;
+    img {
+      width: 60px;
+      height: 60px;
+      border-radius: 100rem;
+      object-fit: cover;
+    }
+    .iconVerified {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      width: 18px;
+      height: 18px;
+    }
+  }
+  .info {
+    flex: 1;
+  }
+  .role {
+    padding: 4px 6px;
+    border-radius: 4px;
+    font-size: 6px;
+    font-weight: 700;
+    color: var(--dark-color-900);
+    box-shadow: var(--shadow-btn-pagination);
+    &.admin {
+      background-color: var(--primary-color);
+      color: var(--white-color);
+    }
+    &.user {
+      background-color: var(--border-color-light);
+      color: var(--dark-color-900);
+    }
+  }
+  .name {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--dark-color-900);
+    margin-bottom: 0;
+    white-space: nowrap;
+  }
+  .btnLinkList {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 10px;
+  }
+  .btnLink {
+    padding: 6px 12px;
+    box-shadow: var(--shadow-btn-pagination);
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--dark-color-900);
+    text-decoration: none;
+    border-radius: 6px;
+    transition: all 0.2s linear;
+
+    &.detail {
+      &:hover {
+        background-color: var(--dark-color-900);
+        color: var(--white-color);
+        transition: all 0.2s linear;
+      }
+    }
+
+    &.edit {
+      &:hover {
+        background-color: var(--primary-color);
+        color: var(--white-color);
+        transition: all 0.2s linear;
+      }
+    }
+  }
+}
+.loading {
+  width: 40px;
+  height: 40px;
 }
