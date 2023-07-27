@@ -6,3 +6,4 @@ export * from "./comment.interface";
 export * from "./storageTweet.interface";
 export * from "./filter.interface";
 export * from "./user.interface";
+export * from "./conversation.interface";

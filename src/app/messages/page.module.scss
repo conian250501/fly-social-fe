@@ -1,0 +1,13 @@
+@import "../../styles/mixins";
+@import "../../styles/responsive";
+
+.messagePage {
+  width: 90%;
+
+  @include desktop {
+    width: 100%;
+  }
+  @include tablet {
+    width: 100%;
+  }
+}

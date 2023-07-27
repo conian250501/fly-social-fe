@@ -80,6 +80,9 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  @include desktop {
+    aspect-ratio: 1;
+  }
   @include tablet {
     aspect-ratio: 1;
   }
@@ -90,9 +93,16 @@
       display: block;
       font-size: 24px;
     }
+    @include desktop {
+      display: block;
+      font-size: 24px;
+    }
   }
   span {
     @include tablet {
+      display: none;
+    }
+    @include desktop {
       display: none;
     }
   }
@@ -369,6 +379,52 @@
         font-size: 16px;
         font-weight: 600;
       }
+    }
+  }
+}
+
+@include desktop {
+  .header {
+    width: fit-content;
+  }
+  .appName {
+    display: none;
+  }
+  .menuList {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: column;
+    height: 100%;
+  }
+  .logoWrapper,
+  .menuItem {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .menuItemLink {
+    position: relative;
+    padding: 0;
+    width: 50px;
+    aspect-ratio: 1;
+    border-radius: 100rem;
+    justify-content: center;
+    .title {
+      display: none;
+    }
+  }
+
+  .userInfo {
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: fit-content;
+    padding: 8px;
+    .content,
+    .iconDot {
+      display: none;
     }
   }
 }

@@ -7,6 +7,7 @@ import tweetReducer from "@/features/tweet/tweetSlice";
 import userReducer from "@/features/user/userSlice";
 import userAdminReducer from "@/features/admin/user/userSlice";
 import adminTweetReducer from "@/features/admin/tweet/tweetSlice";
+import conversationReducer from "@/features/conversation/conversationSlice";
 
 const rootReducer = combineReducers({
   auth: authReducer,
@@ -15,6 +16,7 @@ const rootReducer = combineReducers({
   storage: storageTweetReducer,
   user: userReducer,
   follow: followReducer,
+  conversation: conversationReducer,
 
   // ADMIN
   adminUser: userAdminReducer,

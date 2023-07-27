@@ -6,6 +6,9 @@
 
 .children {
   margin-left: 300px;
+  @include desktop {
+    margin-left: 81px;
+  }
   @include tablet {
     margin-left: 81px;
   }
