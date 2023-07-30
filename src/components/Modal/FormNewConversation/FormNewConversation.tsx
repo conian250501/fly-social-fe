@@ -57,7 +57,7 @@ const FormNewConversation = React.memo(({ isOpen, handleClose }: Props) => {
     } catch (error) {
       setLoading(false);
     }
-  }, []);
+  }, [debounceValue]);
 
   useEffect(() => {
     if (currentUser) {
