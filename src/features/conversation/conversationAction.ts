@@ -25,3 +25,21 @@ export const getAllConversation = createAsyncThunk(
     }
   }
 );
+
+export const newConversation = createAsyncThunk(
+  "conversation/new",
+  async (
+    { participantIds }: { participantIds: number[] },
+    { rejectWithValue }
+  ) => {
+    try {
+      const { data } = await axiosConfig.post(`/conversations/`, {
+        participantIds,
+      });
+      return data.data;
+    } catch (error) {
+      const err = error as AxiosError;
+      return rejectWithValue(err.response?.data);
+    }
+  }
+);

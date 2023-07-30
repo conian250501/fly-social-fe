@@ -11,7 +11,6 @@ type Props = {
 };
 
 const PaginationTable = ({ typePage, page, totalPage }: Props) => {
-  console.log({ page, totalPage });
   const dispatch = useAppDispatch();
   const handlePrev = async () => {
     switch (typePage) {

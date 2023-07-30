@@ -7,6 +7,7 @@ export interface IInitialState {
   user: IUser | null;
   page: number;
   totalPage: number;
+  archiveSuccess: boolean;
 }
 
 const initialState: IInitialState = {
@@ -14,12 +15,20 @@ const initialState: IInitialState = {
   users: [],
   page: 0,
   totalPage: 0,
+  archiveSuccess: false,
 };
 
 const userSlice = createSlice({
   name: "admin-user",
   initialState,
-  reducers: {},
+  reducers: {
+    archiveUserSuccess: (state) => {
+      state.archiveSuccess = true;
+    },
+    clearArchiveUserSuccess: (state) => {
+      state.archiveSuccess = false;
+    },
+  },
   extraReducers(builder) {
     builder.addCase(
       getUserById.fulfilled,
@@ -44,5 +53,8 @@ const userSlice = createSlice({
     );
   },
 });
+
+export const { archiveUserSuccess, clearArchiveUserSuccess } =
+  userSlice.actions;
 
 export default userSlice.reducer;

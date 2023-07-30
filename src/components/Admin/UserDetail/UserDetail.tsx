@@ -62,7 +62,7 @@ const UserDetail = ({ user }: Props) => {
             alt=""
             className={styles.avatarImg}
           />
-          {!user.verified && (
+          {user.verified && (
             <img
               src="/icons/twitter-verified-badge.svg"
               alt=""

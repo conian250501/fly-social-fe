@@ -20,6 +20,8 @@ import {
 import { archiveTweet } from "@/features/tweet/tweetAction";
 import { useRouter } from "next/navigation";
 import { PATHS } from "@/contanst/paths";
+import ModalSuccess from "@/components/Modal/ModalSuccess/ModalSuccess";
+import { archiveUserSuccess } from "@/features/admin/user/userSlice";
 type Props = {
   link: string;
   user: IUser | null;
@@ -45,15 +47,16 @@ const ButtonsManage = React.memo(({ link, user, tweet, type }: Props) => {
         case "User":
           await dispatch(archiveUser(Number(user?.id))).unwrap();
           router.push(PATHS.AdminManageUsers);
+          dispatch(archiveUserSuccess());
           break;
         case "Tweet":
           await dispatch(archiveTweet(Number(tweet?.id))).unwrap();
           router.push(PATHS.AdminManageTweets);
+          dispatch(archiveUserSuccess());
           break;
         default:
           break;
       }
-      setLoadingDelete(false);
     } catch (error) {
       setLoadingDelete(false);
     }

@@ -40,7 +40,12 @@ const Page = ({ params }: Props) => {
   }
 
   if (!user && !loading) {
-    return <NoneData title="User doesn't exist?" />;
+    return (
+      <NoneData
+        title="User doesn't exist?"
+        customClassNameTitle={styles.noneDataTitle}
+      />
+    );
   }
 
   return (

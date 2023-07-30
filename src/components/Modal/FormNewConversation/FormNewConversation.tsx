@@ -1,69 +1,67 @@
+/* eslint-disable react/display-name */
 import Loading from "@/components/Loading";
 import ModalError from "@/components/Modal/ModalError";
-import { PATHS } from "@/contanst/paths";
+import FormSearchUser from "@/components/UserConnectList/components/FormSearchUser/FormSearchUser";
+import { newConversation } from "@/features/conversation/conversationAction";
 import { IError, IUser } from "@/features/interface";
-import { getAllUserDontFollowing } from "@/features/user/userAction";
+import {
+  getAllUserDontFollowing,
+  getAllUsers,
+} from "@/features/user/userAction";
 import { useDebounce } from "@/hooks/useDebounce";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { RootState } from "@/redux/store";
-import Link from "next/link";
+import React, { useCallback, useEffect, useState } from "react";
 import { Modal } from "react-bootstrap";
 import { AiOutlineLoading } from "react-icons/ai";
+import { BsCheckLg } from "react-icons/bs";
 import { CgClose } from "react-icons/cg";
-import styles from "./userListMessage.module.scss";
-import { useEffect, useState } from "react";
-import FormSearchUser from "@/components/UserConnectList/components/FormSearchUser/FormSearchUser";
+import styles from "./formNewConversation.module.scss";
 
 type Props = {
   isOpen: boolean;
   handleClose: () => void;
-  handleAddNewConversation: () => void;
 };
 
-const UserListMessage = ({
-  isOpen,
-  handleClose,
-  handleAddNewConversation,
-}: Props) => {
+const FormNewConversation = React.memo(({ isOpen, handleClose }: Props) => {
   const dispatch = useAppDispatch();
   const { user: currentUser } = useAppSelector(
     (state: RootState) => state.auth
-  );
-  const { page: page, totalPage } = useAppSelector(
-    (state: RootState) => state.user
   );
 
   const [users, setUsers] = useState<IUser[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [loadingLoadMore, setLoadingLoadMore] = useState<boolean>(false);
   const [lastPage, setLastPage] = useState<boolean>(false);
+  const [page, setPage] = useState<number>(0);
+  const [totalPage, setTotalPage] = useState<number>(0);
   const [error, setError] = useState<IError | null>(null);
   const [searchValue, setSearchValue] = useState<string>("");
+  const [participantsActive, setParticipantsActive] = useState<IUser[]>([]);
 
   const debounceValue = useDebounce(searchValue, 500);
 
-  useEffect(() => {
-    async function getData() {
-      try {
-        setLoading(true);
+  const handleGetAllUsers = useCallback(async () => {
+    try {
+      setLoading(true);
 
-        const res = await dispatch(
-          getAllUserDontFollowing({
-            userId: Number(currentUser?.id),
-            filter: { page: 1, limit: 4, name: searchValue },
-          })
-        ).unwrap();
+      const res = await dispatch(
+        getAllUsers({ page: 1, limit: 4, name: searchValue })
+      ).unwrap();
 
-        setUsers(res.users);
+      setUsers(res.users);
+      setPage(res.page);
+      setTotalPage(res.totalPage);
 
-        setLoading(false);
-      } catch (error) {
-        setLoading(false);
-      }
+      setLoading(false);
+    } catch (error) {
+      setLoading(false);
     }
+  }, []);
 
+  useEffect(() => {
     if (currentUser) {
-      getData();
+      handleGetAllUsers();
       setLastPage(false);
     }
   }, [debounceValue]);
@@ -77,11 +75,10 @@ const UserListMessage = ({
   const handleLoadMore = async () => {
     try {
       setLoadingLoadMore(true);
+      setPage(page + 1);
+
       const res = await dispatch(
-        getAllUserDontFollowing({
-          userId: Number(currentUser?.id),
-          filter: { page: Number(page) + 1, limit: 4 },
-        })
+        getAllUsers({ page: Number(page) + 1, limit: 4, name: searchValue })
       ).unwrap();
 
       setUsers([...users, ...res.users]);
@@ -89,6 +86,28 @@ const UserListMessage = ({
     } catch (error) {
       setLoadingLoadMore(false);
     }
+  };
+
+  const handleAddNewConversation = async () => {
+    try {
+      const participantIds = participantsActive.map((item) => item.id);
+      await dispatch(
+        newConversation({
+          participantIds: participantIds,
+        })
+      ).unwrap();
+    } catch (error) {
+      setError(error as IError);
+    }
+  };
+
+  const handleSelectParticipant = (user: IUser) => {
+    setParticipantsActive([...participantsActive, user]);
+  };
+  const handleRemoveParticipant = (user: IUser) => {
+    setParticipantsActive(
+      [...participantsActive].filter((item) => item.id !== user.id)
+    );
   };
   return (
     <Modal
@@ -107,8 +126,11 @@ const UserListMessage = ({
         </div>
         <button
           type="button"
-          className={styles.btnNext}
+          className={`${styles.btnNext} ${
+            participantsActive.length <= 0 ? styles.disabled : ""
+          }`}
           onClick={handleAddNewConversation}
+          disabled={participantsActive.length <= 0}
         >
           Next
         </button>
@@ -119,6 +141,33 @@ const UserListMessage = ({
           searchValue={searchValue}
           setSearchValue={setSearchValue}
         />
+
+        <ul className={styles.participantList}>
+          {participantsActive.map((item) => (
+            <li key={item.id} className={styles.participantItem}>
+              <div className="d-flex align-items-center justify-content-start gap-2">
+                <div className={styles.avatar}>
+                  <img
+                    src={
+                      item.avatar
+                        ? item.avatar
+                        : "/images/avatar-placeholder.png"
+                    }
+                    alt=""
+                  />
+                </div>
+                <div className={styles.name}>{item.name}</div>
+              </div>
+              <div
+                className={styles.iconRemoveParticipant}
+                onClick={() => handleRemoveParticipant(item)}
+              >
+                <CgClose className={styles.icon} />
+              </div>
+            </li>
+          ))}
+        </ul>
+
         {loading ? (
           <div className="d-flex align-items-center justify-content-center w-100 mt-4 pb-4">
             <Loading />
@@ -134,7 +183,20 @@ const UserListMessage = ({
               </div>
             ) : (
               users.map((user) => (
-                <div role="button" className={styles.userItem} key={user.id}>
+                <div
+                  role="button"
+                  className={`${styles.userItem} ${
+                    participantsActive.includes(user) ? styles.active : ""
+                  }`}
+                  key={user.id}
+                  onClick={() => {
+                    if (participantsActive.includes(user)) {
+                      handleRemoveParticipant(user);
+                    } else {
+                      handleSelectParticipant(user);
+                    }
+                  }}
+                >
                   <div className="d-flex align-items-center justify-content-start gap-3 text-decoration-none">
                     <div className="position-relative">
                       <img
@@ -164,6 +226,11 @@ const UserListMessage = ({
                       {user.bio && <p className={styles.bio}>{user.bio}</p>}
                     </div>
                   </div>
+                  {participantsActive.includes(user) && (
+                    <div className={styles.iconCheck}>
+                      <BsCheckLg className={styles.icon} />
+                    </div>
+                  )}
                 </div>
               ))
             )}
@@ -194,6 +261,6 @@ const UserListMessage = ({
       )}
     </Modal>
   );
-};
+});
 
-export default UserListMessage;
+export default FormNewConversation;

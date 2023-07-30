@@ -1,1 +1,1 @@
-export { default } from "./userRole.module.scss";
+export { default } from "./UserRole";

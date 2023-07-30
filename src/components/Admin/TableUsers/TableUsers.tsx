@@ -1,12 +1,12 @@
-import UserRole from "@/components/Admin/Badges/UserRole/UserRole";
-import UserStatus from "@/components/Admin/Badges/UserStatus/UserStatus";
+import UserRole from "@/components/Admin/Badges/UserRole";
+import UserStatus from "@/components/Admin/Badges/UserStatus";
 import {
   ETypePageForTableUser,
   ETypeTabUserFilter,
 } from "@/components/Admin/interface";
 import { ETypePageForPagination } from "@/components/interfaces";
 import NoneData from "@/components/shared/NoneData/NoneData";
-import PaginationTable from "@/components/shared/PaginationTable/PaginationTable";
+import PaginationTable from "@/components/shared/PaginationTable";
 import { PATHS } from "@/contanst/paths";
 import { getAllUsers } from "@/features/admin/user/userAction";
 import { EUserStatus, IUser } from "@/features/interface";
@@ -20,9 +20,11 @@ import { ProgressSpinner } from "primereact/progressspinner";
 import { useEffect, useState } from "react";
 import { Form, Table } from "react-bootstrap";
 import { FiSearch } from "react-icons/fi";
-import ButtonManageRecordTable from "../ButtonManageTable/ButtonManageRecordTable";
+import ButtonManageRecordTable from "../ButtonManageTable";
 import styles from "./tableUsers.module.scss";
 import { Dropdown } from "primereact/dropdown";
+import ModalSuccess from "@/components/Modal/ModalSuccess";
+import { clearArchiveUserSuccess } from "@/features/admin/user/userSlice";
 
 type Props = {
   typePage: ETypePageForTableUser;
@@ -35,9 +37,12 @@ const TableUsers = ({ typePage, customClassNameTableWrapper }: Props) => {
     (state: RootState) => state.adminUser
   );
   const { user } = useAppSelector((state: RootState) => state.auth);
+  const { users, archiveSuccess } = useAppSelector(
+    (state: RootState) => state.adminUser
+  );
 
   const [loadingGetUser, setLoadingGetUsers] = useState<boolean>(false);
-  const [users, setUsers] = useState<IUser[]>([]);
+
   const [tabFilters, setTabFilters] = useState<
     { id: string; type: ETypeTabUserFilter; status: EUserStatus | string }[]
   >([
@@ -96,8 +101,7 @@ const TableUsers = ({ typePage, customClassNameTableWrapper }: Props) => {
     async function getData() {
       try {
         setLoadingGetUsers(true);
-        const res = await dispatch(getAllUsers(filters)).unwrap();
-        setUsers(res.users);
+        await dispatch(getAllUsers(filters)).unwrap();
         setLoadingGetUsers(false);
       } catch (error) {
         setLoadingGetUsers(false);
@@ -380,6 +384,12 @@ const TableUsers = ({ typePage, customClassNameTableWrapper }: Props) => {
           />
         </div>
       ) : null}
+
+      <ModalSuccess
+        isOpen={archiveSuccess}
+        handleClose={() => dispatch(clearArchiveUserSuccess())}
+        message="Archive user successfully"
+      />
     </div>
   );
 };

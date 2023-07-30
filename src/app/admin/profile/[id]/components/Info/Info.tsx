@@ -51,8 +51,6 @@ const Info = React.memo(({ id }: Props) => {
     getData();
   }, []);
 
-  console.log({ user });
-
   if (!user && !loading) {
     return (
       <NoneData

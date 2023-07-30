@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "./conversation.module.scss";
+import styles from "./conversationEmpty.module.scss";
 type Props = {};
 
 const Conversation = (props: Props) => {

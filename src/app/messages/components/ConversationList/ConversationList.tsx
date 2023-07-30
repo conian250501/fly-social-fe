@@ -9,7 +9,7 @@ import { RootState } from "@/redux/store";
 import { useEffect, useState } from "react";
 import { AiOutlineLoading } from "react-icons/ai";
 import styles from "./conversationList.module.scss";
-import UserListMessage from "@/components/Modal/UserListMessage/UserListMessage";
+import FormNewConversation from "@/components/Modal/FormNewConversation";
 
 type Props = {};
 
@@ -83,12 +83,6 @@ const ConversationList = (props: Props) => {
     } catch (error) {
       setLoadingLoadMore(false);
     }
-  };
-
-  const handleAddNewConversation = async () => {
-    try {
-      console.log(123);
-    } catch (error) {}
   };
 
   return (
@@ -177,11 +171,12 @@ const ConversationList = (props: Props) => {
         )}
       </div>
 
-      <UserListMessage
-        isOpen={openModalNewConversation}
-        handleClose={() => setOpenModalNewConversation(true)}
-        handleAddNewConversation={handleAddNewConversation}
-      />
+      {openModalNewConversation && (
+        <FormNewConversation
+          isOpen={openModalNewConversation}
+          handleClose={() => setOpenModalNewConversation(false)}
+        />
+      )}
 
       {error && (
         <ModalError
