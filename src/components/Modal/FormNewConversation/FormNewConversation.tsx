@@ -17,6 +17,9 @@ import { AiOutlineLoading } from "react-icons/ai";
 import { BsCheckLg } from "react-icons/bs";
 import { CgClose } from "react-icons/cg";
 import styles from "./formNewConversation.module.scss";
+import { useRouter } from "next/navigation";
+import { PATHS } from "@/contanst/paths";
+import { ProgressSpinner } from "primereact/progressspinner";
 
 type Props = {
   isOpen: boolean;
@@ -25,6 +28,7 @@ type Props = {
 
 const FormNewConversation = React.memo(({ isOpen, handleClose }: Props) => {
   const dispatch = useAppDispatch();
+  const router = useRouter();
   const { user: currentUser } = useAppSelector(
     (state: RootState) => state.auth
   );
@@ -32,6 +36,8 @@ const FormNewConversation = React.memo(({ isOpen, handleClose }: Props) => {
   const [users, setUsers] = useState<IUser[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [loadingLoadMore, setLoadingLoadMore] = useState<boolean>(false);
+  const [loadingNewConversation, setLoadingNewConversation] =
+    useState<boolean>(false);
   const [lastPage, setLastPage] = useState<boolean>(false);
   const [page, setPage] = useState<number>(0);
   const [totalPage, setTotalPage] = useState<number>(0);
@@ -91,13 +97,18 @@ const FormNewConversation = React.memo(({ isOpen, handleClose }: Props) => {
   const handleAddNewConversation = async () => {
     try {
       const participantIds = participantsActive.map((item) => item.id);
-      await dispatch(
+      setLoadingNewConversation(true);
+      const conversation = await dispatch(
         newConversation({
           participantIds: participantIds,
         })
       ).unwrap();
+
+      handleClose();
+      router.push(`${PATHS.Messages}/${conversation.id}`);
     } catch (error) {
       setError(error as IError);
+      setLoadingNewConversation(false);
     }
   };
 
@@ -130,9 +141,16 @@ const FormNewConversation = React.memo(({ isOpen, handleClose }: Props) => {
             participantsActive.length <= 0 ? styles.disabled : ""
           }`}
           onClick={handleAddNewConversation}
-          disabled={participantsActive.length <= 0}
+          disabled={participantsActive.length <= 0 || loadingNewConversation}
         >
-          Next
+          {loadingNewConversation ? (
+            <ProgressSpinner
+              strokeWidth="4"
+              style={{ width: 20, height: 20 }}
+            />
+          ) : (
+            "Next"
+          )}
         </button>
       </div>
 

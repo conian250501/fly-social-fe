@@ -8,6 +8,7 @@ import userReducer from "@/features/user/userSlice";
 import userAdminReducer from "@/features/admin/user/userSlice";
 import adminTweetReducer from "@/features/admin/tweet/tweetSlice";
 import conversationReducer from "@/features/conversation/conversationSlice";
+import messageReducer from "@/features/message/messageSlice";
 
 const rootReducer = combineReducers({
   auth: authReducer,
@@ -17,6 +18,7 @@ const rootReducer = combineReducers({
   user: userReducer,
   follow: followReducer,
   conversation: conversationReducer,
+  message: messageReducer,
 
   // ADMIN
   adminUser: userAdminReducer,

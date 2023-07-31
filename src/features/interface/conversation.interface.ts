@@ -1,7 +1,8 @@
 import { IBaseTypes } from "./IBaseTypes";
 import { IUser } from "./auth.interface";
+import { IMessage } from "./message.interface";
 
 export interface IConversation extends IBaseTypes {
-  sender: IUser;
-  receiver: IUser;
+  participants: IUser[];
+  messages: IMessage[];
 }

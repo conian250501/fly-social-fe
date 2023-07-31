@@ -1,5 +1,6 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { IConversation } from "../interface";
+import { getConversationById } from "./conversationAction";
 
 export interface IInitialState {
   conversations: IConversation[];
@@ -15,7 +16,14 @@ const conversationSlice = createSlice({
   name: "conversation",
   initialState,
   reducers: {},
-  extraReducers(builder) {},
+  extraReducers(builder) {
+    builder.addCase(
+      getConversationById.fulfilled,
+      (state, action: PayloadAction<IConversation>) => {
+        state.conversation = action.payload;
+      }
+    );
+  },
 });
 
 export default conversationSlice.reducer;

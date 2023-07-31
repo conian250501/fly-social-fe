@@ -7,3 +7,4 @@ export * from "./storageTweet.interface";
 export * from "./filter.interface";
 export * from "./user.interface";
 export * from "./conversation.interface";
+export * from "./message.interface";

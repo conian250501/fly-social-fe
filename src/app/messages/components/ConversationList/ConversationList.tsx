@@ -10,6 +10,8 @@ import { useEffect, useState } from "react";
 import { AiOutlineLoading } from "react-icons/ai";
 import styles from "./conversationList.module.scss";
 import FormNewConversation from "@/components/Modal/FormNewConversation";
+import ConversationItem from "../ConversationItem";
+import { RiMailAddLine } from "react-icons/ri";
 
 type Props = {};
 
@@ -18,15 +20,14 @@ const ConversationList = (props: Props) => {
   const { user: currentUser } = useAppSelector(
     (state: RootState) => state.auth
   );
-  const { page: page, totalPage } = useAppSelector(
-    (state: RootState) => state.user
-  );
+
   const [loading, setLoading] = useState<boolean>(false);
   const [loadingLoadMore, setLoadingLoadMore] = useState<boolean>(false);
   const [openModalNewConversation, setOpenModalNewConversation] =
     useState<boolean>(false);
   const [conversations, setConversations] = useState<IConversation[]>([]);
-
+  const [page, setPage] = useState<number>(0);
+  const [totalPage, setTotalPage] = useState<number>(0);
   const [lastPage, setLastPage] = useState<boolean>(false);
   const [error, setError] = useState<IError | null>(null);
   const [searchValue, setSearchValue] = useState<string>("");
@@ -40,13 +41,15 @@ const ConversationList = (props: Props) => {
 
         const res = await dispatch(
           getAllConversation({
-            senderId: Number(currentUser?.id),
+            userId: Number(currentUser?.id),
             filter: {
               page: 1,
               limit: 4,
             },
           })
         ).unwrap();
+        setPage(res.page);
+        setTotalPage(res.totalPage);
 
         setConversations(res.conversations);
 
@@ -73,10 +76,11 @@ const ConversationList = (props: Props) => {
       setLoadingLoadMore(true);
       const res = await dispatch(
         getAllConversation({
-          senderId: Number(currentUser?.id),
+          userId: Number(currentUser?.id),
           filter: { page: Number(page) + 1, limit: 4 },
         })
       ).unwrap();
+      setPage(page + 1);
 
       setConversations([...conversations, ...res.conversations]);
       setLoadingLoadMore(false);
@@ -88,7 +92,15 @@ const ConversationList = (props: Props) => {
   return (
     <div>
       <div className={styles.userListWrapper}>
-        <h1 className={styles.heading}>Messages</h1>
+        <div className="d-flex align-items-center justify-content-between mb-4">
+          <h1 className={styles.heading}>Messages</h1>
+          <div
+            className={styles.iconNewChat}
+            onClick={() => setOpenModalNewConversation(true)}
+          >
+            <RiMailAddLine className={styles.icon} />
+          </div>
+        </div>
 
         {loading ? (
           <div className="d-flex align-items-center justify-content-center w-100 mt-4 pb-4">
@@ -96,7 +108,7 @@ const ConversationList = (props: Props) => {
           </div>
         ) : (
           <div className={styles.userList}>
-            {conversations.length <= 0 ? (
+            {conversations && conversations.length <= 0 ? (
               <div className={styles.noneDataWrapper}>
                 <img src="/images/birds.png" className={styles.banner} alt="" />
                 <h1 className={styles.title}>
@@ -113,44 +125,10 @@ const ConversationList = (props: Props) => {
               </div>
             ) : (
               conversations.map((conversation) => (
-                <div
-                  role="button"
-                  className={styles.userItem}
+                <ConversationItem
                   key={conversation.id}
-                >
-                  <div className="d-flex align-items-center justify-content-start gap-3 text-decoration-none">
-                    <div className="position-relative">
-                      <img
-                        src={
-                          conversation.receiver.avatar
-                            ? conversation.receiver.avatar
-                            : "/images/avatar-placeholder.png"
-                        }
-                        alt=""
-                        className={styles.avatar}
-                      />
-                      {conversation.receiver.verified && (
-                        <img
-                          src="/icons/twitter-verified-badge.svg"
-                          alt=""
-                          className={styles.iconVerified}
-                        />
-                      )}
-                    </div>
-                    <div className={styles.info}>
-                      <div className="d-flex align-items-center justify-content-start gap-2 position-relative">
-                        <h4 className={styles.name}>
-                          {conversation.receiver.name}
-                        </h4>
-                      </div>
-                      {conversation.receiver.nickname && (
-                        <p className={styles.nickname}>
-                          @{conversation.receiver.nickname}
-                        </p>
-                      )}
-                    </div>
-                  </div>
-                </div>
+                  conversation={conversation}
+                />
               ))
             )}
             {!lastPage && conversations.length > 0 && (

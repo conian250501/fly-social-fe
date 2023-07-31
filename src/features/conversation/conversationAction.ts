@@ -7,7 +7,7 @@ import queryString from "query-string";
 export const getAllConversation = createAsyncThunk(
   "conversation/get-all",
   async (
-    { senderId, filter }: { senderId: number; filter: IBaseFilter },
+    { userId, filter }: { userId: number; filter: IBaseFilter },
     { rejectWithValue }
   ) => {
     try {
@@ -16,7 +16,7 @@ export const getAllConversation = createAsyncThunk(
         page: filter.page || 1,
       });
       const { data } = await axiosConfig.get(
-        `/conversations/${senderId}?${query}`
+        `/conversations/user/${userId}?${query}`
       );
       return data.data;
     } catch (error) {
@@ -36,6 +36,19 @@ export const newConversation = createAsyncThunk(
       const { data } = await axiosConfig.post(`/conversations/`, {
         participantIds,
       });
+      return data.data;
+    } catch (error) {
+      const err = error as AxiosError;
+      return rejectWithValue(err.response?.data);
+    }
+  }
+);
+
+export const getConversationById = createAsyncThunk(
+  "conversation/get-by-id",
+  async (id: number, { rejectWithValue }) => {
+    try {
+      const { data } = await axiosConfig.get(`/conversations/${id}`);
       return data.data;
     } catch (error) {
       const err = error as AxiosError;
