@@ -5,6 +5,7 @@ import { useAppSelector } from "@/redux/hooks";
 import { RootState } from "@/redux/store";
 import Link from "next/link";
 import { PATHS } from "@/contanst/paths";
+import { usePathname } from "next/navigation";
 type Props = {
   conversation: IConversation;
 };
@@ -13,6 +14,8 @@ const ConversationItem = ({ conversation }: Props) => {
   const { user: currentUser } = useAppSelector(
     (state: RootState) => state.auth
   );
+  const path = usePathname();
+  const conversationActive = path.split("/").pop();
 
   const participant = conversation.participants.filter(
     (item) => item.id !== Number(currentUser?.id)
@@ -22,7 +25,9 @@ const ConversationItem = ({ conversation }: Props) => {
     <Link
       href={`${PATHS.Messages}/${conversation.id}`}
       role="button"
-      className={styles.userItem}
+      className={`${styles.userItem} ${
+        Number(conversationActive) === conversation.id ? styles.active : ""
+      }`}
       key={conversation.id}
     >
       <div className="d-flex align-items-center justify-content-start gap-3 text-decoration-none">

@@ -11,4 +11,8 @@
   @include tablet {
     width: 100%;
   }
+
+  @include mobile {
+    width: 100%;
+  }
 }

@@ -1,0 +1,86 @@
+@import "../../../styles/mixins";
+@import "../../../styles/responsive";
+
+.conversationDetailPage {
+  height: 100%;
+  width: 90%;
+  border-right: 1px solid var(--border-color-weight);
+
+  @include desktop {
+    width: 100%;
+  }
+
+  @include tablet {
+    width: 100%;
+  }
+
+  @include mobile {
+    width: 100%;
+  }
+}
+
+.topHeader {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 16px;
+  position: sticky;
+  top: 0;
+  width: 100%;
+  background-color: rgba($color: #fff, $alpha: 0.9);
+  text-decoration: none;
+  color: var(--dark-color-900);
+}
+
+.backLink {
+  display: none;
+  width: fit-content;
+
+  @include tablet {
+    display: block;
+  }
+
+  @include mobile {
+    display: block;
+  }
+}
+
+.userInfo {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 10px;
+  padding: 14px;
+
+  .avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 100rem;
+    object-fit: cover;
+  }
+
+  .name {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--dark-color-900);
+    margin-bottom: 0;
+  }
+
+  @include tablet {
+    padding: 14px 0;
+  }
+
+  @include mobile {
+    padding: 14px 0;
+  }
+}
+
+.conversationListWrapper {
+  @include tablet {
+    display: none;
+  }
+
+  @include mobile {
+    display: none;
+  }
+}

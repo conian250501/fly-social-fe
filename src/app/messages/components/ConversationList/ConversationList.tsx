@@ -1,5 +1,6 @@
 /* eslint-disable react/display-name */
 import Loading from "@/components/Loading";
+import FormNewConversation from "@/components/Modal/FormNewConversation";
 import ModalError from "@/components/Modal/ModalError";
 import { getAllConversation } from "@/features/conversation/conversationAction";
 import { IConversation, IError } from "@/features/interface";
@@ -8,15 +9,15 @@ import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { RootState } from "@/redux/store";
 import { useEffect, useState } from "react";
 import { AiOutlineLoading } from "react-icons/ai";
-import styles from "./conversationList.module.scss";
-import FormNewConversation from "@/components/Modal/FormNewConversation";
-import ConversationItem from "../ConversationItem";
 import { RiMailAddLine } from "react-icons/ri";
+import ConversationItem from "../ConversationItem";
+import styles from "./conversationList.module.scss";
 
 type Props = {};
 
 const ConversationList = (props: Props) => {
   const dispatch = useAppDispatch();
+
   const { user: currentUser } = useAppSelector(
     (state: RootState) => state.auth
   );
@@ -90,7 +91,7 @@ const ConversationList = (props: Props) => {
   };
 
   return (
-    <div>
+    <div className={styles.conversationListWrapper}>
       <div className={styles.userListWrapper}>
         <div className="d-flex align-items-center justify-content-between mb-4">
           <h1 className={styles.heading}>Messages</h1>

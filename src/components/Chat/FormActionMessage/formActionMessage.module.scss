@@ -1,0 +1,49 @@
+.form {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px;
+  background-color: var(--white-color);
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  border-top: 1px solid var(--border-color-weight);
+
+  .formInput {
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--dark-color-900);
+    width: 100%;
+    padding: 14px;
+    border: none;
+
+    &:focus {
+      box-shadow: none;
+    }
+  }
+}
+
+.fileInputList {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.fileInputItem {
+  .labelFileImage {
+    margin-bottom: 0;
+    display: block;
+  }
+
+  .icon {
+    font-size: 26px;
+    color: var(--primary-color);
+  }
+}
+
+.buttonSend {
+  .icon {
+    font-size: 26px;
+    color: var(--primary-color);
+  }
+}

@@ -1,0 +1,44 @@
+.wrapper {
+  position: relative;
+  min-height: calc(100vh - 78px);
+}
+
+.participantInfo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  border-bottom: 1px solid var(--border-color-weight);
+  padding-bottom: 40px;
+  text-decoration: none;
+
+  .avatar {
+    width: 120px;
+    height: 120px;
+    border-radius: 100rem;
+    object-fit: cover;
+  }
+
+  .name {
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--dark-color-900);
+    margin-top: 14px;
+    margin-bottom: 0;
+  }
+
+  .dateStart {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--dark-color-700);
+    margin-top: 4px;
+  }
+}
+
+.messageList {
+  margin-top: 16px;
+  height: calc(100vh - 400px);
+  overflow-y: scroll;
+  overflow-x: hidden;
+  padding-bottom: 40px;
+}

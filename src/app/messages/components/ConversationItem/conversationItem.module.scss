@@ -4,18 +4,26 @@
   align-items: center;
   padding: 14px;
   text-decoration: none;
+
+  &.active {
+    border-right: 4px solid var(--primary-color);
+  }
+
   &:hover {
     background-color: var(--border-color-light);
   }
+
   &:not(:first-child) {
     margin-top: 14px;
   }
+
   .avatar {
     width: 50px;
     height: 50px;
     border-radius: 100rem;
     object-fit: cover;
   }
+
   .iconVerified {
     position: absolute;
     right: 0;
@@ -24,6 +32,7 @@
     height: 20px;
   }
 }
+
 .info {
   .name {
     font-size: 14px;

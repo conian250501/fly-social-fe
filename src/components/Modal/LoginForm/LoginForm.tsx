@@ -15,6 +15,8 @@ import {
   AiOutlineEyeInvisible,
   AiOutlineLoading,
 } from "react-icons/ai";
+import { ETypeRoleLoggedIn } from "@/common/interfaces";
+import { keyForTypeLoggedIn } from "@/contanst/key-localstorage";
 
 type Props = {
   show: boolean;
@@ -46,7 +48,8 @@ const LoginForm = React.memo(({ show, close, loading, setLoading }: Props) => {
       setLoading(true);
 
       const user: IUser = await dispatch(login(payloadLogin)).unwrap();
-      localStorage.setItem("token", user.token);
+      localStorage.setItem(keyForTypeLoggedIn, ETypeRoleLoggedIn.User);
+
       close();
       router.replace(PATHS.Home);
     } catch (error) {

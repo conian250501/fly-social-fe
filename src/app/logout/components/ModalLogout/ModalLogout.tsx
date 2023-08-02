@@ -10,6 +10,8 @@ import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { logout } from "@/features/auth/authSlice";
 import { RootState } from "@/redux/store";
 import { EUserRole } from "@/features/interface";
+import { keyForTypeLoggedIn } from "@/contanst/key-localstorage";
+import { ETypeRoleLoggedIn } from "@/common/interfaces";
 type Props = {};
 
 const ModalLogout = (props: Props) => {
@@ -19,6 +21,7 @@ const ModalLogout = (props: Props) => {
   const { user } = useAppSelector((state: RootState) => state.auth);
 
   const handleLogout = async () => {
+    const typeLoggedIn = localStorage.getItem(keyForTypeLoggedIn);
     try {
       setLoading(true);
       await new Promise((resolve, reject) => {
@@ -31,7 +34,7 @@ const ModalLogout = (props: Props) => {
         resolve(true);
       });
 
-      if (user?.role === EUserRole.Admin) {
+      if (typeLoggedIn === ETypeRoleLoggedIn.Admin) {
         router.push(PATHS.AdminAuth);
       } else {
         router.push(PATHS.Home);

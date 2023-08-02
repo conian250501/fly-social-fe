@@ -9,16 +9,5 @@ export default function MessageLayout({
 }: {
   children: React.ReactNode;
 }) {
-  return (
-    <MainLayout>
-      <Row className="g-0">
-        <Col xs={12} sm={12} md={12} lg={5} className="p-0">
-          <ConversationList />
-        </Col>
-        <Col xs={7} sm={7} md={7} lg={7} className="p-0">
-          {children}
-        </Col>
-      </Row>
-    </MainLayout>
-  );
+  return <MainLayout>{children}</MainLayout>;
 }

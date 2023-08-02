@@ -8,3 +8,7 @@ export interface IMessage extends IBaseTypes {
   conversation: IConversation;
   file: string;
 }
+export interface IPayloadMessage {
+  content: string;
+  conversationId: number;
+}

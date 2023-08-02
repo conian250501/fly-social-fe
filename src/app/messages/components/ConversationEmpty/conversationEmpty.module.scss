@@ -11,6 +11,9 @@
   @include tablet {
     display: none;
   }
+  @include mobile {
+    display: none;
+  }
 }
 .placeholderConversation {
   position: absolute;

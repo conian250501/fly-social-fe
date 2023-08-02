@@ -1,3 +1,7 @@
+import { ETypeRoleLoggedIn } from "@/common/interfaces";
+import Github from "@/components/AuthButtons/Github";
+import Google from "@/components/AuthButtons/Google";
+import ToastError from "@/components/Toasts/Error/Error";
 import { PATHS } from "@/contanst/paths";
 import { getUser, login } from "@/features/auth/authAction";
 import { IError, IPayloadLogin } from "@/features/interface";
@@ -6,8 +10,7 @@ import { useFormik } from "formik";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { ProgressSpinner } from "primereact/progressspinner";
-import React, { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Form } from "react-bootstrap";
 import {
   AiOutlineEye,
@@ -15,10 +18,7 @@ import {
   AiOutlineLoading,
 } from "react-icons/ai";
 import styles from "./formSignIn.module.scss";
-import ToastError from "@/components/Toasts/Error/Error";
-import Google from "@/components/AuthButtons/Google";
-import Github from "@/components/AuthButtons/Github";
-import Facebook from "@/components/AuthButtons/Facebook";
+import { keyForTypeLoggedIn } from "@/contanst/key-localstorage";
 type Props = {};
 
 const FormSignIn = (props: Props) => {
@@ -51,6 +51,7 @@ const FormSignIn = (props: Props) => {
     try {
       setLoadingSubmit(true);
       await dispatch(login(values)).unwrap();
+      localStorage.setItem(keyForTypeLoggedIn, ETypeRoleLoggedIn.Admin);
       router.push(PATHS.AdminDashboard);
     } catch (error) {
       setLoadingSubmit(false);

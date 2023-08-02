@@ -1,0 +1,37 @@
+.wrapper {
+  &:not(:first-child) {
+    margin-top: 14px;
+  }
+}
+
+.messageItemWrapper {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding-right: 14px;
+
+  &.participant {
+    justify-content: flex-start;
+    padding-left: 14px;
+    gap: 10px;
+  }
+}
+
+.authorInfo {
+  .avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 100rem;
+    object-fit: cover;
+  }
+}
+
+.content {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--dark-color-900);
+  padding: 12px;
+  background-color: var(--primary-color);
+  border-radius: 10px;
+  color: var(--white-color);
+}
