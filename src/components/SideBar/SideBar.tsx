@@ -27,6 +27,13 @@ import { SiHey } from "react-icons/si";
 import { IMenu } from "../interfaces";
 import Loading from "../Loading";
 import styles from "./sideBar.module.scss";
+import { Montserrat } from "next/font/google";
+
+const montserrat = Montserrat({
+  weight: ["300", "400", "500", "600", "700", "800"],
+  style: ["normal", "italic"],
+  subsets: ["latin"],
+});
 
 type Props = {};
 
@@ -41,27 +48,6 @@ const SideBar = React.memo((props: Props) => {
   const [userId, setUserId] = useState<number>(0);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<IError | null>(null);
-
-  const handleLogout = async () => {
-    try {
-      setLoading(true);
-      await new Promise((resolve, reject) => {
-        localStorage.removeItem("token");
-        resolve(true);
-      });
-
-      await new Promise((resolve) => {
-        dispatch(logout());
-        resolve(true);
-      });
-      setLoading(false);
-      setOpenSideBar(false);
-
-      router.push(PATHS.Home);
-    } catch (error) {
-      setError(error as IError);
-    }
-  };
 
   useEffect(() => {
     if (user) {
@@ -139,7 +125,7 @@ const SideBar = React.memo((props: Props) => {
   }
 
   return (
-    <div className={styles.topBarWrapper}>
+    <div className={`${styles.topBarWrapper} ${montserrat.className}`}>
       <div
         className={`${styles.topSection} ${!user ? styles.withoutUser : ""}`}
       >

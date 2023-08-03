@@ -1,23 +1,30 @@
 .wrapper {
   &:not(:first-child) {
-    margin-top: 14px;
   }
 }
 
 .messageItemWrapper {
   display: flex;
   justify-content: flex-end;
-  align-items: center;
+  align-items: flex-end;
   padding-right: 14px;
+  flex-direction: column;
 
   &.participant {
     justify-content: flex-start;
+    align-items: flex-start;
     padding-left: 14px;
+    flex-direction: row;
     gap: 10px;
+
+    .content {
+      width: 100%;
+    }
   }
 }
 
 .authorInfo {
+  text-decoration: none;
   .avatar {
     width: 40px;
     height: 40px;
@@ -34,4 +41,30 @@
   background-color: var(--primary-color);
   border-radius: 10px;
   color: var(--white-color);
+  width: 60%;
+  white-space: pre-wrap;
+  word-break: break-all;
+  cursor: pointer;
+}
+
+.createdAt {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--dark-color-700);
+  margin-top: 4px;
+  width: 60%;
+  text-align: left;
+  transform: translateY(-40px);
+  opacity: 0;
+  transition: all 0.2s linear;
+  margin-bottom: 10px;
+  height: 0;
+  white-space: nowrap;
+
+  &.show {
+    transform: translateY(0);
+    opacity: 1;
+    transition: all 0.2s linear;
+    height: fit-content;
+  }
 }

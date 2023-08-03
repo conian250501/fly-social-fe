@@ -8,6 +8,7 @@ import { RiSendPlane2Line } from "react-icons/ri";
 import { useAppDispatch } from "@/redux/hooks";
 import { createMessage } from "@/features/message/messageAction";
 import { socket } from "@/shared/socket";
+import { AiOutlineLoading } from "react-icons/ai";
 type Props = {
   conversationId: number;
   type: "Edit" | "New";
@@ -36,10 +37,14 @@ const FormActionMessage = ({ conversationId, type }: Props) => {
     validate,
     async onSubmit(values, { resetForm }) {
       try {
+        setLoadingNewMessage(true);
         const newMessage = await dispatch(createMessage(values)).unwrap();
         socket.emit("newMessage", newMessage);
+        setLoadingNewMessage(false);
+
         resetForm();
       } catch (error) {
+        setLoadingNewMessage(false);
         console.error("Error", error);
       }
     },
@@ -74,7 +79,11 @@ const FormActionMessage = ({ conversationId, type }: Props) => {
         disabled={loadingNewMessage}
         className={styles.buttonSend}
       >
-        <RiSendPlane2Line className={styles.icon} />
+        {loadingNewMessage ? (
+          <AiOutlineLoading className={styles.iconLoading} />
+        ) : (
+          <RiSendPlane2Line className={styles.icon} />
+        )}
       </button>
     </Form>
   );
