@@ -13,23 +13,14 @@ import { RootState } from "@/redux/store";
 type Props = {
   conversationId: number;
   type: "Edit" | "New";
-  loading: boolean;
-  setLoading: React.Dispatch<React.SetStateAction<boolean>>;
-  setMessageActive: React.Dispatch<React.SetStateAction<number>>;
 };
 
-const FormActionMessage = ({
-  conversationId,
-  type,
-  loading,
-  setLoading,
-  setMessageActive,
-}: Props) => {
+const FormActionMessage = ({ conversationId, type }: Props) => {
   const dispatch = useAppDispatch();
   const { user: currentUser } = useAppSelector(
     (state: RootState) => state.auth
   );
-  // const [loadingNewMessage, setLoadingNewMessage] = useState<boolean>(false);
+  const [loadingNewMessage, setLoadingNewMessage] = useState<boolean>(false);
 
   const validate = (values: IPayloadMessage) => {
     const errors: IPayloadMessage = { content: "", conversationId: 0 };
@@ -50,18 +41,13 @@ const FormActionMessage = ({
     validate,
     async onSubmit(values, { resetForm }) {
       try {
-        setLoading(true);
-        socket.emit("newMessage", {
-          ...values,
-          authorId: Number(currentUser?.id),
-          conversationId: conversationId,
-        });
-        resetForm();
+        setLoadingNewMessage(true);
         const newMessage = await dispatch(createMessage(values)).unwrap();
-        setMessageActive(newMessage.id);
-        setLoading(false);
+        socket.emit("newMessage", newMessage);
+        setLoadingNewMessage(false);
+        resetForm();
       } catch (error) {
-        setLoading(false);
+        setLoadingNewMessage(false);
         console.error("Error", error);
       }
     },
@@ -91,12 +77,16 @@ const FormActionMessage = ({
         />
       </div>
 
-      <button type="submit" disabled={loading} className={styles.buttonSend}>
-        {/* {loadingNewMessage ? (
+      <button
+        type="submit"
+        disabled={loadingNewMessage}
+        className={styles.buttonSend}
+      >
+        {loadingNewMessage ? (
           <AiOutlineLoading className={styles.iconLoading} />
-        ) : ( */}
-        <RiSendPlane2Line className={styles.icon} />
-        {/* )} */}
+        ) : (
+          <RiSendPlane2Line className={styles.icon} />
+        )}
       </button>
     </Form>
   );
