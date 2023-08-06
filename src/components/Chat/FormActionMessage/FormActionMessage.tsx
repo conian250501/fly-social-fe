@@ -56,11 +56,10 @@ const FormActionMessage = ({
           authorId: Number(currentUser?.id),
           conversationId: conversationId,
         });
+        resetForm();
         const newMessage = await dispatch(createMessage(values)).unwrap();
         setMessageActive(newMessage.id);
         setLoading(false);
-
-        resetForm();
       } catch (error) {
         setLoading(false);
         console.error("Error", error);
