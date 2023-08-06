@@ -21,6 +21,8 @@ const ConversationItem = ({ conversation }: Props) => {
     (item) => item.id !== Number(currentUser?.id)
   );
 
+  if (conversation.messages.length <= 0) return <div></div>;
+
   return (
     <Link
       href={`${PATHS.Messages}/${conversation.id}`}

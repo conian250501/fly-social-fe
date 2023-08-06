@@ -5,18 +5,31 @@ import { useFormik } from "formik";
 import { IPayloadMessage } from "@/features/interface";
 import { IoImageOutline } from "react-icons/io5";
 import { RiSendPlane2Line } from "react-icons/ri";
-import { useAppDispatch } from "@/redux/hooks";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { createMessage } from "@/features/message/messageAction";
 import { socket } from "@/shared/socket";
 import { AiOutlineLoading } from "react-icons/ai";
+import { RootState } from "@/redux/store";
 type Props = {
   conversationId: number;
   type: "Edit" | "New";
+  loading: boolean;
+  setLoading: React.Dispatch<React.SetStateAction<boolean>>;
+  setMessageActive: React.Dispatch<React.SetStateAction<number>>;
 };
 
-const FormActionMessage = ({ conversationId, type }: Props) => {
+const FormActionMessage = ({
+  conversationId,
+  type,
+  loading,
+  setLoading,
+  setMessageActive,
+}: Props) => {
   const dispatch = useAppDispatch();
-  const [loadingNewMessage, setLoadingNewMessage] = useState<boolean>(false);
+  const { user: currentUser } = useAppSelector(
+    (state: RootState) => state.auth
+  );
+  // const [loadingNewMessage, setLoadingNewMessage] = useState<boolean>(false);
 
   const validate = (values: IPayloadMessage) => {
     const errors: IPayloadMessage = { content: "", conversationId: 0 };
@@ -37,14 +50,19 @@ const FormActionMessage = ({ conversationId, type }: Props) => {
     validate,
     async onSubmit(values, { resetForm }) {
       try {
-        setLoadingNewMessage(true);
+        setLoading(true);
+        socket.emit("newMessage", {
+          ...values,
+          authorId: Number(currentUser?.id),
+          conversationId: conversationId,
+        });
         const newMessage = await dispatch(createMessage(values)).unwrap();
-        socket.emit("newMessage", newMessage);
-        setLoadingNewMessage(false);
+        setMessageActive(newMessage.id);
+        setLoading(false);
 
         resetForm();
       } catch (error) {
-        setLoadingNewMessage(false);
+        setLoading(false);
         console.error("Error", error);
       }
     },
@@ -74,16 +92,12 @@ const FormActionMessage = ({ conversationId, type }: Props) => {
         />
       </div>
 
-      <button
-        type="submit"
-        disabled={loadingNewMessage}
-        className={styles.buttonSend}
-      >
-        {loadingNewMessage ? (
+      <button type="submit" disabled={loading} className={styles.buttonSend}>
+        {/* {loadingNewMessage ? (
           <AiOutlineLoading className={styles.iconLoading} />
-        ) : (
-          <RiSendPlane2Line className={styles.icon} />
-        )}
+        ) : ( */}
+        <RiSendPlane2Line className={styles.icon} />
+        {/* )} */}
       </button>
     </Form>
   );

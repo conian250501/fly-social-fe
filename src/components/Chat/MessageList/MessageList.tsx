@@ -20,6 +20,8 @@ const MessageList = ({ conversation, participants }: Props) => {
   const [messages, setMessages] = useState<IMessage[]>([]);
   const [loadingGetMessages, setLoadingGetMessages] = useState<boolean>(false);
   const bottomRef = useRef<HTMLDivElement>(null);
+  const [loadingNewMessage, setLoadingNewMessage] = useState<boolean>(false);
+  const [messageActive, setMessageActive] = useState<number>(0);
 
   useEffect(() => {
     // 👇️ scroll to bottom every time activities change
@@ -79,12 +81,23 @@ const MessageList = ({ conversation, participants }: Props) => {
       </Link>
       <div className={styles.messageList}>
         {messages.map((message) => (
-          <MessageItem key={message.id} message={message} />
+          <MessageItem
+            messageActive={messageActive}
+            loading={loadingNewMessage}
+            key={message.id}
+            message={message}
+          />
         ))}
         <div ref={bottomRef}></div>
       </div>
 
-      <FormActionMessage type="New" conversationId={conversation.id} />
+      <FormActionMessage
+        loading={loadingNewMessage}
+        setLoading={setLoadingNewMessage}
+        type="New"
+        conversationId={conversation.id}
+        setMessageActive={setMessageActive}
+      />
     </div>
   );
 };

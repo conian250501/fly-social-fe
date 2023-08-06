@@ -13,6 +13,7 @@ import ConversationList from "../components/ConversationList/ConversationList";
 import { IConversation, IUser } from "@/features/interface";
 import Link from "next/link";
 import { PATHS } from "@/contanst/paths";
+import { socket } from "@/shared/socket";
 type Props = {
   params: {
     id: string;
@@ -49,6 +50,13 @@ const Page = ({ params }: Props) => {
 
     getData();
   }, [params.id, dispatch]);
+
+  useEffect(() => {
+    socket.emit("joinConversation", Number(params.id));
+    return () => {
+      socket.emit("leaveConversation", Number(params.id));
+    };
+  }, [params.id]);
 
   if (loading) {
     return (
