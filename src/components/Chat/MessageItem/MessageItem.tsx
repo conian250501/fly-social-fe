@@ -7,11 +7,9 @@ import Link from "next/link";
 import { PATHS } from "@/contanst/paths";
 type Props = {
   message: IMessage;
-  loading: boolean;
-  messageActive: number;
 };
 
-const MessageItem = ({ message, loading, messageActive }: Props) => {
+const MessageItem = ({ message }: Props) => {
   const { isMe } = useCheckIsMe(message.author.id);
   const [openDateSend, setOpenDateSend] = useState<boolean>(false);
 
@@ -64,9 +62,6 @@ const MessageItem = ({ message, loading, messageActive }: Props) => {
   return (
     <div className={styles.wrapper}>
       {isMe ? <MessageOfAuthor /> : <MessageOfParticipant />}
-      {loading && messageActive && message.id && (
-        <p className="loading">loading...</p>
-      )}
     </div>
   );
 };

@@ -81,12 +81,7 @@ const MessageList = ({ conversation, participants }: Props) => {
       </Link>
       <div className={styles.messageList}>
         {messages.map((message) => (
-          <MessageItem
-            messageActive={messageActive}
-            loading={loadingNewMessage}
-            key={message.id}
-            message={message}
-          />
+          <MessageItem key={message.id} message={message} />
         ))}
         <div ref={bottomRef}></div>
       </div>
