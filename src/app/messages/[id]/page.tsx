@@ -1,19 +1,21 @@
 "use client";
-import React, { useEffect, useState } from "react";
-import styles from "./page.module.scss";
+import MessageList from "@/components/Chat/MessageList";
+import Loading from "@/components/Loading/Loading";
+import ConversationDetail from "@/components/Modal/ConvesationDetail/ConversationDetail";
+import BackLink from "@/components/shared/BackLink";
+import NoneData from "@/components/shared/NoneData";
+import { PATHS } from "@/contanst/paths";
+import { getConversationById } from "@/features/conversation/conversationAction";
+import { IConversation, IUser } from "@/features/interface";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { RootState } from "@/redux/store";
-import { getConversationById } from "@/features/conversation/conversationAction";
-import Loading from "@/components/Loading/Loading";
-import NoneData from "@/components/shared/NoneData";
-import MessageList from "@/components/Chat/MessageList";
-import BackLink from "@/components/shared/BackLink";
-import { Col, Row } from "react-bootstrap";
-import ConversationList from "../components/ConversationList/ConversationList";
-import { IConversation, IUser } from "@/features/interface";
-import Link from "next/link";
-import { PATHS } from "@/contanst/paths";
 import { socket } from "@/shared/socket";
+import Link from "next/link";
+import { useCallback, useEffect, useState } from "react";
+import { Col, Row } from "react-bootstrap";
+import { FiSettings } from "react-icons/fi";
+import ConversationList from "../components/ConversationList/ConversationList";
+import styles from "./page.module.scss";
 type Props = {
   params: {
     id: string;
@@ -30,6 +32,8 @@ const Page = ({ params }: Props) => {
   );
   const [loading, setLoading] = useState<boolean>(true);
   const [participants, setParticipants] = useState<IUser[]>([]);
+  const [showConversationDetail, setShowConversationDetail] =
+    useState<boolean>(false);
 
   useEffect(() => {
     async function getData() {
@@ -58,6 +62,10 @@ const Page = ({ params }: Props) => {
     };
   }, [params.id]);
 
+  const handleShowConversation = useCallback(() => {
+    setShowConversationDetail(true);
+  }, []);
+
   if (loading) {
     return (
       <div className="d-flex align-items-center justify-content-center w-100 mt-4">
@@ -73,6 +81,7 @@ const Page = ({ params }: Props) => {
       />
     );
   }
+
   return (
     <div className={styles.conversationDetailPage}>
       <Row className="g-0">
@@ -81,31 +90,71 @@ const Page = ({ params }: Props) => {
             <ConversationList />
           </div>
         </Col>
-        <Col xs={12} sm={12} md={12} lg={7} className="p-0">
-          <Link
-            href={`${PATHS.Profile}/${participants[0].id}`}
-            className={styles.topHeader}
-          >
-            <BackLink title="" customClassNameContainer={styles.backLink} />
-            <div className={styles.userInfo}>
-              <img
-                src={
-                  participants[0].avatar
-                    ? participants[0].avatar
-                    : "/images/avatar-placeholder.png"
-                }
-                alt=""
-                className={styles.avatar}
-              />
-              <h5 className={styles.name}>{participants[0].name}</h5>
+        <Col xs={12} sm={12} md={12} lg={7} className={styles.colRight}>
+          {conversation?.isGroup ? (
+            <div
+              className={styles.participantInfo}
+              onClick={handleShowConversation}
+            >
+              <div className="d-flex align-items-center justify-content-start gap-3">
+                <BackLink title="" customClassNameContainer={styles.backLink} />
+                <div className={styles.avatarList}>
+                  {participants.map((participant) => (
+                    <div key={participant.id} className={styles.avatarItem}>
+                      <img
+                        src={
+                          participant.avatar
+                            ? participant.avatar
+                            : "/images/avatar-placeholder.png"
+                        }
+                        alt=""
+                        className={styles.avatar}
+                      />
+                    </div>
+                  ))}
+                </div>
+                <h1 className={styles.groupName}>{conversation.groupName}</h1>
+              </div>
+              <div
+                className={styles.iconSetting}
+                onClick={handleShowConversation}
+              >
+                <FiSettings className={styles.icon} />
+              </div>
             </div>
-          </Link>
+          ) : (
+            <Link
+              href={`${PATHS.Profile}/${participants[0].id}`}
+              className={styles.topHeader}
+            >
+              <BackLink title="" customClassNameContainer={styles.backLink} />
+              <div className={styles.userInfo}>
+                <img
+                  src={
+                    participants[0].avatar
+                      ? participants[0].avatar
+                      : "/images/avatar-placeholder.png"
+                  }
+                  alt=""
+                  className={styles.avatar}
+                />
+                <h5 className={styles.name}>{participants[0].name}</h5>
+              </div>
+            </Link>
+          )}
           <MessageList
             conversation={conversation as IConversation}
             participants={participants}
           />
         </Col>
       </Row>
+
+      {/* ====== MODALS ====== */}
+      <ConversationDetail
+        isOpen={showConversationDetail}
+        handleClose={() => setShowConversationDetail(false)}
+        conversation={conversation as IConversation}
+      />
     </div>
   );
 };

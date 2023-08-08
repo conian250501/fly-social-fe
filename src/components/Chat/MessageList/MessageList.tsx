@@ -58,25 +58,46 @@ const MessageList = ({ conversation, participants }: Props) => {
   }
   return (
     <div className={styles.wrapper}>
-      <Link
-        href={`${PATHS.Profile}/${participants[0].id}`}
-        className={styles.participantInfo}
-      >
-        <img
-          src={
-            participants[0].avatar
-              ? participants[0].avatar
-              : "/images/avatar-placeholder.png"
-          }
-          alt=""
-          className={styles.avatar}
-        />
-        <h5 className={styles.name}>{participants[0].name}</h5>
-        <p className={styles.dateStart}>
-          Conversation is started at{" "}
-          {moment(conversation.createdAt).format("MMMM YYYY")}
-        </p>
-      </Link>
+      {conversation.isGroup ? (
+        <div className={styles.participantInfo}>
+          <div className={styles.avatarList}>
+            {participants.map((participant) => (
+              <div key={participant.id} className={styles.avatarItem}>
+                <img
+                  src={
+                    participant.avatar
+                      ? participant.avatar
+                      : "/images/avatar-placeholder.png"
+                  }
+                  alt=""
+                  className={styles.avatar}
+                />
+              </div>
+            ))}
+          </div>
+          <h1 className={styles.groupName}>{conversation.groupName}</h1>
+        </div>
+      ) : (
+        <Link
+          href={`${PATHS.Profile}/${participants[0].id}`}
+          className={styles.participantInfo}
+        >
+          <img
+            src={
+              participants[0].avatar
+                ? participants[0].avatar
+                : "/images/avatar-placeholder.png"
+            }
+            alt=""
+            className={styles.avatar}
+          />
+          <h5 className={styles.name}>{participants[0].name}</h5>
+          <p className={styles.dateStart}>
+            Conversation is started at{" "}
+            {moment(conversation.createdAt).format("MMMM YYYY")}
+          </p>
+        </Link>
+      )}
       <div className={styles.messageList}>
         {messages.map((message) => (
           <MessageItem key={message.id} message={message} />

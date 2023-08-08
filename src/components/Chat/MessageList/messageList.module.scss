@@ -4,6 +4,49 @@
 }
 
 .participantInfo {
+  margin-top: 24px;
+}
+
+.groupName {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--dark-color-900);
+  margin-top: 12px;
+}
+
+.avatarList {
+  position: relative;
+  width: 80px;
+  height: 80px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-decoration: none;
+
+  .avatarItem {
+    position: absolute;
+
+    &:nth-child(2n) {
+      right: 0;
+      top: 0;
+    }
+
+    &:nth-child(2n + 1) {
+      border: 4px solid var(--white-color);
+      border-radius: 100rem;
+      bottom: 0;
+      left: 0;
+    }
+
+    img {
+      width: 60px;
+      height: 60px;
+      object-fit: cover;
+    }
+  }
+}
+
+.participantInfo {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -37,8 +80,8 @@
 
 .messageList {
   margin-top: 16px;
-  height: calc(100vh - 400px);
+  height: calc(100vh - 339px);
   overflow-y: scroll;
   overflow-x: hidden;
-  padding-bottom: 40px;
+  padding-bottom: 20px;
 }

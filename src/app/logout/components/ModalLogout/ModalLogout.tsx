@@ -39,6 +39,8 @@ const ModalLogout = (props: Props) => {
       } else {
         router.push(PATHS.Home);
       }
+
+      localStorage.removeItem(`${keyForTypeLoggedIn}`);
     } catch (error) {}
   };
   const handleCancel = () => {
