@@ -133,19 +133,6 @@ const FormSignIn = (props: Props) => {
             )}
           </button>
         </Form>
-        <div className={styles.textOr}>Or</div>
-
-        <Google
-          typePage="Admin"
-          setLoadingLoginLibrary={setLoadingSubmit}
-          customBtnClassName={styles.btnGoogle}
-        />
-
-        <Github
-          typePage="Admin"
-          setLoadingLoginLibrary={setLoadingSubmit}
-          customBtnClassName={styles.btnGithub}
-        />
       </div>
 
       {error && <ToastError error={error} onClose={() => setError(null)} />}

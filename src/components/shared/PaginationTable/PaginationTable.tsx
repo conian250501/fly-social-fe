@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import styles from "./paginationTable.module.scss";
 import { ETypePageForPagination } from "@/components/interfaces";
 import { useAppDispatch } from "@/redux/hooks";
 import { getAllUsers } from "@/features/admin/user/userAction";
 import { getAllTweets } from "@/features/admin/tweet/tweetAction";
+import { AiOutlineLoading } from "react-icons/ai";
 type Props = {
   page: number;
   totalPage: number;
@@ -12,30 +13,44 @@ type Props = {
 
 const PaginationTable = ({ typePage, page, totalPage }: Props) => {
   const dispatch = useAppDispatch();
+  const [loadingNext, setLoadingNext] = useState<boolean>(false);
+  const [loadingPrev, setLoadingPrev] = useState<boolean>(false);
   const handlePrev = async () => {
-    switch (typePage) {
-      case ETypePageForPagination.AdminManageUsers:
-        await dispatch(getAllUsers({ page: page - 1 })).unwrap();
-        break;
-      case ETypePageForPagination.AdminManageTweets:
-        await dispatch(getAllTweets({ page: page - 1 })).unwrap();
+    try {
+      setLoadingPrev(true);
+      switch (typePage) {
+        case ETypePageForPagination.AdminManageUsers:
+          await dispatch(getAllUsers({ page: page - 1 })).unwrap();
+          break;
+        case ETypePageForPagination.AdminManageTweets:
+          await dispatch(getAllTweets({ page: page - 1 })).unwrap();
 
-        break;
-      default:
-        break;
+          break;
+        default:
+          break;
+      }
+      setLoadingPrev(false);
+    } catch (error) {
+      setLoadingPrev(false);
     }
   };
 
   const handleNext = async () => {
-    switch (typePage) {
-      case ETypePageForPagination.AdminManageUsers:
-        await dispatch(getAllUsers({ page: page + 1 })).unwrap();
-        break;
-      case ETypePageForPagination.AdminManageTweets:
-        await dispatch(getAllTweets({ page: page + 1 })).unwrap();
-        break;
-      default:
-        break;
+    try {
+      setLoadingNext(true);
+      switch (typePage) {
+        case ETypePageForPagination.AdminManageUsers:
+          await dispatch(getAllUsers({ page: page + 1 })).unwrap();
+          break;
+        case ETypePageForPagination.AdminManageTweets:
+          await dispatch(getAllTweets({ page: page + 1 })).unwrap();
+          break;
+        default:
+          break;
+      }
+      setLoadingNext(false);
+    } catch (error) {
+      setLoadingNext(false);
     }
   };
   return (
@@ -48,6 +63,7 @@ const PaginationTable = ({ typePage, page, totalPage }: Props) => {
         onClick={handlePrev}
       >
         Previous
+        {loadingPrev && <AiOutlineLoading className={styles.iconLoading} />}
       </button>
       <button
         className={`${styles.btn} ${styles.btnNext} ${
@@ -57,6 +73,7 @@ const PaginationTable = ({ typePage, page, totalPage }: Props) => {
         onClick={handleNext}
       >
         Next
+        {loadingNext && <AiOutlineLoading className={styles.iconLoading} />}
       </button>
     </div>
   );

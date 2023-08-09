@@ -1,11 +1,13 @@
 @import "../../../styles/mixins";
 @import "../../../styles/responsive";
+
 .paginationList {
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 10px;
 }
+
 .btn {
   padding: 4px 10px;
   box-shadow: var(--shadow-btn-pagination);
@@ -14,9 +16,19 @@
   color: var(--dark-color-900);
   cursor: pointer;
   border-radius: 6px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
   &.disabled {
     background-color: var(--border-color-light);
     color: var(--dark-color-700);
+  }
+
+  .iconLoading {
+    font-size: 16px;
+    animation: Rotate 0.5s linear infinite;
+    margin-left: 10px;
   }
 
   @include mobile {

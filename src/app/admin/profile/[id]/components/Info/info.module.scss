@@ -5,12 +5,14 @@
   justify-content: center;
   align-items: center;
 }
+
 .infoWrapper {
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
 }
+
 .avatar {
   position: relative;
   width: 400px;
@@ -18,12 +20,21 @@
   border-radius: 100rem;
   box-shadow: var(--shadow-section-dashboard);
 
+  .iconVerified {
+    width: 60px;
+    height: 60px;
+    position: absolute;
+    bottom: 20px;
+    right: 46px;
+  }
+
   img {
     width: 100%;
     height: 100%;
     object-fit: cover;
     border-radius: 100rem;
   }
+
   &::before {
     content: "";
     position: absolute;
@@ -45,23 +56,32 @@
       height: 200px;
       border-width: 8px;
     }
+
+    .iconVerified {
+      width: 0;
+      height: 25px;
+    }
   }
 }
+
 .info {
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
 }
+
 .name {
   font-size: 38px;
   font-weight: 700;
   color: var(--dark-color-900);
   margin-top: 20px;
+
   @include mobile {
     font-size: 24px;
   }
 }
+
 .role {
   padding: 8px 16px;
   background-color: var(--primary-color);
@@ -70,6 +90,7 @@
   font-size: 14px;
   font-weight: 700;
   color: var(--white-color);
+
   @include mobile {
     font-size: 12px;
   }
@@ -82,7 +103,12 @@
   flex-direction: column;
   gap: 10px;
   margin-top: 14px;
+
+  @include mobile {
+    width: 80%;
+  }
 }
+
 .btnLinkItem {
   width: 100%;
   padding: 16px;
@@ -104,8 +130,13 @@
     color: var(--white-color);
     transition: all 0.2s linear;
   }
+
   .icon {
     font-size: 20px;
+  }
+
+  @include mobile {
+    padding: 20px;
   }
 }
 
@@ -113,6 +144,7 @@
   0% {
     transform: rotate(0deg);
   }
+
   100% {
     transform: rotate(360deg);
   }
