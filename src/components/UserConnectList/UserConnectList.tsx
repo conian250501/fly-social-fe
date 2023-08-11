@@ -110,7 +110,7 @@ const UserList = (props: Props) => {
                 <div className={styles.userItem} key={user.id}>
                   <Link
                     href={`${PATHS.Profile}/${user.id}`}
-                    className="d-flex align-items-center justify-content-start gap-3 text-decoration-none"
+                    className="d-flex align-items-center  justify-content-start gap-3 text-decoration-none"
                   >
                     <div className="position-relative">
                       <img
