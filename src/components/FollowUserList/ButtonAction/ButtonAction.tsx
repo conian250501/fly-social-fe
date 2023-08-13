@@ -28,7 +28,7 @@ const ButtonAction: FC<{
     for (const follower of user.followers) {
       setFollowers([...followers, follower.user]);
     }
-  }, [followers]);
+  }, [followers, user.followers]);
 
   const { isFollowed: _isFollowed } = useCheckFollowed(followers);
 
