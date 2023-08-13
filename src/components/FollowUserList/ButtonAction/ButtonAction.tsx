@@ -22,13 +22,12 @@ const ButtonAction: FC<{
   const [isFollowed, setIsFollowed] = useState<boolean>(false);
   const [error, setError] = useState<IError | null>(null);
   const [loadingFollow, setLoadingFollow] = useState<boolean>(false);
-  const [followers, setFollowers] = useState<IUser[]>([]);
 
-  useEffect(() => {
-    for (const follower of user.followers) {
-      setFollowers([...followers, follower.user]);
-    }
-  }, [followers, user.followers]);
+  const followers: IUser[] = [];
+
+  for (const follower of user.followers) {
+    followers.push(follower.user);
+  }
 
   const { isFollowed: _isFollowed } = useCheckFollowed(followers);
 
