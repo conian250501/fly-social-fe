@@ -1,3 +1,4 @@
+/* eslint-disable react/display-name */
 import { ETypeFollowUserList } from "@/components/interfaces";
 import ModalError from "@/components/Modal/ModalError";
 import { followUser, unFollowUser } from "@/features/follow/followAction";
@@ -15,18 +16,20 @@ const ButtonAction: FC<{
   user: IUser;
   currentUserId: number;
   type?: ETypeFollowUserList;
-}> = ({ currentUserId, user, type }) => {
+}> = React.memo(({ currentUserId, user, type }) => {
   const dispatch = useAppDispatch();
 
   const [isFollowed, setIsFollowed] = useState<boolean>(false);
   const [error, setError] = useState<IError | null>(null);
   const [loadingFollow, setLoadingFollow] = useState<boolean>(false);
+  const [followers, setFollowers] = useState<IUser[]>([]);
 
-  const followers: IUser[] = [];
+  useEffect(() => {
+    for (const follower of user.followers) {
+      setFollowers([...followers, follower.user]);
+    }
+  }, []);
 
-  for (const follower of user.followers) {
-    followers.push(follower.user);
-  }
   const { isFollowed: _isFollowed } = useCheckFollowed(followers);
 
   useEffect(() => {
@@ -96,5 +99,5 @@ const ButtonAction: FC<{
       )}
     </React.Fragment>
   );
-};
+});
 export default ButtonAction;
