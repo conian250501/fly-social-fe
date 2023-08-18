@@ -49,7 +49,7 @@ const TableTweets = (props: Props) => {
       setLoadingDeleteTweet(true);
 
       await dispatch(deleteTweet(tweetActive)).unwrap();
-      await dispatch(getAllTweets(filter)).unwrap();
+      await dispatch(getAllTweets({ ...filter, page: page })).unwrap();
 
       setOpenModalDelete(false);
       setLoadingDeleteTweet(false);
