@@ -17,6 +17,7 @@ import { BsBookmark, BsBookmarkFill } from "react-icons/bs";
 import styles from "./buttonsAction.module.scss";
 import { useRouter } from "next/navigation";
 import { RootState } from "@/redux/store";
+import { AiOutlineLoading } from "react-icons/ai";
 type Props = {
   tweet: ITweet;
 };
@@ -162,11 +163,18 @@ const ButtonsAction = React.memo(({ tweet }: Props) => {
                 isLiked ? handleDisLike() : handleLike();
               }}
             >
-              <div
-                className={` ${styles.heart} ${isLiked ? styles.liked : ""}`}
-              />
+              {loadingLike ? (
+                <div className={styles.iconLoadingWrapper}>
+                  <AiOutlineLoading className={styles.iconLoading} />
+                </div>
+              ) : (
+                <div
+                  className={` ${styles.heart} ${isLiked ? styles.liked : ""}`}
+                />
+              )}
             </div>
           </div>
+
           <div className={styles.btnItem}>
             <Link
               href={`${PATHS.Tweets}/${tweet.id}`}
@@ -185,7 +193,11 @@ const ButtonsAction = React.memo(({ tweet }: Props) => {
                 handleUnSavedTweet();
               }}
             >
-              <BsBookmarkFill className={`${styles.icon} ${styles.saved}`} />
+              {loadingStorage ? (
+                <AiOutlineLoading className={styles.iconLoading} />
+              ) : (
+                <BsBookmarkFill className={`${styles.icon} ${styles.saved}`} />
+              )}
             </div>
           ) : (
             <div
@@ -195,7 +207,11 @@ const ButtonsAction = React.memo(({ tweet }: Props) => {
                 handleSaveTweet();
               }}
             >
-              <BsBookmark className={`${styles.icon} ${styles.unsaved}`} />
+              {loadingStorage ? (
+                <AiOutlineLoading className={styles.iconLoading} />
+              ) : (
+                <BsBookmark className={`${styles.icon} ${styles.unsaved}`} />
+              )}
             </div>
           )}
         </div>

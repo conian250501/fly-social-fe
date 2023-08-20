@@ -45,7 +45,7 @@ const Page = ({ params }: Props) => {
   useEffect(() => {
     const handleScroll = () => {
       if (
-        window.innerHeight + document.documentElement.scrollTop + 2 >=
+        window.innerHeight + document.documentElement.scrollTop + 1 >=
         document.documentElement.scrollHeight
       ) {
         setPage((prevPage) => prevPage + 1);
