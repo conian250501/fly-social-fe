@@ -128,7 +128,7 @@ export const getAllTweetByUser = createAsyncThunk(
   ) => {
     try {
       const query = queryString.stringify({
-        limit: filter.limit || 2,
+        limit: filter.limit || 10,
         page: filter.page || 1,
         status: filter.status ? filter.status : ETweetStatus.New,
         isArchived: filter.isArchived ? filter.isArchived : "",
@@ -152,7 +152,7 @@ export const getAllTweetsSaved = createAsyncThunk(
   ) => {
     try {
       const query = queryString.stringify({
-        limit: filter.limit || 2,
+        limit: filter.limit || 10,
         page: filter.page || 1,
       });
       const { data } = await axiosConfig.get(
@@ -173,7 +173,7 @@ export const getAllTweetsLiked = createAsyncThunk(
   ) => {
     try {
       const query = queryString.stringify({
-        limit: filter.limit || 2,
+        limit: filter.limit || 10,
         page: filter.page || 1,
       });
       const { data } = await axiosConfig.get(
@@ -191,7 +191,7 @@ export const getAllTweetsFollowing = createAsyncThunk(
   async (filter: IBaseFilter, { rejectWithValue }) => {
     try {
       const query = queryString.stringify({
-        limit: filter.limit || 2,
+        limit: filter.limit || 10,
         page: filter.page || 1,
       });
       const { data } = await axiosConfig.get(`/tweets/following?${query}`);
