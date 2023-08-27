@@ -10,6 +10,7 @@ import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { BiBookmark, BiMessageSquare } from "react-icons/bi";
 import styles from "./buttonsAction.module.scss";
+import { AiOutlineLoading } from "react-icons/ai";
 type Props = {
   comment: IComment;
 };
@@ -20,26 +21,36 @@ const ButtonsAction = React.memo(({ comment }: Props) => {
   const [error, setError] = useState<IError | null>(null);
   const [isLiked, setIsLiked] = useState<boolean>(userIsLiked);
   const [countLike, setCountLike] = useState<number>(comment.likes.length);
+  const [loadingLike, setLoadingLike] = useState<boolean>(false);
 
   const handleLike = async () => {
     try {
+      setLoadingLike(true);
       await dispatch(likeComment(comment.id)).unwrap();
+
       setIsLiked(true);
       setCountLike(countLike + 1);
+      setLoadingLike(false);
     } catch (error) {
+      setLoadingLike(false);
       setError(error as IError);
     }
   };
 
   const handleDisLike = async () => {
     try {
+      setLoadingLike(true);
+
       await dispatch(disLikeComment(comment.id)).unwrap();
       setIsLiked(false);
 
       if (countLike > 0) {
         setCountLike(countLike - 1);
       }
+      setLoadingLike(false);
     } catch (error) {
+      setLoadingLike(false);
+
       setError(error as IError);
     }
   };
@@ -63,19 +74,20 @@ const ButtonsAction = React.memo(({ comment }: Props) => {
               className={`${styles.stage}`}
               onClick={isLiked ? handleDisLike : handleLike}
             >
-              <div
-                className={` ${styles.heart} ${isLiked ? styles.liked : ""}`}
-              />
+              {loadingLike ? (
+                <div className={styles.iconLoadingWrapper}>
+                  <AiOutlineLoading className={styles.iconLoading} />
+                </div>
+              ) : (
+                <div
+                  className={` ${styles.heart} ${isLiked ? styles.liked : ""}`}
+                />
+              )}
             </div>
             <div className={styles.listInfoItem}>
               <p className={styles.number}>{countLike}</p>
               <div className={styles.text}>Likes</div>
             </div>
-          </div>
-        </div>
-        <div className={styles.btnItem}>
-          <div className={styles.iconItem}>
-            <BiBookmark className={`${styles.icon} ${styles.save}`} />
           </div>
         </div>
       </div>
